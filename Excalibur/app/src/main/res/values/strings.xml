@@ -5,4 +5,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="article_title">Article Headline Title</string>
+    <string name="article_aurthur">Article by so and so</string>
+    <string name="article_body">Body of article</string>
 </resources>
