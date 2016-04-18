@@ -18,7 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.fragment.ArticleStory;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ArticleStory articleFragment;
+    public static ArrayList<NewsWireObjects> articleLists;
 
 
     @Override
