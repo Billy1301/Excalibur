@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
+
 import java.util.List;
 
 /**
@@ -14,10 +16,11 @@ import java.util.List;
  */
 public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.NewsRecyclerViewHolder> {
 
-//    List<News> data;     - will hold news object
+    List<NewsWireResults> data;
 
-
-    //TODO: create constructor for News object
+    public NewsRecyclerView(List<NewsWireResults> data) {
+        this.data = data;
+    }
 
 
     public class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -46,16 +49,14 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
-//        holder.headline.setText();
-
+        holder.headline.setText(data.get(position).getResults().toString());
 
     }
 
     @Override
     public int getItemCount() {
-//        return data.size();
+        return data.size();
 
-        return 0;
     }
 }
 
