@@ -3,12 +3,9 @@ package com.example.billy.excalibur;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-<<<<<<< HEAD
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-=======
 import android.support.v7.widget.RecyclerView;
->>>>>>> 929d0b1772770d00c689ac9512f7292f995cb82b
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -45,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-<<<<<<< HEAD
         setViews();
         setFAB();
         setActionBarDrawer();
@@ -53,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setFragment();
 
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+
+        if(recyclerView != null) {
+            recyclerView.setAdapter(adapter);
+        }
 
     }
 
@@ -87,15 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setFAB(){
 
-=======
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-
-        if(recyclerView != null) {
-            recyclerView.setAdapter(adapter);
-        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
->>>>>>> 929d0b1772770d00c689ac9512f7292f995cb82b
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
