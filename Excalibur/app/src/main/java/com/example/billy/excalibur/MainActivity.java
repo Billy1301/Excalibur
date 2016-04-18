@@ -24,28 +24,21 @@ import android.widget.FrameLayout;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 
 
+import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 
 import com.example.billy.excalibur.fragment.ArticleStory;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import java.util.ArrayList;
-
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "MainActivity";
-    NewsRecyclerView recycleAdapter;
+    NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
-
     SearchAPI latestNewsService;
-
-    
-
-
     FrameLayout fragContainer;
     NavigationView navigationView;
     FloatingActionButton fab;
@@ -70,16 +63,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         setFragment();
         retrofitLatestNews();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         articleLists = new ArrayList<>();
+        PreloadTenArticles.preloadArticles();
 
-        recycleAdapter = new NewsRecyclerView();
 
         if (recyclerView != null) {
+            recycleAdapter = new NewsRecyclerAdapter(articleLists);
             recyclerView.setAdapter(recycleAdapter);
         }
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         setFragment();
 
     }

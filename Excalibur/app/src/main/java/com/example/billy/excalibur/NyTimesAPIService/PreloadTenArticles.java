@@ -9,7 +9,7 @@ import com.example.billy.excalibur.MainActivity;
  */
 public class PreloadTenArticles {
 
-    private static void preloadArticles() {
+    public static void preloadArticles() {
         if (MainActivity.articleLists.size() == 0) {
             for (int i = 0; i < 9; i++) {
                 MainActivity.articleLists.add(getPreloadArticle(i));
@@ -19,7 +19,7 @@ public class PreloadTenArticles {
     }
 
 
-    public static NewsWireObjects getPreloadArticle(int i){
+    private static NewsWireObjects getPreloadArticle(int i){
         NewsWireObjects article;
         switch (i) {
             case 0:
