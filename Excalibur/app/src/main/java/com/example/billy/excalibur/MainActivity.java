@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -21,7 +22,7 @@ import com.example.billy.excalibur.fragment.ArticleStory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    NewsRecyclerView adapter;
+    NewsRecyclerView recycleAdapter;
     RecyclerView recyclerView;
 
 
@@ -49,47 +50,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setFragment();
 
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-
-        if(recyclerView != null) {
-            recyclerView.setAdapter(adapter);
+        if (recyclerView != null) {
+            recyclerView.setAdapter(recycleAdapter);
         }
+
 
     }
 
 
-    public void setViews(){
-        fragContainer = (FrameLayout)findViewById(R.id.frag_container);
+    public void setViews() {
+        fragContainer = (FrameLayout) findViewById(R.id.frag_container);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+
 
     }
 
 
     //This will need to setup with the RecycleView Click Listener
-    public void setFragment(){
+    public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frag_container, articleFragment);
         fragmentTransaction.commit();
     }
 
 
-
-
-    public void setActionBarDrawer(){
+    public void setActionBarDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
     }
 
-    public void setFAB(){
-
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    public void setFAB() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
