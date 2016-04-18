@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,12 +20,15 @@ import java.util.List;
  */
 public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.NewsRecyclerViewHolder> {
 
-//    List<News> data;     - will hold news object
+    ArrayList<NewsWireObjects> data;
+
     TextView headline;
     ImageView imageIcon;
     TextView articleBody;
 
-    //TODO: create constructor for News object
+    public NewsRecyclerView(ArrayList<NewsWireObjects> data) {
+        this.data = data;
+    }
 
 
     public class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -43,9 +51,9 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
         View view = inflater.inflate(R.layout.recyclerview_layout, parent, false);
         NewsRecyclerViewHolder vh = new NewsRecyclerViewHolder(view);
 
-        headline = (TextView)view.findViewById(R.id.article_headline_title);
-        imageIcon = (ImageView)view.findViewById(R.id.cardView_image);
-        articleBody = (TextView)view.findViewById(R.id.article_info_cardview);
+        headline = (TextView) view.findViewById(R.id.article_headline_title);
+        imageIcon = (ImageView) view.findViewById(R.id.cardView_image);
+        articleBody = (TextView) view.findViewById(R.id.article_info_cardview);
 
 
         return vh;
@@ -54,19 +62,19 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
-//        holder.headline.setText();
-        headline.setText("Headline");
-        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
-        articleBody.setText("Article story into here");
 
+        holder.headline.setText(data.get(position).getSection());
+
+//        headline.setText("Headline");
+//        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
+//        articleBody.setText("Article story into here");
 
     }
 
     @Override
     public int getItemCount() {
-//        return data.size();
+        return data.size();
 
-        return 0;
     }
 }
 

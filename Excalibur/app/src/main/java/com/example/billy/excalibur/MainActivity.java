@@ -74,11 +74,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         articleLists = new ArrayList<>();
 
-        recycleAdapter = new NewsRecyclerView();
+//        recycleAdapter = new NewsRecyclerView();
 
         if (recyclerView != null) {
             recyclerView.setAdapter(recycleAdapter);
         }
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         setFragment();
 
