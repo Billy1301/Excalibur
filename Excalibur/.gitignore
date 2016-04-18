@@ -5,10 +5,7 @@
 .DS_Store
 /build
 /captures
-<<<<<<< HEAD
 /app/src/main/java/com/example/billy/excalibur/keys/Keys.java
-=======
 /app/src/main/java/com/example/billy/excalibur/Keys/Keys.java
 
 
->>>>>>> b77e979db8430a9faf072b44b078b88868a12c70
