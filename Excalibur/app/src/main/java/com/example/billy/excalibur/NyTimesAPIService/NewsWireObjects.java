@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class NewsWireObjects {
 
-    NewsWireResults newsWireResults;
     private String section;
     private String title;
     private String url;
@@ -15,8 +14,12 @@ public class NewsWireObjects {
 
     @SerializedName("abstract") private String abstractResult;
 
-    public NewsWireResults getNewsWireResults() {
-        return newsWireResults;
+    public NewsWireObjects(String section, String title, String url, String thumbnail_standard, String abstractResult) {
+        this.section = section;
+        this.title = title;
+        this.url = url;
+        this.thumbnail_standard = thumbnail_standard;
+        this.abstractResult = abstractResult;
     }
 
     public String getSection() {

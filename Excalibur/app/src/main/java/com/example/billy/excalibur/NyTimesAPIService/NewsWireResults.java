@@ -5,13 +5,11 @@ package com.example.billy.excalibur.NyTimesAPIService;
  */
 public class NewsWireResults {
 
-    private String[] results;
+    private NewsWireObjects[] results;
 
-    public String[] getResults() {
+
+    public NewsWireObjects[] getResults() {
         return results;
     }
 
-    public void setResults(String[] results) {
-        this.results = results;
-    }
 }
