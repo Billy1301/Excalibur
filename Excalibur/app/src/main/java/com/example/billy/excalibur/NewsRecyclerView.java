@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +20,13 @@ import java.util.List;
  */
 public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.NewsRecyclerViewHolder> {
 
-    List<NewsWireObjects> data;
+    ArrayList<NewsWireObjects> data;
 
     TextView headline;
     ImageView imageIcon;
     TextView articleBody;
 
-    public NewsRecyclerView(List<NewsWireObjects> data) {
+    public NewsRecyclerView(ArrayList<NewsWireObjects> data) {
         this.data = data;
     }
 
