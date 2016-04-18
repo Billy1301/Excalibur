@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.fragment.ArticleStory;
 
 import java.util.ArrayList;
@@ -57,19 +58,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        if(recyclerView != null) {
+        if (recyclerView != null) {
 
             recyclerView.setAdapter(recycleAdapter);
 
         }
+
 
         setFragment();
 
     }
 
 
-    public void setViews(){
-        fragContainer = (FrameLayout)findViewById(R.id.frag_container);
+    public void setViews() {
+        fragContainer = (FrameLayout) findViewById(R.id.frag_container);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -82,23 +84,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     //This will need to setup with the RecycleView Click Listener
-    public void setFragment(){
+    public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         //fragmentTransaction.add(R.id.frag_container, articleFragment);
         fragmentTransaction.commit();
     }
 
 
-    public void setActionBarDrawer(){
+    public void setActionBarDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
     }
 
-    public void setFAB(){
-
-
+    public void setFAB() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

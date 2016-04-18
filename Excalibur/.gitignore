@@ -1,10 +1,9 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+/.idea
 .DS_Store
 /build
 /captures
-/app/src/main/java/com/example/billy/excalibur/Keys.java
+/app/src/main/java/com/example/billy/excalibur/Keys/Keys.java
 
