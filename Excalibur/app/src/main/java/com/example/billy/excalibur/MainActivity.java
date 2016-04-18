@@ -3,12 +3,10 @@ package com.example.billy.excalibur;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-<<<<<<< HEAD
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-=======
+
 import android.support.v7.widget.RecyclerView;
->>>>>>> 929d0b1772770d00c689ac9512f7292f995cb82b
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,7 +22,7 @@ import com.example.billy.excalibur.fragment.ArticleStory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    NewsRecyclerView adapter;
+    NewsRecyclerView recycleAdapter;
     RecyclerView recyclerView;
 
 
@@ -45,12 +43,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-<<<<<<< HEAD
         setViews();
         setFAB();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
         setFragment();
+
+
+        if(recyclerView != null) {
+            recyclerView.setAdapter(recycleAdapter);
+        }
 
 
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+
 
     }
 
@@ -76,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
     public void setActionBarDrawer(){
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -87,15 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setFAB(){
 
-=======
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
-        if(recyclerView != null) {
-            recyclerView.setAdapter(adapter);
-        }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
->>>>>>> 929d0b1772770d00c689ac9512f7292f995cb82b
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
