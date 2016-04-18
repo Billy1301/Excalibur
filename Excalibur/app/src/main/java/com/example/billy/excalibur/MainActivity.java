@@ -6,7 +6,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,11 +22,14 @@ import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.fragment.ArticleStory;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public final static String TAG = "MainActivity";
     NewsRecyclerView recycleAdapter;
     RecyclerView recyclerView;
-
+    ArrayList<NewsWireObjects> articleLists;
 
     FrameLayout fragContainer;
     NavigationView navigationView;
@@ -47,14 +52,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setFAB();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
-        setFragment();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recycleAdapter = new NewsRecyclerView();
+
 
 
         if(recyclerView != null) {
+
             recyclerView.setAdapter(recycleAdapter);
+
         }
 
-
+        setFragment();
 
     }
 
@@ -75,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //This will need to setup with the RecycleView Click Listener
     public void setFragment(){
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container, articleFragment);
+        //fragmentTransaction.add(R.id.frag_container, articleFragment);
         fragmentTransaction.commit();
     }
 
@@ -126,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -142,8 +151,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+            Log.i(TAG, "Nav gallery clicked");
 
         } else if (id == R.id.nav_slideshow) {
+            Log.i(TAG, "Nav slider clicked");
+
 
         } else if (id == R.id.nav_manage) {
 
@@ -157,4 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

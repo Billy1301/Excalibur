@@ -8,4 +8,5 @@
     <string name="article_title">Article Headline Title</string>
     <string name="article_aurthur">Article by so and so</string>
     <string name="article_body">Body of article</string>
+    <string name="facebookShare">Facebook</string>
 </resources>
