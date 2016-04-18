@@ -21,13 +21,19 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
+
+
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
+
 import com.example.billy.excalibur.fragment.ArticleStory;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import java.util.ArrayList;
 
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     SearchAPI latestNewsService;
 
-    ArrayList<NewsWireObjects> articleLists;
+    
 
 
     FrameLayout fragContainer;
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ArticleStory articleFragment;
+    public static ArrayList<NewsWireObjects> articleLists;
 
 
     @Override
