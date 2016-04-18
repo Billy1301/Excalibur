@@ -54,7 +54,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        articleLists = new ArrayList<>();
+
+
+
+
+
         recycleAdapter = new NewsRecyclerView();
+
 
 
 
@@ -148,16 +155,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_breakingNews) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_technology) {
             Log.i(TAG, "Nav gallery clicked");
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_business) {
             Log.i(TAG, "Nav slider clicked");
 
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_world) {
 
         } else if (id == R.id.nav_share) {
 

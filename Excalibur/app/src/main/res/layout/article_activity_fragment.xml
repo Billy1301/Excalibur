@@ -5,7 +5,6 @@
     android:padding="16dp">
 
 
-
     <ImageView
         android:src="@drawable/hajiwon"
         android:id="@+id/article_image_view"
