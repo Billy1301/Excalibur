@@ -12,6 +12,7 @@
     tools:context="com.example.billy.excalibur.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+<<<<<<< HEAD
     <FrameLayout
         android:id="@+id/frag_container"
         android:layout_width="match_parent"
@@ -23,8 +24,18 @@
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+=======
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+>>>>>>> 929d0b1772770d00c689ac9512f7292f995cb82b
 
     </android.support.v7.widget.RecyclerView>
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 929d0b1772770d00c689ac9512f7292f995cb82b
 </RelativeLayout>
