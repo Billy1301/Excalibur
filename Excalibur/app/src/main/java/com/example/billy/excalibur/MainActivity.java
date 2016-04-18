@@ -20,17 +20,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.fragment.ArticleStory;
 
+import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
+import com.example.billy.excalibur.fragment.ArticleStory;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "MainActivity";
     NewsRecyclerView recycleAdapter;
     RecyclerView recyclerView;
+
+    SearchAPI latestNewsService;
+
     ArrayList<NewsWireObjects> articleLists;
+
 
     FrameLayout fragContainer;
     NavigationView navigationView;
@@ -53,29 +61,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setFAB();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
+        setFragment();
+        retrofitLatestNews();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         articleLists = new ArrayList<>();
 
-
-
-
-
         recycleAdapter = new NewsRecyclerView();
 
-
-
-
         if (recyclerView != null) {
-
             recyclerView.setAdapter(recycleAdapter);
-
         }
-
 
         setFragment();
 
     }
 
+    private void retrofitLatestNews(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://api.nytimes.com/svc/news/v3/content/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+         latestNewsService = retrofit.create(SearchAPI.class);
+    }
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
