@@ -71,8 +71,10 @@ public class ArticleListRecycleView extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
-        //articleLists = new ArrayList<>();
+        recycleAdapter = new NewsRecyclerAdapter(articleLists);
+
         retrofitLatestNews();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -85,7 +87,7 @@ public class ArticleListRecycleView extends Fragment {
                 Snackbar.make(view, name + " is clicked", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                Fragment articleStory= new ArticleStory();
+                Fragment articleStory = new ArticleStory();
                 articleStory.setArguments(article);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 articleStory.setArguments(article);
@@ -124,10 +126,8 @@ public class ArticleListRecycleView extends Fragment {
                 Log.i(TAG, articleLists.get(1).getTitle().toString());
 
                 if (recyclerView != null) {
-                    recycleAdapter = new NewsRecyclerAdapter(articleLists);
                     recyclerView.setAdapter(recycleAdapter);
                 }
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recycleAdapter.setData(articleLists);
 
             }
