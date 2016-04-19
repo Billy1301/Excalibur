@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_science:
                 ArticleListRecycleView scienceFrag = new ArticleListRecycleView();
-                scienceFrag
+                scienceFrag.setSections(SCIENCE);
                 break;
             case R.id.nav_share:
                 break;
