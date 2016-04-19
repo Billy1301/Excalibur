@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
