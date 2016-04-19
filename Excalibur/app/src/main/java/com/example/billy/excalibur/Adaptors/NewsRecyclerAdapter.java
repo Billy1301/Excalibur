@@ -1,8 +1,7 @@
-package com.example.billy.excalibur;
+package com.example.billy.excalibur.Adaptors;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
+import com.example.billy.excalibur.R;
 import com.squareup.picasso.Picasso;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
-import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
-import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Mikhail on 4/17/16.
@@ -32,7 +26,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     private String TAG = "RecyclerViewAdaptor";
     Context context;
     private static OnItemClickListener listener;
-    
+
     public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
         this.data = data;
     }
@@ -92,8 +86,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         holder.headline.setText(data.get(position).getTitle());
         holder.articleAbstract.setText(data.get(position).getAbstractResult());
 
-//        headline.setText("Headline");
-//        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
 
         String imageURI = data.get(position).getThumbnail_standard();
         if(imageURI.isEmpty()){
