@@ -13,6 +13,8 @@ import retrofit2.http.Query;
  */
 public interface SearchAPI {
 
-    @GET("all/{section}/1.json?&api-key=" + Keys.newsWireKey)
-    Call<NewsWireResults> listNewsWireResults(@Path("section") String section, @Query("limit") int limit);
+    @GET("{source}/{section}/1.json?&api-key=" + Keys.newsWireKey)
+    Call<NewsWireResults> listNewsWireResults(@Path("source") String source,
+                                              @Path("section") String section,
+                                              @Query("limit") int limit);
 }

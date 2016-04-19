@@ -46,10 +46,22 @@ public class ArticleListRecycleView extends Fragment {
     SearchAPI latestNewsService;
     Toolbar toolbar;
     public ArrayList<NewsWireObjects> articleLists;
-    private String sections;
+    private String sections = "all";
+    private String chooseMagazineSource = "all";
 
+    /**
+     * Setter for Nav Drawer filtering API "sections" options
+     */
     public void setSections(String sections) {
         this.sections = sections;
+    }
+
+    /**
+     * sets magazine source between NY Times and Harold Mag
+     * @param chooseMagazineSource
+     */
+    public void setChooseMagazineSource(String chooseMagazineSource) {
+        this.chooseMagazineSource = chooseMagazineSource;
     }
 
     @Nullable
@@ -58,7 +70,7 @@ public class ArticleListRecycleView extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
-        articleLists = new ArrayList<>();
+        //articleLists = new ArrayList<>();
         retrofitLatestNews();
 
         return v;
@@ -73,7 +85,8 @@ public class ArticleListRecycleView extends Fragment {
 
         latestNewsService = retrofit.create(SearchAPI.class);
 
-        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(sections, 10);
+        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(chooseMagazineSource,
+                sections, 10);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
@@ -92,7 +105,7 @@ public class ArticleListRecycleView extends Fragment {
                     recyclerView.setAdapter(recycleAdapter);
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                //recycleAdapter.setData(articleLists);
+                recycleAdapter.setData(articleLists);
 
             }
 
