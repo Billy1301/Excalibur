@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
@@ -53,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArticleStory articleFragment;
     ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
+    private String BREAKING_NEWS = "breaking news";
+    private String SCIENCE = "science";
 
 
     @Override
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //retrofitLatestNews();
         articleLists = new ArrayList<>();
-        PreloadTenArticles.preloadArticles();
+        //PreloadTenArticles.preloadArticles();
         setFragment();
 
 /*
@@ -104,12 +105,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (newsWireResults == null) {
                     return;
                 }
-
                 NewsRecyclerAdapter newsRecyclerAdaptor = new NewsRecyclerAdapter(articleLists);
-
                 articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
-                //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
-//                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
                 articleLists.clear();
                 Collections.addAll(articleLists, newsWireResults.getResults());
                 Log.i(TAG, articleLists.get(1).getTitle().toString());
@@ -209,26 +206,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_breakingNews) {
-            // Handle the camera action
-
-        } else if (id == R.id.nav_arts) {
-            Log.i(TAG, "Nav gallery clicked");
-
-        } else if (id == R.id.nav_business) {
-
-        } else if (id == R.id.nav_sports) {
-
-        } else if (id == R.id.nav_arts) {
-
-        } else if (id == R.id.nav_ny) {
-
-        } else if (id == R.id.nav_magazine) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_share) {
-
+        switch (id){
+            case R.id.nav_ny_times:
+                Log.i(TAG, "Nav gallery clicked");
+                break;
+            case R.id.nav_business:
+                break;
+            case R.id.nav_sports:
+                break;
+            case R.id.nav_arts:
+                break;
+            case R.id.nav_harold_magazine:
+                break;
+            case R.id.nav_science:
+                ArticleListRecycleView scienceFrag = new ArticleListRecycleView();
+                scienceFrag
+                break;
+            case R.id.nav_share:
+                break;
+            case R.id.nav_save:
+                break;
+            default: id = R.id.nav_breakingNews;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

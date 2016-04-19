@@ -33,11 +33,15 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/arts" />
         <item
-            android:id="@+id/nav_ny"
+            android:id="@+id/nav_science"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/science"/>
+        <item
+            android:id="@+id/nav_ny_times"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/n_y" />
         <item
-            android:id="@+id/nav_magazine"
+            android:id="@+id/nav_harold_magazine"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/magazine" />
 
