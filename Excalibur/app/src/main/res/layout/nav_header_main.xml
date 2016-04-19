@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/nyt_icon" />
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

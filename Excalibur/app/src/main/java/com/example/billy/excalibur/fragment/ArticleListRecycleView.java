@@ -1,15 +1,13 @@
-package com.example.billy.excalibur.fragment;
+package com.example.billy.excalibur.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +19,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.MainActivity;
-import com.example.billy.excalibur.NewsRecyclerAdapter;
+import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
-import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.R;
 
@@ -97,7 +94,7 @@ public class ArticleListRecycleView extends Fragment {
 
         latestNewsService = retrofit.create(SearchAPI.class);
 
-        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(10);
+        Call<NewsWireResults> call = latestNewsService.listNewsWireResults("us", 10);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {

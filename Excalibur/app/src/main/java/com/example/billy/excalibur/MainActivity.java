@@ -1,17 +1,12 @@
 package com.example.billy.excalibur;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,12 +18,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
-import com.example.billy.excalibur.fragment.ArticleListRecycleView;
-import com.example.billy.excalibur.fragment.ArticleStory;
+import com.example.billy.excalibur.Fragment.ArticleListRecycleView;
+import com.example.billy.excalibur.Fragment.ArticleStory;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         latestNewsService = retrofit.create(SearchAPI.class);
-        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(10);
+        Call<NewsWireResults> call = latestNewsService.listNewsWireResults("us", 5);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
@@ -107,7 +103,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (newsWireResults == null) {
                     return;
                 }
+
                 NewsRecyclerAdapter newsRecyclerAdaptor = new NewsRecyclerAdapter(articleLists);
+
                 articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
                 //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
 //                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
@@ -212,14 +210,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_breakingNews) {
             // Handle the camera action
+
         } else if (id == R.id.nav_arts) {
             Log.i(TAG, "Nav gallery clicked");
 
         } else if (id == R.id.nav_business) {
-            Log.i(TAG, "Nav slider clicked");
 
+        } else if (id == R.id.nav_sports) {
 
-        } else if (id == R.id.nav_world) {
+        } else if (id == R.id.nav_arts) {
+
+        } else if (id == R.id.nav_ny) {
+
+        } else if (id == R.id.nav_magazine) {
 
         } else if (id == R.id.nav_share) {
 
