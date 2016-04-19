@@ -1,4 +1,4 @@
-package com.example.billy.excalibur.Fragment;
+package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

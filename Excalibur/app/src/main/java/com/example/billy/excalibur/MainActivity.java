@@ -23,8 +23,9 @@ import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
-import com.example.billy.excalibur.Fragment.ArticleListRecycleView;
-import com.example.billy.excalibur.Fragment.ArticleStory;
+import com.example.billy.excalibur.fragment.ArticleListRecycleView;
+import com.example.billy.excalibur.fragment.ArticleStory;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
