@@ -2,18 +2,29 @@ package com.example.billy.excalibur;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 
+import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
+
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Mikhail on 4/17/16.
@@ -22,6 +33,14 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
 
     ArrayList<NewsWireObjects> data;
 
+
+
+
+    SearchAPI latestNewsService;
+    private String TAG = "RecyclerViewAdaptor";
+    //TODO: create constructor for News object
+
+
     TextView headline;
     ImageView imageIcon;
     TextView articleBody;
@@ -29,6 +48,7 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
     public NewsRecyclerView(ArrayList<NewsWireObjects> data) {
         this.data = data;
     }
+
 
 
     public class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +63,9 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
 
     }
 
+    public void setData(ArrayList<NewsWireObjects> data) {
+        this.data = data;
+    }
 
     @Override
     public NewsRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,7 +78,6 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
         imageIcon = (ImageView) view.findViewById(R.id.cardView_image);
         articleBody = (TextView) view.findViewById(R.id.article_info_cardview);
 
-
         return vh;
     }
 
@@ -63,8 +85,8 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
 
-        holder.headline.setText(data.get(position).getSection());
 
+        holder.headline.setText(data.get(position).getTitle());
 //        headline.setText("Headline");
 //        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
 //        articleBody.setText("Article story into here");
