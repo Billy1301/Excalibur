@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,9 +31,18 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     SearchAPI latestNewsService;
     private String TAG = "RecyclerViewAdaptor";
     Context context;
+    private static OnItemClickListener listener;
     
     public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
         this.data = data;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -42,13 +52,21 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         TextView articleAbstract;
         NewsWireObjects newsWireObjects;
 
-        public NewsRecyclerViewHolder(View itemView) {
+        public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
             newsWireObjects = new NewsWireObjects();
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+            public void onClick(View v) {
+                    if (listener != null)
+                    listener.onItemClick(itemView, getLayoutPosition());
+                }
+            });
 
         }
 
