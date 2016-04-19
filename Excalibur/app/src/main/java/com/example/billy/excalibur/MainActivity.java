@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.facebook.FacebookSdk;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
@@ -31,9 +33,8 @@ import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
+
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    ArticleStory articleFragment;
-    ArticleListRecycleView articleListRecycleView;
+    com.example.billy.excalibur.fragment.ArticleStory articleFragment;
+    com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
     ActionMenuItemView share;
 
@@ -86,12 +87,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppEventsLogger.activateApp(this);
 
 
-
         setViews();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
 
     }
@@ -171,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         ArticleListRecycleView topicFrag = new ArticleListRecycleView();
-
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

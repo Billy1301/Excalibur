@@ -92,7 +92,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             imageURI = "R.drawable.nyt_icon";
         }
 
-        Picasso.with(context) //we need to add a check for picture object, not all a
+        Picasso.with(context)
                 .load(imageURI)
                 .placeholder(R.drawable.nyt_icon)
                 .resize(100, 100)
