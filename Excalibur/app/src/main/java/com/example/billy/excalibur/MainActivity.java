@@ -33,6 +33,7 @@ import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-
-
 
 
 
@@ -266,5 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
 }
