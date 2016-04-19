@@ -1,42 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        card_view:cardCornerRadius="4dp">
-
-        <TextView
-            android:text="Headline"
-            android:textSize="20sp"
-            android:id="@+id/headline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/cardView_image"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="33dp" />
+            android:layout_alignParentTop="true" />
 
         <TextView
-            android:textSize="15sp"
+            android:id="@+id/headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:padding="4dp"
+            android:text="title"
+            android:textColor="#222"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_toRightOf="@+id/cardView_image"
+            />
+
+        <TextView
             android:id="@+id/article_info_cardview"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:layout_marginLeft="150dp"
-            android:layout_marginTop="33dp"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headline"
+            android:layout_toRightOf="@id/cardView_image"
+            android:maxLines="3"
+            android:padding="4dp"
+            android:text="description"
+            android:textColor="#666"
+            android:textSize="12sp" />
 
+    </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>
 
-
-
-
-</RelativeLayout>
