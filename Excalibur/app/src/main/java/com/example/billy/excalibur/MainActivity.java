@@ -61,15 +61,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         setViews();
-        setFAB();
+        //setFAB();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
 
         //retrofitLatestNews();
-        setFragment();
-
         articleLists = new ArrayList<>();
         PreloadTenArticles.preloadArticles();
+        setFragment();
+
+/*
+
+
 
 
         if (recyclerView != null) {
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+*/
 
 
     }
