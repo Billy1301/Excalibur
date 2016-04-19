@@ -15,7 +15,9 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/nyt_icon"/>
+        android:src="@drawable/nyt_icon"
+        android:tintMode="multiply"
+        android:tint="#ffffff" />
 
     <TextView
         android:layout_width="match_parent"
