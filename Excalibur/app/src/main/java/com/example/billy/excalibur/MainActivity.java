@@ -7,15 +7,12 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,13 +21,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import com.facebook.FacebookSdk;
 
+import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
@@ -43,8 +40,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -65,6 +62,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<NewsWireObjects> articleLists;
     ActionMenuItemView share;
 
+    private String BREAKING_NEWS = "all";
+    private String BUSINESS_DAY = "business day";
+    private String WORLD = "world";
+    private String US = "u.s.";
+    private String TECHNOLOGY = "technology";
+    private String SCIENCE = "science";
+    private String NY_TIMES = "nyt";
+    private String ARTS = "arts";
+    private String HEALTH = "health";
+    private String SPORTS = "sports";
+    private String HERALD_MAG = "iht";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,70 +89,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         setViews();
-        //setFAB();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
-
-        //retrofitLatestNews();
         articleLists = new ArrayList<>();
-        PreloadTenArticles.preloadArticles();
         setFragment();
 
-/*
-
-
-
-
-        if (recyclerView != null) {
-            recycleAdapter = new NewsRecyclerAdapter(articleLists);
-            recyclerView.setAdapter(recycleAdapter);
-        }
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-*/
-
-
-    }
-
-    private void retrofitLatestNews() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://api.nytimes.com/svc/news/v3/content/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        latestNewsService = retrofit.create(SearchAPI.class);
-        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(10);
-        call.enqueue(new Callback<NewsWireResults>() {
-            @Override
-            public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
-                NewsWireResults newsWireResults = response.body();
-
-                if (newsWireResults == null) {
-                    return;
-                }
-                NewsRecyclerAdapter newsRecyclerView = new NewsRecyclerAdapter(articleLists);
-                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
-                //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
-//                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
-                articleLists.clear();
-                Collections.addAll(articleLists, newsWireResults.getResults());
-                Log.i(TAG, articleLists.get(1).getTitle().toString());
-
-                recycleAdapter.setData(articleLists);
-
-            }
-
-            @Override
-            public void onFailure(Call<NewsWireResults> call, Throwable t) {
-
-            }
-        });
 
     }
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
@@ -155,13 +109,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    //This will need to setup with the RecycleView Click Listener
+
     public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frag_container, articleListRecycleView);
         fragmentTransaction.commit();
-
-
     }
 
 
@@ -170,20 +122,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-    }
-
-    public void setFAB() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                retrofitLatestNews();
-            }
-        });
-
     }
 
     @Override
@@ -233,31 +171,94 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        ArticleListRecycleView topicFrag = new ArticleListRecycleView();
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_breakingNews) {
-            // Handle the camera action
-        } else if (id == R.id.nav_world) {
-            Log.i(TAG, "Nav world");
-
-        } else if (id == R.id.nav_us) {
-            Log.i(TAG, "Nav US");
-
-
-        } else if (id == R.id.nav_business) {
-
-        } else if (id == R.id.nav_sports) {
-
-        } else if (id == R.id.nav_arts) {
-
-        } else if (id == R.id.nav_ny) {
-
-        } else if (id == R.id.nav_magazine) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_save) {
+        switch (id){
+            case R.id.nav_breakingNews:
+                topicFrag.setSections(BREAKING_NEWS);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.breakingNews));
+                break;
+            case R.id.nav_world:
+                topicFrag.setSections(WORLD);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.world));
+                break;
+            case R.id.nav_us:
+                topicFrag.setSections(US);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.u_s));
+                break;
+            case R.id.nav_technology:
+                topicFrag.setSections(TECHNOLOGY);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.technology));
+                break;
+            case R.id.nav_health:
+                topicFrag.setSections(HEALTH);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.health));
+                break;
+            case R.id.nav_ny_times:
+                Log.i(TAG, "Nav gallery clicked");
+                topicFrag.setChooseMagazineSource(NY_TIMES);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.n_y));
+                break;
+            case R.id.nav_business:
+                topicFrag.setSections(BUSINESS_DAY);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.businessDay));
+                break;
+            case R.id.nav_sports:
+                topicFrag.setSections(SPORTS);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.sports));
+                break;
+            case R.id.nav_arts:
+                topicFrag.setSections(ARTS);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.arts));
+                break;
+            case R.id.nav_herald_magazine:
+                topicFrag.setChooseMagazineSource(HERALD_MAG);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.herald_mag));
+                break;
+            case R.id.nav_science:
+                topicFrag.setSections(SCIENCE);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.science));
+                break;
+            case R.id.nav_share:
+                break;
+            case R.id.nav_save:
+                break;
 
         }
 

@@ -6,9 +6,9 @@
 /build
 /captures
 /app/src/main/java/com/example/billy/excalibur/Keys/Keys.java
-<<<<<<< HEAD
-/.gitignore
-=======
+
 /.gitignore
 
->>>>>>> c96f0ea53fb3a77b98023da2913aae945a151ef5
+/app/src/main/java/com/example/billy/excalibur/keys/Keys.java
+
+
