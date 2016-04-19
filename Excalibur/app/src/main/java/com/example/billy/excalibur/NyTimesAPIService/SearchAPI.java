@@ -1,10 +1,12 @@
 package com.example.billy.excalibur.NyTimesAPIService;
 
-import com.example.billy.excalibur.Keys.Keys;
+import retrofit2.http.GET;
 
-import com.example.billy.excalibur.Keys.Keys;
+import com.example.billy.excalibur.keys.Keys;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -13,6 +15,8 @@ import retrofit2.http.Query;
  */
 public interface SearchAPI {
 
-    @GET("all/all/1.json?&api-key=" + Keys.newsWireKey)
-    Call<NewsWireResults> listNewsWireResults(@Query("limit") int limit);
+    @GET("{source}/{section}/1.json?&api-key=" + Keys.newsWireKey)
+    Call<NewsWireResults> listNewsWireResults(@Path("source") String source,
+                                              @Path("section") String section,
+                                              @Query("limit") int limit);
 }
