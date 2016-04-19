@@ -2,7 +2,9 @@ package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -63,8 +65,31 @@ public class ArticleListRecycleView extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
-        //articleLists = new ArrayList<>();
+        recycleAdapter = new NewsRecyclerAdapter(articleLists);
+
         retrofitLatestNews();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                articleLists.get(position);
+                Bundle article = new Bundle();
+                String[] articleDetails = {articleLists.get(position).getSection(), articleLists.get(position).getTitle(), articleLists.get(position).getUrl(), articleLists.get(position).getThumbnail_standard(), articleLists.get(position).getAbstractResult()};
+                article.putStringArray("article", articleDetails);
+                String name = articleLists.get(position).getTitle().toString();
+                Snackbar.make(view, name + " is clicked", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+                Fragment articleStory = new ArticleStory();
+                articleStory.setArguments(article);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                articleStory.setArguments(article);
+                transaction.replace(R.id.frag_container, articleStory);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
         return v;
     }
@@ -91,14 +116,11 @@ public class ArticleListRecycleView extends Fragment {
                 articleLists = new ArrayList<>();
 
                 Collections.addAll(articleLists, newsWireResults.getResults());
-                Log.i(TAG, articleLists.get(1).getTitle().toString());
 
                 if (recyclerView != null) {
-                    recycleAdapter = new NewsRecyclerAdapter(articleLists);
                     recyclerView.setAdapter(recycleAdapter);
+                    //recycleAdapter.notifyDataSetChanged();
                 }
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recycleAdapter.setData(articleLists);
 
             }
 

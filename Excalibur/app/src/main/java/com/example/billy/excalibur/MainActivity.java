@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
@@ -24,17 +25,21 @@ import com.example.billy.excalibur.fragment.ArticleStory;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public final static String TAG = "MainActivity";
-    NewsRecyclerAdapter recycleAdapter;
+    private final static String TAG = "MainActivity";
     RecyclerView recyclerView;
-    SearchAPI latestNewsService;
     FrameLayout fragContainer;
     NavigationView navigationView;
-    FloatingActionButton fab;
     DrawerLayout drawer;
     Toolbar toolbar;
     FragmentManager fragmentManager;
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ArticleStory articleFragment;
     ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
+    private SearchAPI articleSearchDocs;
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
     private String WORLD = "world";
@@ -62,30 +68,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         setViews();
-        //setFAB();
         setActionBarDrawer();
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //retrofitLatestNews();
         articleLists = new ArrayList<>();
-        //PreloadTenArticles.preloadArticles();
+        navigationView.setNavigationItemSelectedListener(this);
         setFragment();
 
-/*
-
-
-
-
-        if (recyclerView != null) {
-            recycleAdapter = new NewsRecyclerAdapter(articleLists);
-            recyclerView.setAdapter(recycleAdapter);
-        }
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-*/
-
-
     }
+//    private void searchBar(){
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        articleSearchDocs = retrofit.create(SearchAPI.class);
+//        Call<ArticleSearchDocs> call = articleSearchDocs.listArticleSearchDocs("taco");
+//        call.enqueue(new Callback<ArticleSearchDocs>() {
+//            @Override
+//            public void onResponse(Call<ArticleSearchDocs> call, Response<ArticleSearchDocs> response) {
+//                ArticleSearchDocs articleSearchDocs = response.body();
+//                if(articleSearchDocs == null){
+//                    return;
+//                }
+//
+//                articleLists = new ArrayList<>();
+//                articleLists.clear();
+//                Collections.addAll(articleLists, articleSearchDocs.getDocs());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArticleSearchDocs> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
@@ -97,8 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
     }
-
-
 
     public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
