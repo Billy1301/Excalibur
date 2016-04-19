@@ -13,7 +13,7 @@ public class PreloadTenArticles {
         if (MainActivity.articleLists.size() == 0) {
             for (int i = 0; i < 9; i++) {
                 MainActivity.articleLists.add(getPreloadArticle(i));
-                Log.i("Preload", "loaded number " + i);
+                //Log.i("Preload", "loaded number " + i);
             }
         }
     }

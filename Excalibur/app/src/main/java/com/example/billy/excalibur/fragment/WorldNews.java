@@ -2,29 +2,17 @@ package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 
-import com.example.billy.excalibur.MainActivity;
 import com.example.billy.excalibur.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
-import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.R;
 
@@ -38,18 +26,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Billy on 4/18/16.
+ * Created by Billy on 4/19/16.
  */
-public class ArticleListRecycleView extends Fragment {
+public class WorldNews extends Fragment {
 
-    public final static String TAG = "ArticleRecycleView";
 
+    public final static String TAG = "World News";
     NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
-    Toolbar toolbar;
-    public ArrayList<NewsWireObjects> articleLists;
-
+    ArrayList<NewsWireObjects> articleLists;
 
     @Nullable
     @Override
@@ -59,10 +45,12 @@ public class ArticleListRecycleView extends Fragment {
         setViews(v);
         articleLists = new ArrayList<>();
         retrofitLatestNews();
-
         return v;
     }
 
+    /**
+     * API will need to change to world news query
+     */
 
     private void retrofitLatestNews() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -81,8 +69,8 @@ public class ArticleListRecycleView extends Fragment {
                 if (newsWireResults == null) {
                     return;
                 }
-                articleLists = new ArrayList<>();
 
+                articleLists = new ArrayList<>();
                 Collections.addAll(articleLists, newsWireResults.getResults());
                 Log.i(TAG, articleLists.get(1).getTitle().toString());
 
@@ -106,6 +94,7 @@ public class ArticleListRecycleView extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view);
 
     }
+
 
 
 }

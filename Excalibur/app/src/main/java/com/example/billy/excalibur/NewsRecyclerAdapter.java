@@ -74,8 +74,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         holder.headline.setText(data.get(position).getTitle());
         holder.articleAbstract.setText(data.get(position).getAbstractResult());
 
-//        headline.setText("Headline");
-//        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
 
         String imageURI = data.get(position).getThumbnail_standard();
         if(imageURI.isEmpty()){
