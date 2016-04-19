@@ -7,7 +7,6 @@ public class NewsWireResults {
 
     private NewsWireObjects[] results;
 
-
     public NewsWireObjects[] getResults() {
         return results;
     }
