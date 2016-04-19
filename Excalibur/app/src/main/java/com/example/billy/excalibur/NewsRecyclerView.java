@@ -72,7 +72,7 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
         View view = inflater.inflate(R.layout.recyclerview_layout, parent, false);
         NewsRecyclerViewHolder vh = new NewsRecyclerViewHolder(view);
 
-        headline = (TextView) view.findViewById(R.id.article_headline_title);
+        headline = (TextView) view.findViewById(R.id.headline);
         imageIcon = (ImageView) view.findViewById(R.id.cardView_image);
         articleBody = (TextView) view.findViewById(R.id.article_info_cardview);
 
