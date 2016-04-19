@@ -1,4 +1,4 @@
-package com.example.billy.excalibur.keys;
+package com.example.billy.excalibur.Keys;
 
 /**
  * Created by Billy on 4/18/16.
