@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
+import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleStory;
 
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         articleLists = new ArrayList<>();
 
+        PreloadTenArticles.preloadArticles();
+
         if (recyclerView != null) {
             recycleAdapter = new NewsRecyclerView(articleLists);
             recyclerView.setAdapter(recycleAdapter);
@@ -97,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
                 articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
+                //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
+//                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
+                articleLists.clear();
                 Collections.addAll(articleLists, newsWireResults.getResults());
                 Log.i(TAG, articleLists.get(1).getTitle().toString());
                 recycleAdapter.setData(articleLists);
