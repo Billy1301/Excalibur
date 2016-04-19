@@ -10,18 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-<<<<<<< HEAD
-=======
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.List;
->>>>>>> 7bf69836a1f4c911aa83cd573a21aa8362108d8c
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,9 +31,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.NewsRecyclerViewHolder> {
 
     ArrayList<NewsWireObjects> data;
-
-
-
 
     SearchAPI latestNewsService;
     private String TAG = "RecyclerViewAdaptor";
