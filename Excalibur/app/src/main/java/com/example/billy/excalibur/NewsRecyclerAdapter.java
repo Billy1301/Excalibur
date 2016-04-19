@@ -9,18 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.squareup.picasso.Picasso;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.squareup.picasso.Picasso;
-
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,8 +30,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     SearchAPI latestNewsService;
     private String TAG = "RecyclerViewAdaptor";
     Context context;
-
-
+    
     public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
         this.data = data;
     }
