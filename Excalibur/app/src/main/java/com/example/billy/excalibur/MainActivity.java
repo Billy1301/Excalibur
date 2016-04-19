@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (newsWireResults == null) {
                     return;
                 }
-                NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
+                NewsRecyclerAdapter newsRecyclerView = new NewsRecyclerAdapter(articleLists);
                 articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
                 //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
 //                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
