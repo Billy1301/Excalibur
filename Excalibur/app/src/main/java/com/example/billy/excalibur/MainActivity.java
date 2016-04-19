@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (newsWireResults == null) {
                     return;
                 }
-                NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
+                NewsRecyclerAdapter newsRecyclerView = new NewsRecyclerAdapter(articleLists);
                 articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
                 //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
 //                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
@@ -211,18 +211,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_breakingNews) {
             // Handle the camera action
-        } else if (id == R.id.nav_technology) {
-            Log.i(TAG, "Nav gallery clicked");
+        } else if (id == R.id.nav_world) {
+            Log.i(TAG, "Nav world");
+
+        } else if (id == R.id.nav_us) {
+            Log.i(TAG, "Nav US");
+
 
         } else if (id == R.id.nav_business) {
-            Log.i(TAG, "Nav slider clicked");
 
+        } else if (id == R.id.nav_sports) {
 
-        } else if (id == R.id.nav_world) {
+        } else if (id == R.id.nav_arts) {
+
+        } else if (id == R.id.nav_ny) {
+
+        } else if (id == R.id.nav_magazine) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_save) {
 
         }
 
