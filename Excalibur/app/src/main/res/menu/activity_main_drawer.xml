@@ -7,35 +7,47 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/breakingNews" />
         <item
-            android:id="@+id/nav_technology"
+            android:id="@+id/nav_world"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/technology" />
+            android:title="@string/world" />
+        <item
+            android:id="@+id/nav_us"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/u_s" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/businessDay" />
-        <item
-            android:id="@+id/nav_world"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/world" />
+            android:title="@string/business" />
 
         <item
-            android:id="@+id/nav_U.S."
+            android:id="@+id/nav_sports"
             android:icon="@drawable/ic_menu_manage"
-            android:title="@string/u_s" />
+            android:title="@string/sports" />
+        <item
+            android:id="@+id/nav_arts"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/arts" />
+        <item
+            android:id="@+id/nav_ny"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/n_y" />
+        <item
+            android:id="@+id/nav_magazine"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/magazine" />
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Actions">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/facebookShare" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_save"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/save_for_later" />
         </menu>
     </item>
 

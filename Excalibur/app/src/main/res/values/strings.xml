@@ -15,4 +15,10 @@
     <string name="world">World</string>
     <string name="u_s">U.S.</string>
     <string name="breakingNews">Breaking News</string>
+    <string name="arts">Arts</string>
+    <string name="business">Business</string>
+    <string name="n_y">New York</string>
+    <string name="magazine">Magazine</string>
+    <string name="save_for_later">Save for Later</string>
+
 </resources>
