@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -18,18 +20,18 @@ import java.util.List;
  */
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
 
-    List<NewsWireObjects> data;
+    ArrayList<NewsWireObjects> data;
+
     TextView headline;
     ImageView imageIcon;
     TextView articleAbstract;
     NewsWireObjects newsWireObjects;
     Context context;
 
-    //TODO: create constructor for News object
-
-    NewsRecyclerAdapter(List<NewsWireObjects> data){
+    public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
         this.data = data;
     }
+
 
 
 
@@ -65,16 +67,17 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
-//        holder.headline.setText();
+        holder.headline.setText(data.get(position).getTitle());
 
-
+//        headline.setText("Headline");
+//        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
+//        articleBody.setText("Article story into here");
     }
 
     @Override
     public int getItemCount() {
-//        return data.size();
+        return data.size();
 
-        return 0;
     }
 }
 

@@ -67,11 +67,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PreloadTenArticles.preloadArticles();
 
 
+
         if (recyclerView != null) {
             recycleAdapter = new NewsRecyclerAdapter(articleLists);
             recyclerView.setAdapter(recycleAdapter);
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         setFragment();
 
     }
