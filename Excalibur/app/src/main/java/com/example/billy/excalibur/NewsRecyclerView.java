@@ -14,6 +14,7 @@ import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
+import com.squareup.picasso.Picasso;
 
 
 import java.lang.reflect.Array;
@@ -32,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.NewsRecyclerViewHolder> {
 
     ArrayList<NewsWireObjects> data;
+    Context context;
 
 
 
@@ -69,7 +71,7 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
 
     @Override
     public NewsRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recyclerview_layout, parent, false);
         NewsRecyclerViewHolder vh = new NewsRecyclerViewHolder(view);
@@ -87,9 +89,18 @@ public class NewsRecyclerView extends RecyclerView.Adapter<NewsRecyclerView.News
 
 
         holder.headline.setText(data.get(position).getTitle());
-//        headline.setText("Headline");
-//        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
-//        articleBody.setText("Article story into here");
+        String imageURI = data.get(position).getThumbnail_standard();
+        if(imageURI.isEmpty()){
+            imageURI = "R.drawable.nyt_icon";
+        }
+
+        Picasso.with(context) //we need to add a check for picture object, not all a
+                .load(imageURI)
+                .placeholder(R.drawable.nyt_icon)
+                .resize(100, 100)
+                .centerCrop()
+                .into(imageIcon);
+       articleBody.setText(data.get(position).getAbstractResult());
 
     }
 
