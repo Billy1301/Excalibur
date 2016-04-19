@@ -89,9 +89,21 @@ public class ArticleListRecycleView extends Fragment {
         recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                articleLists.get(position);
+                Bundle article = new Bundle();
+                String[] articleDetails = {articleLists.get(position).getSection(), articleLists.get(position).getTitle(), articleLists.get(position).getUrl(), articleLists.get(position).getThumbnail_standard(), articleLists.get(position).getAbstractResult()};
+                article.putStringArray("article", articleDetails);
                 String name = articleLists.get(position).getTitle().toString();
                 Snackbar.make(view, name + " is clicked", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                Fragment articleStory= new ArticleStory();
+                articleStory.setArguments(article);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                articleStory.setArguments(article);
+                transaction.replace(R.id.frag_container, articleStory);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
