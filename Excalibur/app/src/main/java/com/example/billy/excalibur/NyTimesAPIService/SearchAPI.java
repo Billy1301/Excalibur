@@ -1,5 +1,7 @@
 package com.example.billy.excalibur.NyTimesAPIService;
 
+import retrofit2.http.GET;
+
 import com.example.billy.excalibur.keys.Keys;
 
 import retrofit2.Call;
