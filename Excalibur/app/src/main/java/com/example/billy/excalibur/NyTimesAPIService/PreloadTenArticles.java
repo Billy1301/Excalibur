@@ -36,7 +36,7 @@ public class PreloadTenArticles {
                         "Health",
                         "AIDS Treatment in Haiti Promising for Developing Nations",
                         "http://www.nytimes.com/2016/04/19/health/aids-treatment-in-haiti-promising-for-developing-nations.html",
-                        "",
+                        "http://graphics8.nytimes.com/packages/flash/Lens/2010/11/20101118-KDS-Showcase-Andre/20101118-KDS-Showcase-Andre-embed-350px.jpg",
                         "A program providing free medicines has produced a survival rate comparable to that of gay men in the United States."
                 );
                 return article;

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.squareup.picasso.Picasso;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
+import com.squareup.picasso.Picasso;
 
 
 import java.lang.reflect.Array;
@@ -51,7 +52,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         public NewsRecyclerViewHolder(View itemView) {
             super(itemView);
 
-            headline = (TextView) itemView.findViewById(R.id.article_headline_title);
+            headline = (TextView) itemView.findViewById(R.id.headline);
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
             newsWireObjects = new NewsWireObjects();
@@ -71,7 +72,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         View view = inflater.inflate(R.layout.recyclerview_layout, parent, false);
         NewsRecyclerViewHolder vh = new NewsRecyclerViewHolder(view);
 
-
         return vh;
     }
 
@@ -83,6 +83,20 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
 //        headline.setText("Headline");
 //        imageIcon.setImageResource(R.drawable.ic_menu_gallery);
+
+        String imageURI = data.get(position).getThumbnail_standard();
+        if(imageURI.isEmpty()){
+            imageURI = "R.drawable.nyt_icon";
+        }
+
+        Picasso.with(context) //we need to add a check for picture object, not all a
+                .load(imageURI)
+                .placeholder(R.drawable.nyt_icon)
+                .resize(100, 100)
+                .centerCrop()
+                .into(holder.imageIcon);
+        holder.articleAbstract.setText(data.get(position).getAbstractResult());
+
     }
 
     @Override
