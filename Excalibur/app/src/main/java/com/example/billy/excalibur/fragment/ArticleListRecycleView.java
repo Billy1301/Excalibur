@@ -50,6 +50,11 @@ public class ArticleListRecycleView extends Fragment {
     Toolbar toolbar;
     public ArrayList<NewsWireObjects> articleLists;
 
+    private String sections;
+
+    public void setSections(String sections) {
+        this.sections = sections;
+    }
 
     @Nullable
     @Override
@@ -72,7 +77,7 @@ public class ArticleListRecycleView extends Fragment {
 
         latestNewsService = retrofit.create(SearchAPI.class);
 
-        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(10);
+        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(sections, 10);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {

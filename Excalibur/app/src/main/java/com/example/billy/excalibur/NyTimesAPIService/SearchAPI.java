@@ -4,6 +4,7 @@ import com.example.billy.excalibur.keys.Keys;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -12,6 +13,6 @@ import retrofit2.http.Query;
  */
 public interface SearchAPI {
 
-    @GET("all/all/1.json?&api-key=" + Keys.newsWireKey)
-    Call<NewsWireResults> listNewsWireResults(@Query("limit") int limit);
+    @GET("all/{section}/1.json?&api-key=" + Keys.newsWireKey)
+    Call<NewsWireResults> listNewsWireResults(@Path("section") String section, @Query("limit") int limit);
 }
