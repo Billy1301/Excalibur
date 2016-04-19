@@ -17,6 +17,11 @@ import com.example.billy.excalibur.R;
  */
 public class ArticleStory extends Fragment {
 
+    /**
+     *  user interface to callback for fragment
+     *
+     */
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

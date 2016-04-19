@@ -1,5 +1,8 @@
 package com.example.billy.excalibur;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,11 +24,11 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
+import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,11 +42,9 @@ import java.util.Collections;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "MainActivity";
-    NewsRecyclerView recycleAdapter;
+    NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
-
     SearchAPI latestNewsService;
-
     FrameLayout fragContainer;
     NavigationView navigationView;
     FloatingActionButton fab;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ArticleStory articleFragment;
+    ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
 
 
@@ -62,22 +65,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         setViews();
-        setFAB();
+        //setFAB();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
+
+        //retrofitLatestNews();
+        articleLists = new ArrayList<>();
+        PreloadTenArticles.preloadArticles();
         setFragment();
 
-        articleLists = new ArrayList<>();
+/*
 
-        PreloadTenArticles.preloadArticles();
+
+
 
         if (recyclerView != null) {
-            recycleAdapter = new NewsRecyclerView(articleLists);
+            recycleAdapter = new NewsRecyclerAdapter(articleLists);
             recyclerView.setAdapter(recycleAdapter);
         }
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        setFragment();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+*/
+
 
     }
 
@@ -88,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         latestNewsService = retrofit.create(SearchAPI.class);
-
         Call<NewsWireResults> call = latestNewsService.listNewsWireResults(10);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
@@ -105,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 articleLists.clear();
                 Collections.addAll(articleLists, newsWireResults.getResults());
                 Log.i(TAG, articleLists.get(1).getTitle().toString());
+
                 recycleAdapter.setData(articleLists);
 
             }
@@ -114,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
     }
 
     public void setViews() {
@@ -123,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
+        articleListRecycleView = new ArticleListRecycleView();
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
     }
@@ -131,8 +142,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //This will need to setup with the RecycleView Click Listener
     public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
-        //fragmentTransaction.add(R.id.frag_container, articleFragment);
+        fragmentTransaction.add(R.id.frag_container, articleListRecycleView);
         fragmentTransaction.commit();
+
+
     }
 
 
@@ -171,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -216,6 +230,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 }
