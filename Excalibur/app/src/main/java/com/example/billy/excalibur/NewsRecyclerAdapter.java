@@ -30,7 +30,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     SearchAPI latestNewsService;
     private String TAG = "RecyclerViewAdaptor";
     Context context;
-    
+
     public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
         this.data = data;
     }

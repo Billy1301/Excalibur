@@ -29,6 +29,7 @@ import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (newsWireResults == null) {
                     return;
                 }
-                NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
+                NewsRecyclerAdapter newsRecyclerAdaptor = new NewsRecyclerAdapter(articleLists);
                 articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
                 //NewsRecyclerView newsRecyclerView = new NewsRecyclerView(articleLists);
 //                articleLists = new ArrayList<NewsWireObjects>(newsWireResults.getResults().length);
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_breakingNews) {
             // Handle the camera action
-        } else if (id == R.id.nav_technology) {
+        } else if (id == R.id.nav_arts) {
             Log.i(TAG, "Nav gallery clicked");
 
         } else if (id == R.id.nav_business) {
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_share) {
 
         }
 
