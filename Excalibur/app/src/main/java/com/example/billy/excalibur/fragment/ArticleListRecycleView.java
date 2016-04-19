@@ -2,12 +2,7 @@ package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.example.billy.excalibur.MainActivity;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
@@ -40,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ArticleListRecycleView extends Fragment {
 
-    public final static String TAG = "ArticleListRecycleView";
+    public final static String TAG = "ArticleRecycleView";
 
     NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
@@ -49,6 +40,7 @@ public class ArticleListRecycleView extends Fragment {
     public ArrayList<NewsWireObjects> articleLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
+    private int numberOfArticles = 20;
 
     /**
      * Setter for Nav Drawer filtering API "sections" options
@@ -74,28 +66,6 @@ public class ArticleListRecycleView extends Fragment {
         //articleLists = new ArrayList<>();
         retrofitLatestNews();
 
-        recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                articleLists.get(position);
-                Bundle article = new Bundle();
-                String[] articleDetails = {articleLists.get(position).getSection(), articleLists.get(position).getTitle(), articleLists.get(position).getUrl(), articleLists.get(position).getThumbnail_standard(), articleLists.get(position).getAbstractResult()};
-                article.putStringArray("article", articleDetails);
-                String name = articleLists.get(position).getTitle().toString();
-                Snackbar.make(view, name + " is clicked", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                Fragment articleStory= new ArticleStory();
-                articleStory.setArguments(article);
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                articleStory.setArguments(article);
-                transaction.replace(R.id.frag_container, articleStory);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-
-
         return v;
     }
 
@@ -109,7 +79,7 @@ public class ArticleListRecycleView extends Fragment {
         latestNewsService = retrofit.create(SearchAPI.class);
 
         Call<NewsWireResults> call = latestNewsService.listNewsWireResults(chooseMagazineSource,
-                sections, 10);
+                sections, numberOfArticles);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
