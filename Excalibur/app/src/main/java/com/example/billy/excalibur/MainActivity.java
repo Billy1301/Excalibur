@@ -1,17 +1,12 @@
 package com.example.billy.excalibur;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,11 +19,11 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.PreloadTenArticles;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +48,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ArticleStory articleFragment;
-    ArticleListRecycleView articleListRecycleView;
+    ArticleListRecycleView allSectionsView;
+    ArticleListRecycleView usNews;
+    ArticleListRecycleView breakingNews;
+    ArticleListRecycleView worldNews;
+    ArticleListRecycleView businessNews;
+    ArticleListRecycleView sportNews;
+    ArticleListRecycleView artsNews;
+    ArticleListRecycleView newYorkNews;
+    ArticleListRecycleView magazineNews;
+
     public static ArrayList<NewsWireObjects> articleLists;
 
 
@@ -129,9 +133,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
-        articleFragment = new ArticleStory();
-        articleListRecycleView = new ArticleListRecycleView();
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+        articleFragment = new ArticleStory();
+        allSectionsView = new ArticleListRecycleView();
+        usNews = new ArticleListRecycleView();
+        breakingNews = new ArticleListRecycleView();
+        worldNews = new ArticleListRecycleView();
+        businessNews = new ArticleListRecycleView();
+        sportNews = new ArticleListRecycleView();
+        artsNews = new ArticleListRecycleView();
+        newYorkNews = new ArticleListRecycleView();
+        magazineNews = new ArticleListRecycleView();
 
     }
 
@@ -139,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //This will need to setup with the RecycleView Click Listener
     public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container, articleListRecycleView);
+        fragmentTransaction.add(R.id.frag_container, allSectionsView);
         fragmentTransaction.commit();
 
 
