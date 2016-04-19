@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         latestNewsService = retrofit.create(SearchAPI.class);
-        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(10);
+        Call<NewsWireResults> call = latestNewsService.listNewsWireResults(" ",10);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
