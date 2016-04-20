@@ -55,6 +55,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "MainActivity";
+    public final static String KEY_FRAGMENT_TITLE = "Key_Fragment_Title";
+
+
     NewsRecyclerAdapter recycleAdapter;
 //    RecyclerView recyclerView;
     SearchAPI latestNewsService;
@@ -70,6 +73,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<NewsWireObjects> articleLists;
     ActionMenuItemView share;
 
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    PagerAdapter adapter;
+
     public static String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
     private String WORLD = "world";
@@ -82,9 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String SPORTS = "sports";
     private String HERALD_MAG = "iht";
 
-    //SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
-    private SlidingTabLayout mSlidingTabLayout;
+
 
 
     @Override
@@ -124,6 +129,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleFragment = new ArticleStory();
         articleListRecycleView = new ArticleListRecycleView();
 //        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+
+
 
     }
 
@@ -337,38 +346,69 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setTabPagerAdapter(){
 
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakingNews)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.world)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.u_s)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.technology)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.health)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakingNews)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.world)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.u_s)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.technology)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.health)));
+        adapter = new PagerAdapter(getSupportFragmentManager());
 
-
-
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
+        setPageViewAdapter(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+        if (tabLayout !=null) {
+            tabLayout.setupWithViewPager(viewPager);
+
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
 
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
+                }
+            });
+        }
+    }
+
+    public void setPageViewAdapter(ViewPager viewPager){
+        PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager());
+
+        ArticleListRecycleView breakingNews = new ArticleListRecycleView();
+        breakingNews.setSections(BREAKING_NEWS);
+        Bundle bundleBreakingNews = new Bundle();
+        bundleBreakingNews.putString(KEY_FRAGMENT_TITLE, BREAKING_NEWS);
+        breakingNews.setArguments(bundleBreakingNews);
+        adapter.addFragment(breakingNews, BREAKING_NEWS);
+
+
+
+
+        ArticleListRecycleView worldNews = new ArticleListRecycleView();
+        worldNews.setSections(WORLD);
+        Bundle bundleWorldNews = new Bundle();
+        bundleWorldNews.putString(KEY_FRAGMENT_TITLE, WORLD);
+        worldNews.setArguments(bundleWorldNews);
+        adapter.addFragment(worldNews, WORLD);
+
+
+        ArticleListRecycleView techNews = new ArticleListRecycleView();
+        techNews.setSections(TECHNOLOGY);
+        Bundle bundleTechNews = new Bundle();
+        bundleTechNews.putString(KEY_FRAGMENT_TITLE, TECHNOLOGY);
+        techNews.setArguments(bundleTechNews);
+        adapter.addFragment(techNews, TECHNOLOGY);
+
+        viewPager.setAdapter(adapter);
     }
 
 }
