@@ -8,5 +8,9 @@
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
 
+    <item android:id="@+id/share"
+        android:title="Share"
+        android:icon="@android:drawable/ic_menu_share"
+        app:showAsAction="collapseActionView|ifRoom"/>
 
 </menu>
