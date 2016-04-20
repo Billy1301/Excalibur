@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Экскалибр</string>
+
+    <string name="facebook_app_id">1702104003394612</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="article_title">Article Headline Title</string>
+    <string name="article_aurthur">Article by so and so</string>
+    <string name="article_body">Body of article</string>
+    <string name="facebookShare">Фейсбук</string>
+    <string name="sports">Спорт</string>
+    <string name="technology">Технологии</string>
+    <string name="businessDay">Деловые новости</string>
+    <string name="world">Мир</string>
+    <string name="u_s">Америка</string>
+    <string name="breakingNews">Последние новости</string>
+    <string name="arts">Искуство</string>
+    <string name="business">Деловые новости</string>
+    <string name="n_y">Нью Йорк Таймс</string>
+    <string name="magazine">Херальд Трибьюн</string>
+    <string name="save_for_later">Сохранить на потом</string>
+    <string name="science">Наука</string>
+    <string name="health">Здоровье</string>
+    <string name="herald_mag">Херальд Трибьюн</string>
+    <string name="share">Поделиться</string>
+    <string name="action_settings">Настройки</string>
+    <string name="actions_drawer">Действия</string>
+    <string name="search_drawer">Поиск</string>
+    <string name="search_main_toolbar">Поиск</string>
+    <string name="share_toolbar">Поделиться</string>
+</resources>
+
+
+
