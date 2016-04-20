@@ -2,12 +2,9 @@ package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,11 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.example.billy.excalibur.MainActivity;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
@@ -40,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ArticleListRecycleView extends Fragment {
 
-    public final static String TAG = "ArticleListRecycleView";
+    public final static String TAG = "ArticleRecycleView";
 
     NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
@@ -49,6 +42,7 @@ public class ArticleListRecycleView extends Fragment {
     public ArrayList<NewsWireObjects> articleLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
+    //private int numberOfArticles = 10;
 
     /**
      * Setter for Nav Drawer filtering API "sections" options
@@ -99,7 +93,6 @@ public class ArticleListRecycleView extends Fragment {
             }
         });
 
-
         return v;
     }
 
@@ -124,13 +117,11 @@ public class ArticleListRecycleView extends Fragment {
                 }
 
                 Collections.addAll(articleLists, newsWireResults.getResults());
-                Log.i(TAG, articleLists.get(1).getTitle().toString());
 
                 if (recyclerView != null) {
                     recyclerView.setAdapter(recycleAdapter);
+                    ///recycleAdapter.notifyDataSetChanged();
                 }
-//                recycleAdapter.setData(articleLists);
-//                recycleAdapter.notifyDataSetChanged();
 
             }
 
