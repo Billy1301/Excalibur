@@ -48,12 +48,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public final static String TAG = "MainActivity";
-    NewsRecyclerAdapter recycleAdapter;
-//    RecyclerView recyclerView;
     SearchAPI latestNewsService;
     FrameLayout fragContainer;
     NavigationView navigationView;
-    FloatingActionButton fab;
     DrawerLayout drawer;
     Toolbar toolbar;
     FragmentManager fragmentManager;
@@ -100,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListRecycleView = new ArticleListRecycleView();
-//        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
     }
 

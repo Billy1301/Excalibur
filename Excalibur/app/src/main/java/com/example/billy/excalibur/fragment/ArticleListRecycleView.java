@@ -83,7 +83,11 @@ public class ArticleListRecycleView extends Fragment {
                 Log.i(TAG, String.valueOf(position));
                 articleLists.get(position);
                 Bundle article = new Bundle(); //will bundle the 5 fields of newsWireObjects in a string array
-                String[] articleDetails = {articleLists.get(position).getSection(), articleLists.get(position).getTitle(), articleLists.get(position).getUrl(), articleLists.get(position).getThumbnail_standard(), articleLists.get(position).getAbstractResult()};
+                String[] articleDetails = {articleLists.get(position).getSection(),
+                        articleLists.get(position).getTitle(),
+                        articleLists.get(position).getUrl(),
+                        articleLists.get(position).getThumbnail_standard(),
+                        articleLists.get(position).getAbstractResult()};
                 article.putStringArray("article", articleDetails);
 
                 Fragment articleStory = new ArticleStory();
