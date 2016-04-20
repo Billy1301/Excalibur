@@ -151,15 +151,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        share = (ActionMenuItemView) toolbar.findViewById(R.id.share);
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "Share button clicked!");
-
-
-            }
-        });
+//        share = (ActionMenuItemView) toolbar.findViewById(R.id.share);
+//        share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.i(TAG, "Share button clicked!");
+//
+//
+//            }
+//        });
 
 
         //noinspection SimplifiableIfStatement
