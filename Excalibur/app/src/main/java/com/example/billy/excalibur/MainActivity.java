@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String HEALTH = "health";
     private String SPORTS = "sports";
     private String HERALD_MAG = "iht";
-    //private SearchAPI articleSearchDocs;
+    private SearchAPI articleSearchDocs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setFragment();
 
     }
+
 //    private void searchBar(){
 //        Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")

@@ -9,13 +9,16 @@ public class ArticleSearchObjects {
     private String snippet;
     private String web_url;
     private String lead_paragraph;
-    private String[] headline;
+    private String print_headline;
 
-    public ArticleSearchObjects(String snippet, String web_url, String lead_paragraph, String[] headline) {
+    public ArticleSearchObjects(String snippet,
+                                String web_url,
+                                String lead_paragraph,
+                                String print_headline) {
         this.snippet = snippet;
         this.web_url = web_url;
         this.lead_paragraph = lead_paragraph;
-        this.headline = headline;
+        this.print_headline = print_headline;
     }
 
     public String getSnippet() {
@@ -30,7 +33,7 @@ public class ArticleSearchObjects {
         return lead_paragraph;
     }
 
-    public String[] getHeadline() {
-        return headline;
+    public String getHeadline() {
+        return print_headline;
     }
 }
