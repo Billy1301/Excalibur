@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
-import com.facebook.FacebookSdk;
+
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
@@ -34,8 +34,7 @@ import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
 
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.share.model.ShareLinkContent;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
 
 
     }
