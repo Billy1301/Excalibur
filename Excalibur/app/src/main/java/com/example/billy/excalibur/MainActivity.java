@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
-import com.facebook.FacebookSdk;
+
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
@@ -93,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
 
 
     }

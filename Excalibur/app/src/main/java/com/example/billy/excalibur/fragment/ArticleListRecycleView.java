@@ -79,6 +79,7 @@ public class ArticleListRecycleView extends Fragment {
         recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Log.i(TAG, String.valueOf(position));
                 articleLists.get(position);
                 Bundle article = new Bundle(); //will bundle the 5 fields of newsWireObjects in a string array
                 String[] articleDetails = {articleLists.get(position).getSection(), articleLists.get(position).getTitle(), articleLists.get(position).getUrl(), articleLists.get(position).getThumbnail_standard(), articleLists.get(position).getAbstractResult()};
