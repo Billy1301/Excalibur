@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -40,6 +42,7 @@ public class ArticleStory extends Fragment {
     private static final String TAG = "ArticleStory Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
+    private String htmlSaveForLater;
 
     /**
      * user interface to callback for fragment
@@ -62,6 +65,9 @@ public class ArticleStory extends Fragment {
         WebSettings webSettings = articleWebView.getSettings();
         articleWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
+        articleWebView.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
+
+
         articleWebView.loadUrl(articleDetails[2]);
 
         Log.i(TAG, articleDetails[0]);
@@ -114,6 +120,7 @@ public class ArticleStory extends Fragment {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            articleWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
             progress.setVisibility(View.GONE);
         }
 
@@ -121,6 +128,24 @@ public class ArticleStory extends Fragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             progress.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public class MyJavaScriptInterface
+    {
+        @JavascriptInterface
+        @SuppressWarnings("unused")
+        public void showHTML(String html)
+        {
+//            new AlertDialog.Builder(getContext())
+//                    .setTitle("HTML")
+//                    .setMessage(html)
+//                    .setPositiveButton(android.R.string.ok, null)
+//                    .setCancelable(false)
+//                    .create()
+//                    .show();
+            htmlSaveForLater = html;
+            Log.i(TAG, "printing the html" + htmlSaveForLater.substring(0,50));
         }
     }
 
