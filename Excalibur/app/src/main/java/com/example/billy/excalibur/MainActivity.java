@@ -337,11 +337,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setTabPagerAdapter(){
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakingNews)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.world)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.u_s)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.technology)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.health)));
 
 
 
@@ -356,7 +357,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
             }
 
             @Override
