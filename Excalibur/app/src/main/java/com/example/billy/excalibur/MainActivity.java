@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String SPORTS = "sports";
     private String HERALD_MAG = "iht";
 
-    //SectionsPagerAdapter mSectionsPagerAdapter;
+    SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     private SlidingTabLayout mSlidingTabLayout;
 
@@ -106,13 +106,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //setTabPagerAdapter();
 
-//        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-//        // Set up the ViewPager with the sections adapter.
-//        mViewPager = (ViewPager) findViewById(R.id.pager);
-//        mViewPager.setAdapter(mSectionsPagerAdapter);
-//
-//        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-//        mSlidingTabLayout.setViewPager(mViewPager);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        mSlidingTabLayout.setViewPager(mViewPager);
 
     }
 
@@ -283,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-/*
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -293,26 +292,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public Fragment getItem(int position) {
-            ArticleListRecycleView topicFrag = new ArticleListRecycleView();
+            Bundle bundle = new Bundle();
 
-            //ArticleListRecycleView fragment = null;
+            Fragment fragment = null;
             switch (position){
                 case 0:
-                    topicFrag = new ArticleListRecycleView();
-                    topicFrag.setSections(BREAKING_NEWS);
-//                    fragmentTransaction = fragmentManager.beginTransaction();
-//                    fragmentTransaction.replace(R.id.frag_container, topicFrag);
-//                    fragmentTransaction.commit();
-                    break;
-                case 1:
-                    topicFrag = new ArticleListRecycleView();
-                    topicFrag.setSections(WORLD);
+                    ArticleListRecycleView tab1 = new ArticleListRecycleView();
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                    fragmentTransaction.replace(R.id.frag_container, tab1);
                     fragmentTransaction.commit();
-                    break;
+                    return tab1;
+                case 1:
+                    ArticleListRecycleView tab2 = new ArticleListRecycleView();
+                    tab2.setSections(WORLD);
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frag_container, tab2);
+                    fragmentTransaction.commit();
+                    return tab2;
+            default:
+            throw new IllegalArgumentException("not this many fragments: "
+                    + position);
             }
-            return topicFrag;
         }
 
         @Override
@@ -325,13 +325,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
-                    return getString(R.string.breakingNews).toUpperCase(l);
+                    return BREAKING_NEWS.toUpperCase(l);
                 case 1:
-                    return getString(R.string.world).toUpperCase(l);
+                    return WORLD.toUpperCase(l);
             }
             return null;
         }
-    }*/
+    }
 
 //    public void setTabPagerAdapter(){
 //

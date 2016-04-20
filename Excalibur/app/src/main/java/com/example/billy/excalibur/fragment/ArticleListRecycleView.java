@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.billy.excalibur.MainActivity;
@@ -41,7 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ArticleListRecycleView extends Fragment {
 
     public final static String TAG = "ArticleListRecycleView";
-
+    public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
     NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
@@ -50,11 +51,28 @@ public class ArticleListRecycleView extends Fragment {
     private String sections = "all";
     private String chooseMagazineSource = "all";
 
+
+
+
+    public static final ArticleListRecycleView newInstance(String message)
+    {
+        ArticleListRecycleView f = new ArticleListRecycleView();
+        Bundle bdl = new Bundle();
+        bdl.putString(EXTRA_MESSAGE, message);
+        f.setArguments(bdl);
+        return f;
+    }
+
+
     /**
      * Setter for Nav Drawer filtering API "sections" options
      */
     public void setSections(String sections) {
         this.sections = sections;
+    }
+
+    public String getSections() {
+        return sections;
     }
 
     /**
@@ -64,6 +82,7 @@ public class ArticleListRecycleView extends Fragment {
     public void setChooseMagazineSource(String chooseMagazineSource) {
         this.chooseMagazineSource = chooseMagazineSource;
     }
+
 
     @Nullable
     @Override
