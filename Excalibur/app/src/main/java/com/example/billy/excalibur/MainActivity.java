@@ -2,11 +2,11 @@ package com.example.billy.excalibur;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.view.menu.ActionMenuItemView;
@@ -26,24 +26,21 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
-
-
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -84,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         setViews();
         setActionBarDrawer();
@@ -168,16 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        share = (ActionMenuItemView) toolbar.findViewById(R.id.share);
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "Share button clicked!");
-
-
-            }
-        });
-
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
@@ -194,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_breakingNews:
                 topicFrag.setSections(BREAKING_NEWS);
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -284,5 +275,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }
