@@ -12,7 +12,7 @@ public class NewsWireObjects {
     private String url;
     private String thumbnail_standard;
     @SerializedName("abstract") private String abstractResult;
-    
+
 
 
     public NewsWireObjects() {
