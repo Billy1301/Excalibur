@@ -31,6 +31,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 ArticleListRecycleView tab1 = new ArticleListRecycleView();
                 tab1.setSections(MainActivity.BREAKING_NEWS);
+
                 return tab1;
             case 1:
                 //TODO: Add your second tab

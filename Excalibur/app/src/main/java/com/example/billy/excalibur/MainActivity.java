@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String SPORTS = "sports";
     private String HERALD_MAG = "iht";
 
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    //SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     private SlidingTabLayout mSlidingTabLayout;
 
@@ -104,15 +104,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
-        //setTabPagerAdapter();
+        setTabPagerAdapter();
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+    /*    mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout.setViewPager(mViewPager);*/
 
     }
 
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
+/*
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -298,16 +298,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             switch (position){
                 case 0:
                     ArticleListRecycleView tab1 = new ArticleListRecycleView();
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frag_container, tab1);
-                    fragmentTransaction.commit();
+                    tab1.setSections(BREAKING_NEWS);
+
+//                    fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.frag_container, tab1);
+//                    fragmentTransaction.commit();
                     return tab1;
                 case 1:
                     ArticleListRecycleView tab2 = new ArticleListRecycleView();
                     tab2.setSections(WORLD);
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frag_container, tab2);
-                    fragmentTransaction.commit();
+//                    fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.frag_container, tab2);
+//                    fragmentTransaction.commit();
                     return tab2;
             default:
             throw new IllegalArgumentException("not this many fragments: "
@@ -331,42 +333,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return null;
         }
-    }
+    }*/
 
-//    public void setTabPagerAdapter(){
-//
-////        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakingNews)));
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.world)));
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.u_s)));
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//
-//
-//
-//        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-//        final PagerAdapter adapter = new PagerAdapter
-//                (getSupportFragmentManager(), tabLayout.getTabCount());
-//        viewPager.setAdapter(adapter);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//
-//
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                viewPager.setCurrentItem(tab.getPosition());
-//
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//    }
+    public void setTabPagerAdapter(){
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakingNews)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.world)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.u_s)));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
 
 }
