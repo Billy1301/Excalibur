@@ -35,6 +35,8 @@ public class ArticleStory extends Fragment {
 
     ActionMenuItemView share;
     String[] articleDetails;
+    View v;
+    ShareButton fbSharebutton;
 
 
     private static final String TAG = "ArticleStory Fragment";
@@ -49,13 +51,15 @@ public class ArticleStory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.article_activity_fragment, container, false);
+        v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
 
 
         Bundle article = getArguments();
 
         articleDetails = article.getStringArray("article");
+
+        setFacebookButton();
 
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 
@@ -87,7 +91,7 @@ public class ArticleStory extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        if (id == R.id.share){
+        if (id == R.id.share) {
             Log.i(TAG, "Share button clicked!");
 
             Intent intent = new Intent(Intent.ACTION_SEND);
@@ -97,7 +101,7 @@ public class ArticleStory extends Fragment {
             startActivity(Intent.createChooser(intent, "Share"));
             return true;
         }
-        
+
         return super.onOptionsItemSelected(item);
 
     }
@@ -122,6 +126,19 @@ public class ArticleStory extends Fragment {
             super.onPageStarted(view, url, favicon);
             progress.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setFacebookButton() {
+
+        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(articleDetails[2]))
+                .build();
+        if (fbSharebutton != null) {
+            fbSharebutton.setShareContent(content);
+            Log.i(TAG, "Share button clicked!");
+        }
+
     }
 
 }
