@@ -71,6 +71,7 @@ public class ArticleListRecycleView extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
+        articleLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(articleLists);
 
         retrofitLatestNews();
@@ -116,7 +117,6 @@ public class ArticleListRecycleView extends Fragment {
                 if (newsWireResults == null) {
                     return;
                 }
-                articleLists = new ArrayList<>();
 
                 Collections.addAll(articleLists, newsWireResults.getResults());
                 Log.i(TAG, articleLists.get(1).getTitle().toString());
@@ -124,7 +124,8 @@ public class ArticleListRecycleView extends Fragment {
                 if (recyclerView != null) {
                     recyclerView.setAdapter(recycleAdapter);
                 }
-                recycleAdapter.setData(articleLists);
+//                recycleAdapter.setData(articleLists);
+//                recycleAdapter.notifyDataSetChanged();
 
             }
 

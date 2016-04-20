@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
 /**
  * Interface for api methods used by our app from NY Times
  * Created by michaelmuccio on 4/18/16.

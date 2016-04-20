@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public final static String TAG = "MainActivity";
     NewsRecyclerAdapter recycleAdapter;
-    RecyclerView recyclerView;
+//    RecyclerView recyclerView;
     SearchAPI latestNewsService;
     FrameLayout fragContainer;
     NavigationView navigationView;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListRecycleView = new ArticleListRecycleView();
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
+//        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
     }
 
