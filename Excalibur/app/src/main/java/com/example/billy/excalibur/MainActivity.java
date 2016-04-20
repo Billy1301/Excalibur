@@ -7,8 +7,13 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,15 +30,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.example.billy.excalibur.Adaptors.PagerAdapter;
+import com.example.billy.excalibur.Adaptors.SlidingTabLayout;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.facebook.FacebookSdk;
-
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
-
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.share.model.ShareLinkContent;
 import retrofit2.Call;
@@ -44,6 +49,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,24 +63,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     DrawerLayout drawer;
     Toolbar toolbar;
-    FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
     com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
     ActionMenuItemView share;
 
-    private String BREAKING_NEWS = "all";
+    public static String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
     private String WORLD = "world";
-    private String US = "u.s.";
-    private String TECHNOLOGY = "technology";
+    public static String US = "u.s.";
+    public static String TECHNOLOGY = "technology";
     private String SCIENCE = "science";
     private String NY_TIMES = "nyt";
     private String ARTS = "arts";
     private String HEALTH = "health";
     private String SPORTS = "sports";
     private String HERALD_MAG = "iht";
+
+    //SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
+    private SlidingTabLayout mSlidingTabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +104,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
+        //setTabPagerAdapter();
+
+//        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+//        // Set up the ViewPager with the sections adapter.
+//        mViewPager = (ViewPager) findViewById(R.id.pager);
+//        mViewPager.setAdapter(mSectionsPagerAdapter);
+//
+//        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+//        mSlidingTabLayout.setViewPager(mViewPager);
 
     }
 
@@ -157,8 +177,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-
-
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            return true;
@@ -211,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setTitle(getString(R.string.health));
                 break;
             case R.id.nav_ny_times:
-                Log.i(TAG, "Nav gallery clicked");
+                //Log.i(TAG, "Nav gallery clicked");
                 topicFrag.setChooseMagazineSource(NY_TIMES);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frag_container, topicFrag);
@@ -264,5 +282,91 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+/*
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            ArticleListRecycleView topicFrag = new ArticleListRecycleView();
+
+            //ArticleListRecycleView fragment = null;
+            switch (position){
+                case 0:
+                    topicFrag = new ArticleListRecycleView();
+                    topicFrag.setSections(BREAKING_NEWS);
+//                    fragmentTransaction = fragmentManager.beginTransaction();
+//                    fragmentTransaction.replace(R.id.frag_container, topicFrag);
+//                    fragmentTransaction.commit();
+                    break;
+                case 1:
+                    topicFrag = new ArticleListRecycleView();
+                    topicFrag.setSections(WORLD);
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frag_container, topicFrag);
+                    fragmentTransaction.commit();
+                    break;
+            }
+            return topicFrag;
+        }
+
+        @Override
+        public int getCount() {
+            return 10;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Locale l = Locale.getDefault();
+            switch (position) {
+                case 0:
+                    return getString(R.string.breakingNews).toUpperCase(l);
+                case 1:
+                    return getString(R.string.world).toUpperCase(l);
+            }
+            return null;
+        }
+    }*/
+
+//    public void setTabPagerAdapter(){
+//
+////        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.breakingNews)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.world)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.u_s)));
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//
+//
+//
+//        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+//        final PagerAdapter adapter = new PagerAdapter
+//                (getSupportFragmentManager(), tabLayout.getTabCount());
+//        viewPager.setAdapter(adapter);
+//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//
+//
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+//    }
 
 }

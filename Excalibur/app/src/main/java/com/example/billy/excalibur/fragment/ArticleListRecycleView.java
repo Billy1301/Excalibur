@@ -119,13 +119,13 @@ public class ArticleListRecycleView extends Fragment {
                 }
 
                 Collections.addAll(articleLists, newsWireResults.getResults());
-                Log.i(TAG, articleLists.get(1).getTitle().toString());
+               // Log.i(TAG, articleLists.get(1).getTitle().toString());
 
                 if (recyclerView != null) {
                     recyclerView.setAdapter(recycleAdapter);
                 }
-//                recycleAdapter.setData(articleLists);
-//                recycleAdapter.notifyDataSetChanged();
+                recycleAdapter.setData(articleLists);
+                recycleAdapter.notifyDataSetChanged();
 
             }
 
