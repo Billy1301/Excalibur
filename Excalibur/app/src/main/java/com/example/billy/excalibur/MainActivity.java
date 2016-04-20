@@ -54,7 +54,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final static String TAG = "MainActivity";
-    RecyclerView recyclerView;
     FrameLayout fragContainer;
     NavigationView navigationView;
     DrawerLayout drawer;
@@ -64,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
     com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
-    //private SearchAPI articleSearchDocs;
-
     ActionMenuItemView share;
+
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
     private String WORLD = "world";
@@ -78,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String HEALTH = "health";
     private String SPORTS = "sports";
     private String HERALD_MAG = "iht";
+    //private SearchAPI articleSearchDocs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         setViews();
         setActionBarDrawer();
-        articleLists = new ArrayList<>();
         navigationView.setNavigationItemSelectedListener(this);
+        articleLists = new ArrayList<>();
         setFragment();
 
     }
@@ -128,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListRecycleView = new ArticleListRecycleView();
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
-
     }
 
     public void setFragment() {
