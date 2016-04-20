@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setFragment();
 
 
-
     }
 
     public void setViews() {
@@ -109,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView = (RecyclerView) findViewById(R.id.recycle_view);
 
     }
-
 
 
     public void setFragment() {
@@ -151,23 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        share = (ActionMenuItemView) toolbar.findViewById(R.id.share);
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "Share button clicked!");
-
-//                if (v.getId()==R.id.share_button) {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, "http://www.techrepublic.com");
-                    intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
-                    startActivity(Intent.createChooser(intent, "Share"));
-//                }
-
-            }
-        });
-
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
@@ -184,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_breakingNews:
                 topicFrag.setSections(BREAKING_NEWS);
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -274,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
 }
