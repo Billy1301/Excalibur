@@ -65,6 +65,7 @@ public class ArticleListRecycleView extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
+        articleLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(articleLists);
 
         retrofitLatestNews();
