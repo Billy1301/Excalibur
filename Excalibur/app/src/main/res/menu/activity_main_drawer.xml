@@ -9,11 +9,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_breakingNews"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@android:drawable/ic_dialog_alert"
             android:title="@string/breakingNews" />
         <item
             android:id="@+id/nav_world"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@android:drawable/ic_dialog_map"
             android:title="@string/world" />
         <item
             android:id="@+id/nav_us"
