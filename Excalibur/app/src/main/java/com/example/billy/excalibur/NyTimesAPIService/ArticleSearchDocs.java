@@ -7,9 +7,9 @@ import java.util.List;
  */
 public class ArticleSearchDocs {
 
-    private List<ArticleSearchObjects> docs;
+    private ArticleSearchObjects[] docs;
 
-    public List<ArticleSearchObjects> getDocs() {
+    public ArticleSearchObjects[] getDocs() {
         return docs;
     }
 }

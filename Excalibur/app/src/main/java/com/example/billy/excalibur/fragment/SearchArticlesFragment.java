@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
+import com.example.billy.excalibur.Adaptors.SearchArticleAdapter;
 import com.example.billy.excalibur.MainActivity;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchObjects;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchResponse;
@@ -37,17 +38,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchArticlesFragment extends Fragment {
     public final static String TAG = "ArticleRecycleView";
 
-    NewsRecyclerAdapter<ArticleSearchObjects> recycleAdapter;
+    private SearchArticleAdapter recycleAdapter;
     RecyclerView recyclerView;
     public ArrayList<ArticleSearchObjects> articleSearch;
     private SearchAPI articleSearchResponse;
+    private String query = "Steph Curry";
 
-    public static SearchArticlesFragment newInstance(){
-        SearchArticlesFragment searchArticlesFragment = new SearchArticlesFragment();
-        Bundle bundle = new Bundle();
-        bundle.get(MainActivity.SEARCH_KEY);
-        searchArticlesFragment.setArguments(bundle);
-        return searchArticlesFragment;
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     @Nullable
@@ -57,7 +55,7 @@ public class SearchArticlesFragment extends Fragment {
 
         setViews(v);
         articleSearch = new ArrayList<>();
-        recycleAdapter = new NewsRecyclerAdapter<>(articleSearch);
+        recycleAdapter = new SearchArticleAdapter(articleSearch);
 
         searchBar();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -67,12 +65,12 @@ public class SearchArticlesFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Log.i(TAG, String.valueOf(position));
                 articleSearch.get(position);
-                Bundle article = new Bundle(); //will bundle the 5 fields of newsWireObjects in a string array
-                String[] articleDetails = {articleSearch.get(position).getSection(),
-                        articleSearch.get(position).getTitle(),
-                        articleSearch.get(position).getUrl(),
-                        articleSearch.get(position).getThumbnail_standard(),
-                        articleSearch.get(position).getAbstractResult()};
+                Bundle article = new Bundle(); //will bundle the 5 fields of articleSearchObjects in a string array
+                String[] articleDetails = {articleSearch.get(position).getSection_name(),
+                        articleSearch.get(position).getHeadline(),
+                        articleSearch.get(position).getWeb_url(),
+                        articleSearch.get(position).getMultimedia(),
+                        articleSearch.get(position).getSnippet()};
                 article.putStringArray("article", articleDetails);
 
                 Fragment articleStory = new ArticleStory();
@@ -88,7 +86,6 @@ public class SearchArticlesFragment extends Fragment {
     }
 
     private void searchBar(){
-        String query = newInstance().toString();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.nytimes.com/svc/search/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -103,10 +100,13 @@ public class SearchArticlesFragment extends Fragment {
                     return;
                 }
 
-                articleSearch.addAll((Collection<? extends ArticleSearchObjects>) articleSearchDocs.getResponse());
-                Log.i(TAG, "Searched Articles: " + articleSearch);
+                if (articleSearchDocs == null) {
+                    return;
+                }
 
-                if(recyclerView != null) {
+                Collections.addAll(articleSearch, articleSearchDocs.getResponse().getDocs());
+
+                if (recyclerView != null) {
                     recyclerView.setAdapter(recycleAdapter);
                 }
             }
@@ -119,7 +119,7 @@ public class SearchArticlesFragment extends Fragment {
     }
 
     public void setViews(View v) {
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view);
+        recyclerView = (RecyclerView) v.findViewById(R.id.search_recycle_view);
 
     }
 

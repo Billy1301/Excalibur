@@ -4,14 +4,12 @@ package com.example.billy.excalibur.NyTimesAPIService;
  * new articles.
  * Created by michaelmuccio on 4/19/16.
  */
-public class ArticleSearchObjects extends NewsWireObjects {
+public class ArticleSearchObjects {
     private String snippet;
     private String web_url;
     private String section_name;
     private String headline;
-
-    public ArticleSearchObjects() {
-    }
+    private String multimedia;
 
     public String getSnippet() {
         return snippet;
@@ -29,23 +27,7 @@ public class ArticleSearchObjects extends NewsWireObjects {
         return headline;
     }
 
-    @Override
-    public String getAbstractResult() {
-        return snippet;
-    }
-
-    @Override
-    public String getTitle() {
-        return headline;
-    }
-
-    @Override
-    public String getUrl() {
-        return web_url;
-    }
-
-    @Override
-    public String getSection() {
-        return section_name;
+    public String getMultimedia() {
+        return multimedia;
     }
 }

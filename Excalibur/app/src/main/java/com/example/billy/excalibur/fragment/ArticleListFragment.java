@@ -36,7 +36,7 @@ public class ArticleListFragment extends Fragment {
 
     public final static String TAG = "ArticleRecycleView";
 
-    NewsRecyclerAdapter<NewsWireObjects> recycleAdapter;
+    private NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
     Toolbar toolbar;
@@ -67,7 +67,7 @@ public class ArticleListFragment extends Fragment {
 
         setViews(v);
         articleLists = new ArrayList<>();
-        recycleAdapter = new NewsRecyclerAdapter<>(articleLists);
+        recycleAdapter = new NewsRecyclerAdapter(articleLists);
 
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
