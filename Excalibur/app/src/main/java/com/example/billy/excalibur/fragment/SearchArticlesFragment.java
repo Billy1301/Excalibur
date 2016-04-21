@@ -60,17 +60,13 @@ public class SearchArticlesFragment extends Fragment {
                 Log.i(TAG, String.valueOf(position));
                 articleSearchList.get(position);
                 Bundle article = new Bundle(); //will bundle the 5 fields of articleSearchObjects in a string array
-                String[] articleDetails = {articleSearchList.get(position).getSection_name(),
-                        articleSearchList.get(position).getHeadline().getMain(),
-                        articleSearchList.get(position).getWeb_url(),
-                        articleSearchList.get(position).getMultimedia()[0].getUrl(),
-                        articleSearchList.get(position).getLead_paragraph()};
-                article.putStringArray("article", articleDetails);
+                String articleDetails = articleSearchList.get(position).getWeb_url();
+                article.putString("searchedArticle", articleDetails);
 
-                Fragment articleStory = new ArticleStory();
-                articleStory.setArguments(article);
+                Fragment searchedArticleStory = new SearchedArticleStory();
+                searchedArticleStory.setArguments(article);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.frag_container, articleStory);
+                transaction.replace(R.id.frag_container, searchedArticleStory);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -95,12 +91,8 @@ public class SearchArticlesFragment extends Fragment {
                     return;
                 }
 
-                if (articleSearchDocs == null) {
-                    return;
-                }
-
                 Collections.addAll(articleSearchList, articleSearchDocs.getResponse().getDocs());
-                Log.i(TAG, "Searched Article: " + articleSearchList);
+                Log.i(TAG, "Searched Article2: " + articleSearchList);
 
                 if (searchRecyclerView != null) {
                     searchRecyclerView.setAdapter(searchArticleAdapter);

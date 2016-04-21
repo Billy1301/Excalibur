@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.ArticleSearch;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Doc;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Multimedia;
 import com.example.billy.excalibur.R;
@@ -80,13 +81,13 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
-        holder.headline.setText(data.get(position).getHeadline().toString());
+        holder.headline.setText(data.get(position).getHeadline().getMain());
         holder.articleAbstract.setText(data.get(position).getLead_paragraph());
 
         String imageURI = null;
         Multimedia[] multiMedia = data.get(position).getMultimedia();
         if(multiMedia != null && multiMedia.length > 0) {
-             imageURI = data.get(position).getMultimedia()[0].getUrl();
+             imageURI = data.get(position).getMultimedia()[1].getUrl();
         }
             if (imageURI == null) {
                 imageURI = "R.drawable.nyt_icon";
