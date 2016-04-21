@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
@@ -92,58 +94,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
         setViews();
+        checkNetwork();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
-
-
         callJobScheduler();
-
-
-       
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mJobScheduler.cancelAll();
-        Log.d("test", "test");
+//        Log.d("test", "test");
     }
 
+    public void checkNetwork(){
 
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(MainActivity.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+        }
 
-    //    private void searchBar(){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        articleSearchDocs = retrofit.create(SearchAPI.class);
-//        Call<ArticleSearchDocs> call = articleSearchDocs.listArticleSearchDocs("taco");
-//        call.enqueue(new Callback<ArticleSearchDocs>() {
-//            @Override
-//            public void onResponse(Call<ArticleSearchDocs> call, Response<ArticleSearchDocs> response) {
-//                ArticleSearchDocs articleSearchDocs = response.body();
-//                if(articleSearchDocs == null){
-//                    return;
-//                }
-//
-//                articleLists = new ArrayList<>();
-//                articleLists.clear();
-//                Collections.addAll(articleLists, articleSearchDocs.getDocs());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArticleSearchDocs> call, Throwable t) {
-//
-//            }
-//        });
-//    }
+    }
+
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
@@ -282,6 +261,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.science));
                 break;
+            case R.id.nav_notification_settings:
+                if(item.getTitle().toString().equals(getString(R.string.stopNotification))) {
+                    mJobScheduler.cancelAll();
+                    item.setTitle(getString(R.string.startNotification));
+                    Toast.makeText(MainActivity.this, "Stopped Notification", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    callJobScheduler();
+                    item.setTitle(getString(R.string.stopNotification));
+                    Toast.makeText(MainActivity.this, "Start Notfication", Toast.LENGTH_SHORT).show();
+                }
+                break;
             case R.id.nav_save:
                 break;
 
@@ -302,11 +293,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
         JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
                 JobSchedulerService.class.getName()));
-        builder.setPeriodic(600000);
+        builder.setPeriodic(6000);
 
         if (mJobScheduler.schedule(builder.build()) <= 0){
 
-        };
+        }
 
     }
 
