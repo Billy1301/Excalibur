@@ -8,23 +8,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.ArticleSearch;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Doc;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Multimedia;
 import com.example.billy.excalibur.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * Created by Mikhail on 4/17/16.
+ * Created by michaelmuccio on 4/21/16.
  */
-public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
-
-    ArrayList<NewsWireObjects> data;
-    private String TAG = "RecyclerViewAdaptor";
+public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdapter.NewsRecyclerViewHolder> {
+    ArrayList<Doc> data;
     Context context;
     private static OnItemClickListener listener;
 
-    public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
+    public SearchArticleAdapter(ArrayList<Doc> data) {
         this.data = data;
     }
 
@@ -41,7 +41,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         TextView headline;
         ImageView imageIcon;
         TextView articleAbstract;
-        NewsWireObjects newsWireObjects;
+        Doc doc;
 
         public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
@@ -49,13 +49,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             headline = (TextView) itemView.findViewById(R.id.headline);
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
-            newsWireObjects = new NewsWireObjects();
+            doc = new Doc();
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-            public void onClick(View v) {
+                public void onClick(View v) {
                     if (listener != null)
-                    listener.onItemClick(itemView, getLayoutPosition());
+                        listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
 
@@ -63,7 +63,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
     }
 
-    public void setData(ArrayList<NewsWireObjects> data) {
+    public void setData(ArrayList<Doc> data) {
         this.data = data;
     }
 
@@ -81,23 +81,26 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
-        holder.headline.setText(data.get(position).getTitle());
-        holder.articleAbstract.setText(data.get(position).getAbstractResult());
+        holder.headline.setText(data.get(position).getHeadline().getMain());
+        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
 
-
-        String imageURI = data.get(position).getThumbnail_standard();
-        if(imageURI.isEmpty()){
-            imageURI = "R.drawable.nyt_icon";
+        String imageURI = null;
+        Multimedia[] multiMedia = data.get(position).getMultimedia();
+        if(multiMedia != null && multiMedia.length > 0) {
+             imageURI = data.get(position).getMultimedia()[1].getUrl();
         }
+            if (imageURI == null) {
+                imageURI = "R.drawable.nyt_icon";
+            }
 
-        Picasso.with(context)
-                .load(imageURI)
-                .placeholder(R.drawable.nyt_icon)
-                .resize(100, 100)
-                .centerCrop()
-                .into(holder.imageIcon);
-        holder.articleAbstract.setText(data.get(position).getAbstractResult());
+            Picasso.with(context)
+                    .load(imageURI)
+                    .placeholder(R.drawable.nyt_icon)
+                    .resize(100, 100)
+                    .centerCrop()
+                    .into(holder.imageIcon);
 
+        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
     }
 
     @Override
@@ -105,8 +108,4 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return data.size();
 
     }
-
-
-
 }
-
