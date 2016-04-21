@@ -42,7 +42,7 @@ public class SearchArticlesFragment extends Fragment {
     RecyclerView recyclerView;
     public ArrayList<ArticleSearchObjects> articleSearch;
     private SearchAPI articleSearchResponse;
-    private String query = "Steph Curry";
+    private String query = "";
 
     public void setQuery(String query) {
         this.query = query;
@@ -51,7 +51,7 @@ public class SearchArticlesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
+        View v = inflater.inflate(R.layout.search_recycler_activity_fragment, container, false);
 
         setViews(v);
         articleSearch = new ArrayList<>();
@@ -60,7 +60,7 @@ public class SearchArticlesFragment extends Fragment {
         searchBar();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
+        recycleAdapter.setOnItemClickListener(new SearchArticleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i(TAG, String.valueOf(position));

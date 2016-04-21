@@ -41,9 +41,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction fragmentTransaction;
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
     ArticleListFragment articleListFragment;
+    SearchArticlesFragment searchFrag;
     public static ArrayList<NewsWireObjects> articleLists;
     SearchView searchView;
-    SearchArticlesFragment searchArticlesFragment;
+
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListFragment = new ArticleListFragment();
-        searchArticlesFragment = new SearchArticlesFragment();
     }
 
     public void setFragment() {
@@ -131,12 +131,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void handleIntent(Intent intent) {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            searchFrag = new SearchArticlesFragment();
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Bundle searchArticleBundle = new Bundle();
-            searchArticleBundle.putString(SEARCH_KEY, query);
-            searchArticlesFragment.setArguments(searchArticleBundle);
+            searchFrag.setQuery(query);
 
             Toast.makeText(MainActivity.this,"Searching for "+ query, Toast.LENGTH_SHORT).show();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frag_container,searchFrag);
+            fragmentTransaction.commit();
         }
     }
 
