@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         runAnimation();
         handleIntent(getIntent());
-        callJobScheduler();
+        //callJobScheduler();
     }
 
 
