@@ -11,7 +11,4 @@ public class Response {
         return docs;
     }
 
-    public void setDocs(Doc[] docs) {
-        this.docs = docs;
-    }
 }
