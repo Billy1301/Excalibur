@@ -10,6 +10,9 @@ public class ArticleSearch {
         return response;
     }
 
+    public void setResponse(Response response) {
+        this.response = response;
+    }
 }
 
 
