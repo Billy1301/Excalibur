@@ -94,16 +94,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
         setViews();
+        checkNetwork();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
-
         callJobScheduler();
     }
 
@@ -111,7 +110,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         mJobScheduler.cancelAll();
-        Log.d("test", "test");
+//        Log.d("test", "test");
+    }
+
+    public void checkNetwork(){
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(MainActivity.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
