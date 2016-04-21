@@ -17,19 +17,19 @@ You have the options to share with multiple options by clicking the share icon o
 
 
 Created by: 
-Bill
-Peter
-Michael M.
-Michael B.
+-Bill
+-Peter
+-Michael M.
+-Michael B.
 
 
 -----------
 
 <html>
 <body>
-<img src="http://imgur.com/yitrMlI" width = "150" height = "250">
-<img src="http://imgur.com/ofP0lHg" width = "150" height = "250">
-<img src="http://imgur.com/4o9lP2Z" width = "150" height = "250">
+<img src="http://i.imgur.com/yitrMlI.png" width = "150" height = "250">
+<img src="http://i.imgur.com/ofP0lHg.png" width = "150" height = "250">
+<img src="http://i.imgur.com/4o9lP2Z.png" width = "150" height = "250">
 </body>
 </html>
 
