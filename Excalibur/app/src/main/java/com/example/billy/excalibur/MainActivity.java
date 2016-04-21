@@ -1,6 +1,10 @@
 package com.example.billy.excalibur;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.app.job.JobService;
 import android.content.ClipData;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
     com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
-    ActionMenuItemView share;
+    JobScheduler mJobScheduler;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -95,7 +99,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
+        mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
+        JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
+                JobSchedulerService.class.getName()));
+        builder.setPeriodic(3000);
+
+       
     }
+
+
+
 
 //    private void searchBar(){
 //        Retrofit retrofit = new Retrofit.Builder()

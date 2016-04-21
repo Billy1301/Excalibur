@@ -40,6 +40,10 @@
             android:authorities="com.facebook.app.FacebookContentProvider1702104003394612"
             android:exported="true" />
 
+        <service android:name=".JobSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+
     </application>
 
 </manifest>
