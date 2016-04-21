@@ -102,11 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
-
         callJobScheduler();
-
-
-       
     }
 
     @Override
@@ -116,34 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("test", "test");
     }
 
-
-
-    //    private void searchBar(){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        articleSearchDocs = retrofit.create(SearchAPI.class);
-//        Call<ArticleSearchDocs> call = articleSearchDocs.listArticleSearchDocs("taco");
-//        call.enqueue(new Callback<ArticleSearchDocs>() {
-//            @Override
-//            public void onResponse(Call<ArticleSearchDocs> call, Response<ArticleSearchDocs> response) {
-//                ArticleSearchDocs articleSearchDocs = response.body();
-//                if(articleSearchDocs == null){
-//                    return;
-//                }
-//
-//                articleLists = new ArrayList<>();
-//                articleLists.clear();
-//                Collections.addAll(articleLists, articleSearchDocs.getDocs());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArticleSearchDocs> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
@@ -282,6 +250,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.science));
                 break;
+            case R.id.nav_notification_settings:
+                if(item.getTitle().toString().equals(getString(R.string.stopNotification))) {
+                    mJobScheduler.cancelAll();
+                    item.setTitle(getString(R.string.startNotification));
+                    Log.i("Nav", "clicked stopped");
+                }
+                else {
+                    callJobScheduler();
+                    item.setTitle(getString(R.string.stopNotification));
+                    Log.i("Nav", "notification resume");
+                }
+                break;
             case R.id.nav_save:
                 break;
 
@@ -302,11 +282,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
         JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
                 JobSchedulerService.class.getName()));
-        builder.setPeriodic(600000);
+        builder.setPeriodic(6000);
 
         if (mJobScheduler.schedule(builder.build()) <= 0){
 
-        };
+        }
 
     }
 

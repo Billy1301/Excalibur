@@ -48,13 +48,16 @@
         <item
             android:id="@+id/nav_ny_times"
             android:icon="@android:drawable/ic_menu_mapmode"
-
             android:title="@string/n_y" />
 
     </group>
 
     <item android:title="@string/actions_drawer">
         <menu>
+            <item
+                android:id="@+id/nav_notification_settings"
+                android:icon="@drawable/notification_icon"
+                android:title="@string/stopNotification" />
             <item
                 android:id="@+id/nav_save"
                 android:icon="@drawable/ic_menu_send"
