@@ -30,4 +30,24 @@ public class Doc {
     public Multimedia[] getMultimedia() {
         return multimedia;
     }
+
+    public void setLead_paragraph(String lead_paragraph) {
+        this.lead_paragraph = lead_paragraph;
+    }
+
+    public void setWeb_url(String web_url) {
+        this.web_url = web_url;
+    }
+
+    public void setSection_name(String section_name) {
+        this.section_name = section_name;
+    }
+
+    public void setHeadline(Headlines headline) {
+        this.headline = headline;
+    }
+
+    public void setMultimedia(Multimedia[] multimedia) {
+        this.multimedia = multimedia;
+    }
 }

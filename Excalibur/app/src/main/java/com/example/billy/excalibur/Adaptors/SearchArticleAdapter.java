@@ -87,14 +87,14 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
         String imageURI = null;
         Multimedia[] multiMedia = data.get(position).getMultimedia();
         if(multiMedia != null && multiMedia.length > 0) {
-             imageURI = data.get(position).getMultimedia()[1].getUrl();
+             imageURI = multiMedia[1].getUrl();
         }
             if (imageURI == null) {
                 imageURI = "R.drawable.nyt_icon";
             }
 
             Picasso.with(context)
-                    .load(imageURI)
+                    .load("http://nytimes.com/" + imageURI)
                     .placeholder(R.drawable.nyt_icon)
                     .resize(100, 100)
                     .centerCrop()

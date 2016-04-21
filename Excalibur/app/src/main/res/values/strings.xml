@@ -35,6 +35,7 @@
     <string name="search_articles">Search articles</string>
     <string name="stopNotification">Stop Notification</string>
     <string name="startNotification">Start Notification</string>
-
+    <string name="searching_for_toast">"Searching for "</string>
+    <string name="toolbar_search_title">Search</string>
 
 </resources>
