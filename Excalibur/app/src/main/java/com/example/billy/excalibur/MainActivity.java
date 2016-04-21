@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<NewsWireObjects> articleLists;
     JobScheduler mJobScheduler;
     TextView headerText;
+    ImageView headerImage;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
@@ -108,30 +108,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
-
         callJobScheduler();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        View headerView = navigationView.getHeaderView(0);
         headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
-        ImageView headerImage = (ImageView) headerView.findViewById(R.id.imageView);
+        headerImage = (ImageView) headerView.findViewById(R.id.imageView);
 
-        headerImage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Log.i(TAG, "Image is clicked!");
-                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
-                animation.reset();
-                headerText.clearAnimation();
-                headerText.startAnimation(animation);
-
-                return false;
-            }
-        });
-
-
-
-
+        runAnimation();
 
     }
 
@@ -143,34 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("test", "test");
     }
 
-
-
-    //    private void searchBar(){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        articleSearchDocs = retrofit.create(SearchAPI.class);
-//        Call<ArticleSearchDocs> call = articleSearchDocs.listArticleSearchDocs("taco");
-//        call.enqueue(new Callback<ArticleSearchDocs>() {
-//            @Override
-//            public void onResponse(Call<ArticleSearchDocs> call, Response<ArticleSearchDocs> response) {
-//                ArticleSearchDocs articleSearchDocs = response.body();
-//                if(articleSearchDocs == null){
-//                    return;
-//                }
-//
-//                articleLists = new ArrayList<>();
-//                articleLists.clear();
-//                Collections.addAll(articleLists, articleSearchDocs.getDocs());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArticleSearchDocs> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
@@ -220,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
 
 
         //noinspection SimplifiableIfStatement
@@ -334,50 +289,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * this method makes API calls
      * when scheduled
      */
-    private void callJobScheduler(){
+    private void callJobScheduler() {
 
-        mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
-        JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
+        mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(getPackageName(),
                 JobSchedulerService.class.getName()));
         builder.setPeriodic(600000);
 
-        if (mJobScheduler.schedule(builder.build()) <= 0){
+        if (mJobScheduler.schedule(builder.build()) <= 0) {
 
-        };
+        }
+        ;
 
     }
 
-//    private void RunAnimation()
-//    {
-//        if (headerText.isPressed()){
-//            Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale);
-//            animation.reset();
-//            headerText.clearAnimation();
-//            headerText.startAnimation(animation);
-//        }
-//    }
+    /**
+     * sets animation to textView
+     * of menu header
+     */
+    private void runAnimation() {
+        headerImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i(TAG, "Image is clicked!");
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.complex_animation);
+                animation.reset();
+                headerText.clearAnimation();
+                headerText.startAnimation(animation);
 
+                return false;
+            }
+        });
 
-    private class MenuListener implements android.support.v4.widget.DrawerLayout.DrawerListener {
-        @Override
-        public void onDrawerSlide(View drawerView, float slideOffset) {
-
-        }
-
-        @Override
-        public void onDrawerOpened(View drawerView) {
-
-        }
-
-        @Override
-        public void onDrawerStateChanged(int newState) {
-
-        }
-
-        @Override
-        public void onDrawerClosed(View view) {
-
-        }
     }
 
 
