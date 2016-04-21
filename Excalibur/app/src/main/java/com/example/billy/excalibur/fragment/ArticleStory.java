@@ -21,11 +21,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.billy.excalibur.R;
+import com.example.billy.excalibur.SaveForLater.ArticleSaveForLater;
+import com.example.billy.excalibur.SaveForLater.SaveDBHelper;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 import com.squareup.picasso.Picasso;
@@ -45,6 +48,7 @@ public class ArticleStory extends Fragment {
     private ProgressBar progress;
     private WebView articleWebView;
     private String htmlSaveForLater;
+    private Button htmlButton;
 
     /**
      * user interface to callback for fragment
@@ -56,6 +60,7 @@ public class ArticleStory extends Fragment {
 
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
+        htmlButton = (Button) v.findViewById(R.id.html_button);
 
 
         Bundle article = getArguments();
@@ -79,6 +84,18 @@ public class ArticleStory extends Fragment {
         Log.i(TAG, articleDetails[2]);
         Log.i(TAG, articleDetails[3]);
         Log.i(TAG, articleDetails[4]);
+
+        htmlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                articleWebView.loadUrl(articleDetails[2]);
+                articleWebView.loadDataWithBaseURL("", htmlSaveForLater, "text/html", "UTF-8", "");
+                ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3])
+                SaveDBHelper.insertIntoDbFromArticle(article);
+                Log.i(TAG," let's see some airplane html" + htmlSaveForLater.substring(0, 50));
+
+            }
+        });
 
 
         setHasOptionsMenu(true);
@@ -148,7 +165,7 @@ public class ArticleStory extends Fragment {
 //                    .create()
 //                    .show();
             htmlSaveForLater = html;
-            Log.i(TAG, "printing the html" + htmlSaveForLater.substring(0, 50));
+            Log.i(TAG, "printing the html " + htmlSaveForLater.substring(0, 50));
         }
     }
 
