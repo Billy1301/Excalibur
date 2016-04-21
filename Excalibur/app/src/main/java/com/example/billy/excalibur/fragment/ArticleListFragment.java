@@ -2,7 +2,6 @@ package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
@@ -40,7 +38,7 @@ public class ArticleListFragment extends Fragment {
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
     Toolbar toolbar;
-    public ArrayList<NewsWireObjects> articleLists;
+    public ArrayList<NewsWireObjects> breakingNewsLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
     private int numberOfArticles = 10;
@@ -66,8 +64,8 @@ public class ArticleListFragment extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
-        articleLists = new ArrayList<>();
-        recycleAdapter = new NewsRecyclerAdapter(articleLists);
+        breakingNewsLists = new ArrayList<>();
+        recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
 
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -76,13 +74,13 @@ public class ArticleListFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i(TAG, String.valueOf(position));
-                articleLists.get(position);
+                breakingNewsLists.get(position);
                 Bundle article = new Bundle(); //will bundle the 5 fields of newsWireObjects in a string array
-                String[] articleDetails = {articleLists.get(position).getSection(),
-                        articleLists.get(position).getTitle(),
-                        articleLists.get(position).getUrl(),
-                        articleLists.get(position).getThumbnail_standard(),
-                        articleLists.get(position).getAbstractResult()};
+                String[] articleDetails = {breakingNewsLists.get(position).getSection(),
+                        breakingNewsLists.get(position).getTitle(),
+                        breakingNewsLists.get(position).getUrl(),
+                        breakingNewsLists.get(position).getThumbnail_standard(),
+                        breakingNewsLists.get(position).getAbstractResult()};
                 article.putStringArray("article", articleDetails);
 
                 Fragment articleStory = new ArticleStory();
@@ -116,7 +114,7 @@ public class ArticleListFragment extends Fragment {
                     return;
                 }
 
-                Collections.addAll(articleLists, newsWireResults.getResults());
+                Collections.addAll(breakingNewsLists, newsWireResults.getResults());
 
                 if (recyclerView != null) {
                     recyclerView.setAdapter(recycleAdapter);

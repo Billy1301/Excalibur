@@ -59,7 +59,7 @@ public class ArticleStory extends Fragment {
 
         articleDetails = article.getStringArray("article");
 
-        setFacebookButton();
+        //setFacebookButton();
 
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 
@@ -128,18 +128,18 @@ public class ArticleStory extends Fragment {
         }
     }
 
-    public void setFacebookButton() {
-
-        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(articleDetails[2]))
-                .build();
-        if (fbSharebutton != null) {
-            fbSharebutton.setShareContent(content);
-            Log.i(TAG, "Share button clicked!");
-        }
-
-    }
+//    public void setFacebookButton() {
+//
+//        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
+//        ShareLinkContent content = new ShareLinkContent.Builder()
+//                .setContentUrl(Uri.parse(articleDetails[2]))
+//                .build();
+//        if (fbSharebutton != null) {
+//            fbSharebutton.setShareContent(content);
+//            Log.i(TAG, "Share button clicked!");
+//        }
+//
+//    }
 
 }
 

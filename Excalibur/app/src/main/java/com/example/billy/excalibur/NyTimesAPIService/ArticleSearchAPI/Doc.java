@@ -1,18 +1,18 @@
-package com.example.billy.excalibur.NyTimesAPIService;
+package com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI;
 
 /** Full Db search objects extending Article search objects and setting full article db to breaking
  * new articles.
  * Created by michaelmuccio on 4/19/16.
  */
-public class ArticleSearchObjects {
-    private String snippet;
+public class Doc {
+    private String lead_paragraph;
     private String web_url;
     private String section_name;
-    private String headline;
-    private String multimedia;
+    private Headlines headline;
+    private Multimedia[] multimedia;
 
-    public String getSnippet() {
-        return snippet;
+    public String getLead_paragraph() {
+        return lead_paragraph;
     }
 
     public String getWeb_url() {
@@ -23,11 +23,11 @@ public class ArticleSearchObjects {
         return section_name;
     }
 
-    public String getHeadline() {
+    public Headlines getHeadline() {
         return headline;
     }
 
-    public String getMultimedia() {
+    public Multimedia[] getMultimedia() {
         return multimedia;
     }
 }

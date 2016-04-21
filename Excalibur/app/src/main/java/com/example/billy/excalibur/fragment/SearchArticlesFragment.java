@@ -6,24 +6,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.Adaptors.SearchArticleAdapter;
-import com.example.billy.excalibur.MainActivity;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchObjects;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchResponse;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Doc;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.ArticleSearch;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import retrofit2.Call;
@@ -38,10 +32,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SearchArticlesFragment extends Fragment {
     public final static String TAG = "ArticleRecycleView";
 
-    private SearchArticleAdapter recycleAdapter;
-    RecyclerView recyclerView;
-    public ArrayList<ArticleSearchObjects> articleSearch;
+    SearchArticleAdapter searchArticleAdapter;
+    RecyclerView searchRecyclerView;
     private SearchAPI articleSearchResponse;
+    public ArrayList<Doc> articleSearchList;
     private String query = "";
 
     public void setQuery(String query) {
@@ -54,23 +48,23 @@ public class SearchArticlesFragment extends Fragment {
         View v = inflater.inflate(R.layout.search_recycler_activity_fragment, container, false);
 
         setViews(v);
-        articleSearch = new ArrayList<>();
-        recycleAdapter = new SearchArticleAdapter(articleSearch);
+        articleSearchList = new ArrayList<>();
+        searchArticleAdapter = new SearchArticleAdapter(articleSearchList);
 
         searchBar();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        searchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recycleAdapter.setOnItemClickListener(new SearchArticleAdapter.OnItemClickListener() {
+        searchArticleAdapter.setOnItemClickListener(new SearchArticleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Log.i(TAG, String.valueOf(position));
-                articleSearch.get(position);
+                articleSearchList.get(position);
                 Bundle article = new Bundle(); //will bundle the 5 fields of articleSearchObjects in a string array
-                String[] articleDetails = {articleSearch.get(position).getSection_name(),
-                        articleSearch.get(position).getHeadline(),
-                        articleSearch.get(position).getWeb_url(),
-                        articleSearch.get(position).getMultimedia(),
-                        articleSearch.get(position).getSnippet()};
+                String[] articleDetails = {articleSearchList.get(position).getSection_name(),
+                        articleSearchList.get(position).getHeadline().getMain(),
+                        articleSearchList.get(position).getWeb_url(),
+                        articleSearchList.get(position).getMultimedia()[0].getUrl(),
+                        articleSearchList.get(position).getLead_paragraph()};
                 article.putStringArray("article", articleDetails);
 
                 Fragment articleStory = new ArticleStory();
@@ -91,11 +85,12 @@ public class SearchArticlesFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         articleSearchResponse = retrofit.create(SearchAPI.class);
-        Call<ArticleSearchResponse> call = articleSearchResponse.listArticleSearchDocs(query);
-        call.enqueue(new Callback<ArticleSearchResponse>() {
+        Call<ArticleSearch> call = articleSearchResponse.listArticleSearchDocs(query);
+        call.enqueue(new Callback<ArticleSearch>() {
             @Override
-            public void onResponse(Call<ArticleSearchResponse> call, Response<ArticleSearchResponse> response) {
-                ArticleSearchResponse articleSearchDocs = response.body();
+            public void onResponse(Call<ArticleSearch> call, Response<ArticleSearch> response) {
+                ArticleSearch articleSearchDocs = response.body();
+                Log.i(TAG, "Searched Article: " + articleSearchDocs);
                 if(articleSearchDocs == null){
                     return;
                 }
@@ -104,22 +99,23 @@ public class SearchArticlesFragment extends Fragment {
                     return;
                 }
 
-                Collections.addAll(articleSearch, articleSearchDocs.getResponse().getDocs());
+                Collections.addAll(articleSearchList, articleSearchDocs.getResponse().getDocs());
+                Log.i(TAG, "Searched Article: " + articleSearchList);
 
-                if (recyclerView != null) {
-                    recyclerView.setAdapter(recycleAdapter);
+                if (searchRecyclerView != null) {
+                    searchRecyclerView.setAdapter(searchArticleAdapter);
                 }
             }
 
             @Override
-            public void onFailure(Call<ArticleSearchResponse> call, Throwable t) {
+            public void onFailure(Call<ArticleSearch> call, Throwable t) {
                 t.printStackTrace();
             }
         });
     }
 
     public void setViews(View v) {
-        recyclerView = (RecyclerView) v.findViewById(R.id.search_recycle_view);
+        searchRecyclerView = (RecyclerView) v.findViewById(R.id.search_recycle_view);
 
     }
 

@@ -5,16 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.R;
 import com.squareup.picasso.Picasso;
-import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 
 import java.util.ArrayList;
 
