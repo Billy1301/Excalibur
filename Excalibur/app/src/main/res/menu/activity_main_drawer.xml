@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/search"
-        android:title="@string/search_drawer"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_breakingNews"
@@ -54,20 +50,11 @@
             android:icon="@android:drawable/ic_menu_mapmode"
 
             android:title="@string/n_y" />
-        <item
-            android:id="@+id/nav_herald_magazine"
-            android:icon="@android:drawable/ic_menu_mapmode"
-
-            android:title="@string/magazine" />
 
     </group>
 
     <item android:title="@string/actions_drawer">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/facebookShare" />
             <item
                 android:id="@+id/nav_save"
                 android:icon="@drawable/ic_menu_send"
