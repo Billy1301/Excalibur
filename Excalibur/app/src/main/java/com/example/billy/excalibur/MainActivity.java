@@ -29,8 +29,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
     JobScheduler mJobScheduler;
+    TextView headerText;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -105,9 +111,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         callJobScheduler();
 
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
+        ImageView headerImage = (ImageView) headerView.findViewById(R.id.imageView);
 
-       
+        headerImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i(TAG, "Image is clicked!");
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
+                animation.reset();
+                headerText.clearAnimation();
+                headerText.startAnimation(animation);
+
+                return false;
+            }
+        });
+
+
+
+
+
     }
+
 
     @Override
     protected void onDestroy() {
@@ -193,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
 
 
         //noinspection SimplifiableIfStatement
@@ -318,5 +346,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
     }
+
+//    private void RunAnimation()
+//    {
+//        if (headerText.isPressed()){
+//            Animation animation = AnimationUtils.loadAnimation(this, R.anim.scale);
+//            animation.reset();
+//            headerText.clearAnimation();
+//            headerText.startAnimation(animation);
+//        }
+//    }
+
+
+    private class MenuListener implements android.support.v4.widget.DrawerLayout.DrawerListener {
+        @Override
+        public void onDrawerSlide(View drawerView, float slideOffset) {
+
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+
+        }
+
+        @Override
+        public void onDrawerClosed(View view) {
+
+        }
+    }
+
 
 }
