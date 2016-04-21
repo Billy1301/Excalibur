@@ -25,7 +25,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
@@ -52,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<NewsWireObjects> articleLists;
     SearchView searchView;
     JobScheduler mJobScheduler;
+    TextView headerText;
+    ImageView headerImage;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -80,10 +88,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
-        handleIntent(getIntent());
 
         callJobScheduler();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
+        headerImage = (ImageView) headerView.findViewById(R.id.imageView);
+
+        runAnimation();
+        handleIntent(getIntent());
+        callJobScheduler();
     }
+
 
     @Override
     protected void onDestroy() {
@@ -91,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mJobScheduler.cancelAll();
 //        Log.d("test", "test");
     }
-
 
 
     public void checkNetwork(){
@@ -289,17 +305,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * this method makes API calls
      * when scheduled
      */
-    private void callJobScheduler(){
+    private void callJobScheduler() {
 
-        mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
-        JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
+        mJobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobInfo.Builder builder = new JobInfo.Builder(1, new ComponentName(getPackageName(),
                 JobSchedulerService.class.getName()));
         builder.setPeriodic(600000);
 
-        if (mJobScheduler.schedule(builder.build()) <= 0){
+        if (mJobScheduler.schedule(builder.build()) <= 0) {
 
         }
 
     }
+
+    /**
+     * sets animation to textView
+     * of menu header
+     */
+    private void runAnimation() {
+        headerImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.i(TAG, "Image is clicked!");
+                Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.complex_animation);
+                animation.reset();
+                headerText.clearAnimation();
+                headerText.startAnimation(animation);
+
+                return false;
+            }
+        });
+
+    }
+
 
 }

@@ -30,6 +30,8 @@
     <string name="search_drawer">Поиск</string>
     <string name="search_main_toolbar">Поиск</string>
     <string name="share_toolbar">Поделиться</string>
+    <string name="nav_header_text">Экскалибур новости</string>
+
 </resources>
 
 
