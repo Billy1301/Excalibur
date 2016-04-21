@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
@@ -74,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
         handleIntent(getIntent());
-
 
     }
 
@@ -137,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Toast.makeText(MainActivity.this,"Searching for "+ query, Toast.LENGTH_SHORT).show();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.frag_container,searchFrag);
+            fragmentTransaction.add(R.id.frag_container, searchFrag);
             fragmentTransaction.commit();
         }
     }
@@ -248,6 +246,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 }
