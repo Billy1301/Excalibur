@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/search"
-        android:title="Search"
+        android:title="@string/search_drawer"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView" />
@@ -51,7 +51,7 @@
 
     </group>
 
-    <item android:title="Actions">
+    <item android:title="@string/actions_drawer">
         <menu>
             <item
                 android:id="@+id/nav_share"

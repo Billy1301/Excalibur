@@ -81,6 +81,7 @@ public class NewsRecyclerAdapter<T extends NewsWireObjects> extends RecyclerView
         return vh;
     }
 
+
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object

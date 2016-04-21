@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.view.menu.ActionMenuItemView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -19,38 +18,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchObjects;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchResponse;
-
-
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
 import com.example.billy.excalibur.fragment.SearchArticlesFragment;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import java.util.ArrayList;
-import java.util.Collection;
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final static String TAG = "MainActivity";
-    public final static String SEARCH_KEY = "searchKey";
-    RecyclerView recyclerView;
-    NewsRecyclerAdapter recycleAdapter;
+    public static String SEARCH_KEY = "searchKey";
     FrameLayout fragContainer;
     NavigationView navigationView;
     DrawerLayout drawer;
@@ -60,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
     ArticleListFragment articleListFragment;
     public static ArrayList<NewsWireObjects> articleLists;
-    ActionMenuItemView share;
     SearchView searchView;
     SearchArticlesFragment searchArticlesFragment;
 
@@ -81,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         setViews();
         setActionBarDrawer();
@@ -162,16 +147,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        share = (ActionMenuItemView) toolbar.findViewById(R.id.share);
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i(TAG, "Share button clicked!");
-
-
-            }
-        });
-
 
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
@@ -181,45 +156,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-//    private void searchBar(String query){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://api.nytimes.com/svc/search/v2/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        articleSearchResponse = retrofit.create(SearchAPI.class);
-//        Call<ArticleSearchResponse> call = articleSearchResponse.listArticleSearchDocs(query);
-//        call.enqueue(new Callback<ArticleSearchResponse>() {
-//            @Override
-//            public void onResponse(Call<ArticleSearchResponse> call, Response<ArticleSearchResponse> response) {
-//                ArticleSearchResponse articleSearchDocs = response.body();
-//                if(articleSearchDocs == null){
-//                    return;
-//                }
-//                ArrayList<ArticleSearchObjects> articleSearch = new ArrayList<>();
-//                articleSearch.addAll((Collection<? extends ArticleSearchObjects>) articleSearchDocs.getResponse());
-//                Log.i(TAG, "Searched Articles: " + articleSearch);
-//
-//                if(recyclerView != null) {
-//                    recyclerView.setAdapter(recycleAdapter);
-//                    recycleAdapter.notifyDataSetChanged();
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-//                }
-//
-//                searchFrag = new ArticleListFragment();
-//                searchFrag.setViews(recyclerView);
-//                fragmentTransaction = fragmentManager.beginTransaction();
-//                fragmentTransaction.replace(R.id.frag_container, searchFrag);
-//                fragmentTransaction.commit();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArticleSearchResponse> call, Throwable t) {
-//                t.printStackTrace();
-//            }
-//        });
-//    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -227,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.nav_breakingNews:
                 topicFrag.setSections(BREAKING_NEWS);
                 fragmentTransaction = fragmentManager.beginTransaction();

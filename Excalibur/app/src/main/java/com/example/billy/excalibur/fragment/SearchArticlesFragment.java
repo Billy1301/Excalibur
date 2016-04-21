@@ -42,6 +42,14 @@ public class SearchArticlesFragment extends Fragment {
     public ArrayList<ArticleSearchObjects> articleSearch;
     private SearchAPI articleSearchResponse;
 
+    public static SearchArticlesFragment newInstance(){
+        SearchArticlesFragment searchArticlesFragment = new SearchArticlesFragment();
+        Bundle bundle = new Bundle();
+        bundle.get(MainActivity.SEARCH_KEY);
+        searchArticlesFragment.setArguments(bundle);
+        return searchArticlesFragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,12 +88,13 @@ public class SearchArticlesFragment extends Fragment {
     }
 
     private void searchBar(){
+        String query = newInstance().toString();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.nytimes.com/svc/search/v2/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         articleSearchResponse = retrofit.create(SearchAPI.class);
-        Call<ArticleSearchResponse> call = articleSearchResponse.listArticleSearchDocs(MainActivity.SEARCH_KEY);
+        Call<ArticleSearchResponse> call = articleSearchResponse.listArticleSearchDocs(query);
         call.enqueue(new Callback<ArticleSearchResponse>() {
             @Override
             public void onResponse(Call<ArticleSearchResponse> call, Response<ArticleSearchResponse> response) {
