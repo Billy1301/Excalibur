@@ -1,14 +1,21 @@
 package com.example.billy.excalibur;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.app.job.JobService;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
@@ -53,6 +59,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    SearchAPI latestNewsService;
     private final static String TAG = "MainActivity";
     FrameLayout fragContainer;
     NavigationView navigationView;
@@ -63,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
     com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
     public static ArrayList<NewsWireObjects> articleLists;
-    ActionMenuItemView share;
+    JobScheduler mJobScheduler;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -95,9 +102,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
+
+        callJobScheduler();
+
+
+       
     }
 
-//    private void searchBar(){
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mJobScheduler.cancelAll();
+        Log.d("test", "test");
+    }
+
+
+
+    //    private void searchBar(){
 //        Retrofit retrofit = new Retrofit.Builder()
 //                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")
 //                .addConverterFactory(GsonConverterFactory.create())
@@ -131,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListRecycleView = new ArticleListRecycleView();
+
     }
 
     public void setFragment() {
@@ -279,5 +301,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+
+    /**
+     * this method makes API calls
+     * when scheduled
+     */
+    private void callJobScheduler(){
+
+        mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
+        JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
+                JobSchedulerService.class.getName()));
+        builder.setPeriodic(600000);
+
+        if (mJobScheduler.schedule(builder.build()) <= 0){
+
+        };
+
+    }
 
 }
