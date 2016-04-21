@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
@@ -43,6 +45,8 @@ public class ArticleListRecycleView extends Fragment {
     private String sections = "all";
     private String chooseMagazineSource = "all";
     //private int numberOfArticles = 10;
+    protected SwipeRefreshLayout swipeContainer;
+
 
     /**
      * Setter for Nav Drawer filtering API "sections" options
@@ -67,6 +71,9 @@ public class ArticleListRecycleView extends Fragment {
         setViews(v);
         articleLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(articleLists);
+        swipeContainer = (SwipeRefreshLayout)v.findViewById(R.id.swipeContainer);
+
+        setPullRefresh();
 
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -93,7 +100,23 @@ public class ArticleListRecycleView extends Fragment {
             }
         });
 
+
         return v;
+    }
+
+    private void setPullRefresh(){
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrofitLatestNews();
+                Log.i(TAG, "Refreshing list");
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.darker_gray,
+                android.R.color.white);
+
     }
 
 
@@ -111,6 +134,7 @@ public class ArticleListRecycleView extends Fragment {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
                 NewsWireResults newsWireResults = response.body();
+                swipeContainer.setRefreshing(false);
 
                 if (newsWireResults == null) {
                     return;
@@ -127,7 +151,6 @@ public class ArticleListRecycleView extends Fragment {
 
             @Override
             public void onFailure(Call<NewsWireResults> call, Throwable t) {
-
             }
         });
     }
