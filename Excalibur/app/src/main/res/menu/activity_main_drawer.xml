@@ -13,43 +13,51 @@
             android:title="@string/breakingNews" />
         <item
             android:id="@+id/nav_world"
-            android:icon="@android:drawable/ic_dialog_map"
+            android:icon="@android:drawable/ic_menu_mapmode"
             android:title="@string/world" />
         <item
             android:id="@+id/nav_us"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@android:drawable/ic_menu_mapmode"
             android:title="@string/u_s" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/business" />
         <item
             android:id="@+id/nav_technology"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/technology"/>
         <item
             android:id="@+id/nav_sports"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/sports" />
         <item
             android:id="@+id/nav_health"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/health"/>
         <item
             android:id="@+id/nav_arts"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/arts" />
         <item
             android:id="@+id/nav_science"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/science"/>
         <item
             android:id="@+id/nav_ny_times"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/n_y" />
         <item
             android:id="@+id/nav_herald_magazine"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_mapmode"
+
             android:title="@string/magazine" />
 
     </group>
