@@ -68,11 +68,11 @@ public class ArticleStory extends Fragment {
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
         articleWebView.loadUrl(articleDetails[2]);
 
-        Log.i(TAG, articleDetails[0]);
-        Log.i(TAG, articleDetails[1]);
-        Log.i(TAG, articleDetails[2]);
-        Log.i(TAG, articleDetails[3]);
-        Log.i(TAG, articleDetails[4]);
+//        Log.i(TAG, articleDetails[0]);
+//        Log.i(TAG, articleDetails[1]);
+//        Log.i(TAG, articleDetails[2]);
+//        Log.i(TAG, articleDetails[3]);
+//        Log.i(TAG, articleDetails[4]);
 
 
         setHasOptionsMenu(true);
