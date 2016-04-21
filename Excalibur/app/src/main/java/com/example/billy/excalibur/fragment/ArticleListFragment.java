@@ -2,7 +2,6 @@ package com.example.billy.excalibur.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,18 +30,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Billy on 4/18/16.
  */
-public class ArticleListRecycleView extends Fragment {
+public class ArticleListFragment extends Fragment {
 
     public final static String TAG = "ArticleRecycleView";
 
-    NewsRecyclerAdapter recycleAdapter;
+    private NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
     Toolbar toolbar;
-    public ArrayList<NewsWireObjects> articleLists;
+    public ArrayList<NewsWireObjects> breakingNewsLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
-    //private int numberOfArticles = 10;
+    private int numberOfArticles = 10;
 
     /**
      * Setter for Nav Drawer filtering API "sections" options
@@ -65,8 +64,8 @@ public class ArticleListRecycleView extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
-        articleLists = new ArrayList<>();
-        recycleAdapter = new NewsRecyclerAdapter(articleLists);
+        breakingNewsLists = new ArrayList<>();
+        recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
 
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -74,14 +73,16 @@ public class ArticleListRecycleView extends Fragment {
         recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //Log.i(TAG, String.valueOf(position));
-                articleLists.get(position);
+
+                Log.i(TAG, String.valueOf(position));
+                breakingNewsLists.get(position);
+
                 Bundle article = new Bundle(); //will bundle the 5 fields of newsWireObjects in a string array
-                String[] articleDetails = {articleLists.get(position).getSection(),
-                        articleLists.get(position).getTitle(),
-                        articleLists.get(position).getUrl(),
-                        articleLists.get(position).getThumbnail_standard(),
-                        articleLists.get(position).getAbstractResult()};
+                String[] articleDetails = {breakingNewsLists.get(position).getSection(),
+                        breakingNewsLists.get(position).getTitle(),
+                        breakingNewsLists.get(position).getUrl(),
+                        breakingNewsLists.get(position).getThumbnail_standard(),
+                        breakingNewsLists.get(position).getAbstractResult()};
                 article.putStringArray("article", articleDetails);
 
                 Fragment articleStory = new ArticleStory();
@@ -96,7 +97,6 @@ public class ArticleListRecycleView extends Fragment {
         return v;
     }
 
-
     private void retrofitLatestNews() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.nytimes.com/svc/news/v3/content/")
@@ -106,7 +106,7 @@ public class ArticleListRecycleView extends Fragment {
         latestNewsService = retrofit.create(SearchAPI.class);
 
         Call<NewsWireResults> call = latestNewsService.listNewsWireResults(chooseMagazineSource,
-                sections, 10);
+                sections, numberOfArticles);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
@@ -116,7 +116,7 @@ public class ArticleListRecycleView extends Fragment {
                     return;
                 }
 
-                Collections.addAll(articleLists, newsWireResults.getResults());
+                Collections.addAll(breakingNewsLists, newsWireResults.getResults());
 
                 if (recyclerView != null) {
                     recyclerView.setAdapter(recycleAdapter);
@@ -127,7 +127,7 @@ public class ArticleListRecycleView extends Fragment {
 
             @Override
             public void onFailure(Call<NewsWireResults> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }

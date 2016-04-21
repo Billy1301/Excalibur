@@ -30,8 +30,10 @@
     <string name="search_main_toolbar">Search</string>
     <string name="share_toolbar">Share</string>
     <string name="actions_drawer">Actions</string>
+    <string name="search_articles">Search articles</string>
     <string name="stopNotification">Stop Notification</string>
     <string name="startNotification">Start Notification</string>
+
 
 
 </resources>

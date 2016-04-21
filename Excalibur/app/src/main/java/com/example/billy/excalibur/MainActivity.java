@@ -1,5 +1,10 @@
 package com.example.billy.excalibur;
 
+
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
@@ -12,13 +17,14 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.menu.ActionMenuItemView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -28,41 +34,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
-import com.example.billy.excalibur.fragment.ArticleListRecycleView;
+import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
+import com.example.billy.excalibur.fragment.SearchArticlesFragment;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 import java.util.ArrayList;
-import java.util.Collections;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    SearchAPI latestNewsService;
     private final static String TAG = "MainActivity";
+    public static String SEARCH_KEY = "searchKey";
     FrameLayout fragContainer;
     NavigationView navigationView;
     DrawerLayout drawer;
@@ -70,8 +58,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
-    com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
+    ArticleListFragment articleListFragment;
+    SearchArticlesFragment searchFrag;
     public static ArrayList<NewsWireObjects> articleLists;
+    SearchView searchView;
     JobScheduler mJobScheduler;
 
     private String BREAKING_NEWS = "all";
@@ -84,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String ARTS = "arts";
     private String HEALTH = "health";
     private String SPORTS = "sports";
-    private String HERALD_MAG = "iht";
-    private SearchAPI articleSearchDocs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
+        handleIntent(getIntent());
+
         callJobScheduler();
     }
 
@@ -123,23 +113,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
-        articleListRecycleView = new ArticleListRecycleView();
-
+        articleListFragment = new ArticleListFragment();
     }
 
     public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container, articleListRecycleView);
+        fragmentTransaction.add(R.id.frag_container, articleListFragment);
         fragmentTransaction.commit();
     }
-
 
     public void setActionBarDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -163,7 +150,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            searchFrag = new SearchArticlesFragment();
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            searchFrag.setQuery(query);
+
+            Toast.makeText(MainActivity.this,"Searching for "+ query, Toast.LENGTH_SHORT).show();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frag_container, searchFrag);
+            fragmentTransaction.commit();
+        }
     }
 
     @Override
@@ -185,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        ArticleListRecycleView topicFrag = new ArticleListRecycleView();
+        ArticleListFragment topicFrag = new ArticleListFragment();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -282,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     /**
      * this method makes API calls
