@@ -68,7 +68,9 @@ public class SavedArticleRecycleView extends Fragment {
                 String[] articleDetails = {articleLists.get(position).getTitle(),
                         articleLists.get(position).getUrl(),
                         articleLists.get(position).getImage(),
-                        articleLists.get(position).getSnippet()};
+                        articleLists.get(position).getSnippet(),
+                        String.valueOf(articleLists.get(position).getCode()),
+                        String.valueOf(articleLists.get(position).getId())};
                 article.putStringArray("article", articleDetails);
 
                 Fragment savedArticleStory = new SavedArticleStory();
@@ -115,7 +117,6 @@ public class SavedArticleRecycleView extends Fragment {
 //            }
 
             article.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_ID))));
-            article.setHtml((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_TITLE))));
             article.setTitle((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_TITLE))));
             article.setSnippet((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_SNIPPET))));
             article.setUrl((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_URL))));
@@ -127,7 +128,9 @@ public class SavedArticleRecycleView extends Fragment {
             articleLists.add(article);
             recycleAdapter.notifyDataSetChanged();
         }
-        storiesCount.setText("You have " + String.valueOf(articleLists.size()) + " stories saved");
+        if(articleLists.size() == 0){
+            storiesCount.setVisibility(View.GONE);
+        }
 
     }
 }

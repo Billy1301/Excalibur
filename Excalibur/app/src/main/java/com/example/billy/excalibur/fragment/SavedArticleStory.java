@@ -2,6 +2,7 @@ package com.example.billy.excalibur.fragment;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -40,12 +41,12 @@ public class SavedArticleStory extends Fragment {
     ShareButton fbSharebutton;
 
 
-    private static final String TAG = "ArticleStory Fragment";
+    private static final String TAG = "Saved Article Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
-    private String htmlSaveForLater;
     private Button htmlButton;
     private SQLiteDatabase db;
+    private ArticleSaveForLater articleSaved;
 
     /**
      * user interface to callback for fragment
@@ -57,8 +58,6 @@ public class SavedArticleStory extends Fragment {
 
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
-        htmlButton = (Button) v.findViewById(R.id.html_button);
-        htmlButton.setText("delete from saved");
 
 
         Bundle article = getArguments();
@@ -72,37 +71,18 @@ public class SavedArticleStory extends Fragment {
         WebSettings webSettings = articleWebView.getSettings();
         articleWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
-        articleWebView.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
 
-        articleWebView.loadUrl(articleDetails[2]);
+
         SaveSQLiteHelper mDbHelper = SaveSQLiteHelper.getInstance(getContext());
         db = mDbHelper.getWritableDatabase();
 
-//        Log.i(TAG, articleDetails[0]);
-//        Log.i(TAG, articleDetails[1]);
-//        Log.i(TAG, articleDetails[2]);
-//        Log.i(TAG, articleDetails[3]);
-//        Log.i(TAG, articleDetails[4]);
 
-        htmlButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                articleWebView.loadUrl(articleDetails[2]);
-                articleWebView.loadDataWithBaseURL("", htmlSaveForLater, "text/html", "UTF-8", "");
+        Cursor cursor;
+        cursor = SaveSQLiteHelper.getInstance(getContext()).getArticleHtml(articleDetails[5]);
+        dumpCursorToSavedArticle(cursor);
+        cursor.close();
 
-                ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
-                insertIntoDbFromArticle(article);
-
-                Log.i(TAG, article.getImage());
-                Log.i(TAG, article.getSnippet());
-                Log.i(TAG, article.getTitle());
-                Log.i(TAG, String.valueOf(article.getId()));
-                Log.i(TAG, String.valueOf(article.getCode()));
-
-
-
-            }
-        });
+        articleWebView.loadDataWithBaseURL("", articleSaved.getHtml(), "text/html", "UTF-8", "");
 
 
         setHasOptionsMenu(true);
@@ -126,7 +106,7 @@ public class SavedArticleStory extends Fragment {
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, articleDetails[2]);
+            intent.putExtra(Intent.EXTRA_TEXT, articleDetails[0]);
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
             startActivity(Intent.createChooser(intent, "Share"));
             return true;
@@ -148,7 +128,6 @@ public class SavedArticleStory extends Fragment {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            articleWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
             progress.setVisibility(View.GONE);
         }
 
@@ -166,13 +145,25 @@ public class SavedArticleStory extends Fragment {
 
         fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(articleDetails[2]))
+                .setContentUrl(Uri.parse(articleDetails[0]))
                 .build();
         if (fbSharebutton != null) {
             fbSharebutton.setShareContent(content);
             Log.i(TAG, "Share button clicked!");
         }
     }
+
+    public void dumpCursorToSavedArticle(Cursor cursor) {
+        cursor.moveToFirst();
+        articleSaved = new ArticleSaveForLater();
+        articleSaved.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_ID))));
+        articleSaved.setHtml((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_HTML))));
+        articleSaved.setTitle((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_TITLE))));
+        articleSaved.setSnippet((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_SNIPPET))));
+        articleSaved.setUrl((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_URL))));
+        articleSaved.setImage((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_IMAGE))));
+        articleSaved.setCode(Long.parseLong(cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_CODE))));
+}
 
 
 }

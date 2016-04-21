@@ -2,6 +2,7 @@ package com.example.billy.excalibur.fragment;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.billy.excalibur.R;
 import com.example.billy.excalibur.SaveForLater.ArticleSaveForLater;
@@ -44,7 +46,6 @@ public class ArticleStory extends Fragment {
     private ProgressBar progress;
     private WebView articleWebView;
     private String htmlSaveForLater;
-    private Button htmlButton;
     private SQLiteDatabase db;
 
     /**
@@ -57,8 +58,6 @@ public class ArticleStory extends Fragment {
 
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
-        htmlButton = (Button) v.findViewById(R.id.html_button);
-
 
         Bundle article = getArguments();
 
@@ -83,25 +82,13 @@ public class ArticleStory extends Fragment {
 //        Log.i(TAG, articleDetails[3]);
 //        Log.i(TAG, articleDetails[4]);
 
-        htmlButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                articleWebView.loadUrl(articleDetails[2]);
-                articleWebView.loadDataWithBaseURL("", htmlSaveForLater, "text/html", "UTF-8", "");
-
-                ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
-                insertIntoDbFromArticle(article);
-
-                Log.i(TAG, article.getImage());
-                Log.i(TAG, article.getSnippet());
-                Log.i(TAG, article.getTitle());
-                Log.i(TAG, String.valueOf(article.getId()));
-                Log.i(TAG, String.valueOf(article.getCode()));
-
-
-
-            }
-        });
+//        htmlButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
+//                insertIntoDbFromArticle(article);
+//            }
+//        });
 
 
         setHasOptionsMenu(true);
@@ -129,6 +116,9 @@ public class ArticleStory extends Fragment {
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
             startActivity(Intent.createChooser(intent, "Share"));
             return true;
+        } else if(id == R.id.save_later){
+            ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
+            insertIntoDbFromArticle(article);
         }
 
         return super.onOptionsItemSelected(item);
@@ -149,6 +139,7 @@ public class ArticleStory extends Fragment {
             super.onPageFinished(view, url);
             articleWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
             progress.setVisibility(View.GONE);
+//            htmlButton.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -188,16 +179,32 @@ public class ArticleStory extends Fragment {
     }
 
     private long insertIntoDbFromArticle(ArticleSaveForLater article){
+        long newRowId = 0l;
 
-        ContentValues values = new ContentValues();
-        values.put(SaveSQLiteHelper.COL_HTML, article.getHtml());
-        values.put(SaveSQLiteHelper.COL_TITLE, article.getTitle());
-        values.put(SaveSQLiteHelper.COL_URL, article.getUrl());
-        values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
-        values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
+        Cursor cursor;
+        cursor = SaveSQLiteHelper.getInstance(getContext()).getAllSavedArticles();
+        boolean isUniqueArticle = SaveSQLiteHelper.checkURLforDuplicate(article.getUrl(), cursor);
+        cursor.close();
 
-        long newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null, values);
+        if(isUniqueArticle == false) {
+            ContentValues values = new ContentValues();
+            values.put(SaveSQLiteHelper.COL_HTML, article.getHtml());
+            values.put(SaveSQLiteHelper.COL_TITLE, article.getTitle());
+            values.put(SaveSQLiteHelper.COL_URL, article.getUrl());
+            values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
+            values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
+            newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null, values);
+            int titleLength = article.getTitle().length();
+            if(titleLength > 20) {
+                titleLength = 20;
+            }
+            String titleShort = article.getTitle().substring(0,titleLength) + "...";
+            Toast.makeText(getContext(), "You saved " + titleShort, Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "You have already saved this story!", Toast.LENGTH_SHORT).show();
+        }
         return newRowId;
+
     }
 }
 

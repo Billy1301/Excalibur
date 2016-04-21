@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        style="?android:attr/progressBarStyleLarge"
+        style="?android:attr/progressBarStyleSmall"
         android:background="@color/colorPrimaryDark"
         android:visibility="visible"/>
 
@@ -26,12 +26,6 @@
         android:contentDescription="@string/share"
         android:layout_gravity="right" />
 
-    <Button
-        android:id="@+id/html_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:text="switch to html"/>
 
 
 </LinearLayout>

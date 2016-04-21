@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
+import android.view.View;
 
 /**
  * Created by petermartinez on 4/20/16.
@@ -110,4 +112,30 @@ public class SaveSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
                     null); // h. limit
                     return cursor;
              }
+
+    public Cursor getArticleHtml(String Id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] query = {Id};
+
+        Cursor cursor = db.query(ARTICLES_TABLE_NAME, // a. table
+                ARTICLES_COLUMNS, // b. column names
+                COL_ID + " = ?", // c. selections
+                query, // d. selections args
+                null, // e. group by
+                null, // f. having
+                null, // g. order by
+                null); // h. limit
+        return cursor;
+    }
+
+    public static boolean checkURLforDuplicate(String url, Cursor cursor){
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+                if(url.equals(cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_URL)))) {
+                    return true;
+                }
+                cursor.moveToNext();
+        }
+        return false;
+    }
 }
