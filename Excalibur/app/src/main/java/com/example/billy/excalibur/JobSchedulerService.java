@@ -1,9 +1,17 @@
 package com.example.billy.excalibur;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
@@ -30,13 +38,17 @@ public class JobSchedulerService extends JobService {
     public ArrayList<NewsWireObjects> articleLists;
     public String sections = "all";
     public String chooseMagazineSource = "all";
+    private static final int NOTIFICATION_ID = 1;
+    Context context;
+
+
 
 
     @Override
     public boolean onStartJob(JobParameters params) {
-
+        context = getApplicationContext();
         retrofitLatestNews();
-        return true;  //??????
+        return false;
 
 
     }
@@ -47,6 +59,7 @@ public class JobSchedulerService extends JobService {
     }
 
     public void retrofitLatestNews() {
+        Log.i("JobSchedulerService", "API call was made!");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.nytimes.com/svc/news/v3/content/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -64,14 +77,7 @@ public class JobSchedulerService extends JobService {
                 if (newsWireResults == null) {
                     return;
                 }
-
-                Collections.addAll(articleLists, newsWireResults.getResults());
-
-                if (recyclerView != null) {
-                    recyclerView.setAdapter(recycleAdapter);
-                    ///recycleAdapter.notifyDataSetChanged();
-                }
-
+                setNotifications();
             }
 
             @Override
@@ -79,5 +85,30 @@ public class JobSchedulerService extends JobService {
 
             }
         });
+    }
+
+    /**
+     * this method sets notifications
+     * when system makes api call
+     */
+    private void setNotifications(){
+
+        Intent intent = new Intent(context, MainActivity.class);
+
+        // use System.currentTimeMillis() to have a unique ID for the pending intent
+        PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        mBuilder.setSmallIcon(R.drawable.ic_star_black_24dp);
+        mBuilder.setContentTitle("Notification from Excalibur!");
+        mBuilder.setContentText("New articles available!");
+        mBuilder.setContentIntent(pIntent);
+        mBuilder.setAutoCancel(true);
+        mBuilder.setPriority(Notification.PRIORITY_HIGH);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+
     }
 }
