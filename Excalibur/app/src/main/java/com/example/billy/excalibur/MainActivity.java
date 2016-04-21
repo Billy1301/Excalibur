@@ -31,6 +31,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
@@ -254,12 +256,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(item.getTitle().toString().equals(getString(R.string.stopNotification))) {
                     mJobScheduler.cancelAll();
                     item.setTitle(getString(R.string.startNotification));
-                    Log.i("Nav", "clicked stopped");
+                    Toast.makeText(MainActivity.this, "Stopped Notification", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     callJobScheduler();
                     item.setTitle(getString(R.string.stopNotification));
-                    Log.i("Nav", "notification resume");
+                    Toast.makeText(MainActivity.this, "Start Notfication", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.nav_save:
