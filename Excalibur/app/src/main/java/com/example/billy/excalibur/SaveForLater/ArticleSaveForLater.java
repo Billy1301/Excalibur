@@ -1,6 +1,5 @@
 package com.example.billy.excalibur.SaveForLater;
 
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by petermartinez on 4/20/16.
@@ -15,6 +14,9 @@ public class ArticleSaveForLater {
     private String url;
     private String image;
     private long code;
+
+    public ArticleSaveForLater() {
+    }
 
     public ArticleSaveForLater(String html, String title, String snippet, String url, String image) {
         this.html = html;

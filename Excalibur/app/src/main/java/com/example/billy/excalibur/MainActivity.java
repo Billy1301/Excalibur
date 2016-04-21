@@ -38,6 +38,7 @@ import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListRecycleView;
 import com.example.billy.excalibur.fragment.ArticleStory;
+import com.example.billy.excalibur.fragment.SavedArticleRecycleView;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -292,6 +293,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_share:
                 break;
             case R.id.nav_save:
+                SavedArticleRecycleView savedFrag = new SavedArticleRecycleView();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, savedFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.save_for_later));
                 break;
 
         }

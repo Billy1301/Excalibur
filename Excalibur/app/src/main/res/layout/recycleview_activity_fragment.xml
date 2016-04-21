@@ -11,6 +11,13 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/stories_count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You have zero stories saved"
+        android:visibility="gone"/>
+
 
 
 

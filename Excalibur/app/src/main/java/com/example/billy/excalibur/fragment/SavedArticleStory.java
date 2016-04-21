@@ -3,8 +3,8 @@ package com.example.billy.excalibur.fragment;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,9 +30,9 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
 /**
- * Created by Billy on 4/16/16.
+ * Created by petermartinez on 4/21/16.
  */
-public class ArticleStory extends Fragment {
+public class SavedArticleStory extends Fragment {
 
     ActionMenuItemView share;
     String[] articleDetails;
@@ -58,6 +58,7 @@ public class ArticleStory extends Fragment {
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
         htmlButton = (Button) v.findViewById(R.id.html_button);
+        htmlButton.setText("delete from saved");
 
 
         Bundle article = getArguments();
@@ -159,21 +160,7 @@ public class ArticleStory extends Fragment {
     }
 
 
-    public class MyJavaScriptInterface {
-        @JavascriptInterface
-        @SuppressWarnings("unused")
-        public void showHTML(String html) {
-//            new AlertDialog.Builder(getContext())
-//                    .setTitle("HTML")
-//                    .setMessage(html)
-//                    .setPositiveButton(android.R.string.ok, null)
-//                    .setCancelable(false)
-//                    .create()
-//                    .show();
-            htmlSaveForLater = html;
-            Log.i(TAG, "printing the html " + htmlSaveForLater.substring(0, 50));
-        }
-    }
+
 
     public void setFacebookButton() {
 
@@ -187,25 +174,5 @@ public class ArticleStory extends Fragment {
         }
     }
 
-    private long insertIntoDbFromArticle(ArticleSaveForLater article){
 
-        ContentValues values = new ContentValues();
-        values.put(SaveSQLiteHelper.COL_HTML, article.getHtml());
-        values.put(SaveSQLiteHelper.COL_TITLE, article.getTitle());
-        values.put(SaveSQLiteHelper.COL_URL, article.getUrl());
-        values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
-        values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
-
-        long newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null, values);
-        return newRowId;
-    }
 }
-
-
-
-
-
-
-
-
-
