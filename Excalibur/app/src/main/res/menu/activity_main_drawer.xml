@@ -8,6 +8,10 @@
             android:icon="@android:drawable/ic_dialog_alert"
             android:title="@string/breakingNews" />
         <item
+            android:id="@+id/nav_save"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="@string/save_for_later" />
+        <item
             android:id="@+id/nav_world"
             android:icon="@android:drawable/ic_menu_mapmode"
             android:title="@string/world" />
@@ -58,10 +62,6 @@
                 android:id="@+id/nav_notification_settings"
                 android:icon="@drawable/notification_icon"
                 android:title="@string/stopNotification" />
-            <item
-                android:id="@+id/nav_save"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/save_for_later" />
         </menu>
     </item>
 
