@@ -22,6 +22,8 @@ public interface SearchAPI {
                                               @Query("limit") int limit);
 
 
-    @GET("{q}&sort=newest&hl=true&page=2&api-key=" + Keys.nyTimesFullSearchQueryKey)
-    Call<ArticleSearchDocs> listArticleSearchDocs(@Query("q") String q);
+    @GET("articlesearch.json?&sort=newest&hl=true&api-key=" + Keys.nyTimesFullSearchQueryKey)
+    Call<ArticleSearchResponse> listArticleSearchDocs(@Query("q") String q);
+
+
 }

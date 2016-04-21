@@ -1,24 +1,16 @@
 package com.example.billy.excalibur.NyTimesAPIService;
 
-import com.google.gson.annotations.SerializedName;
-
-/**
+/** Full Db search objects extending Article search objects and setting full article db to breaking
+ * new articles.
  * Created by michaelmuccio on 4/19/16.
  */
-public class ArticleSearchObjects {
+public class ArticleSearchObjects extends NewsWireObjects {
     private String snippet;
     private String web_url;
-    private String lead_paragraph;
-    private String print_headline;
+    private String section_name;
+    private String headline;
 
-    public ArticleSearchObjects(String snippet,
-                                String web_url,
-                                String lead_paragraph,
-                                String print_headline) {
-        this.snippet = snippet;
-        this.web_url = web_url;
-        this.lead_paragraph = lead_paragraph;
-        this.print_headline = print_headline;
+    public ArticleSearchObjects() {
     }
 
     public String getSnippet() {
@@ -29,11 +21,31 @@ public class ArticleSearchObjects {
         return web_url;
     }
 
-    public String getLead_paragraph() {
-        return lead_paragraph;
+    public String getSection_name() {
+        return section_name;
     }
 
     public String getHeadline() {
-        return print_headline;
+        return headline;
+    }
+
+    @Override
+    public String getAbstractResult() {
+        return snippet;
+    }
+
+    @Override
+    public String getTitle() {
+        return headline;
+    }
+
+    @Override
+    public String getUrl() {
+        return web_url;
+    }
+
+    @Override
+    public String getSection() {
+        return section_name;
     }
 }

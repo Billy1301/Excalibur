@@ -1,17 +1,15 @@
 package com.example.billy.excalibur;
 
-import android.content.ClipData;
+import android.app.SearchManager;
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,18 +20,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchObjects;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchResponse;
 
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
-import com.example.billy.excalibur.fragment.ArticleListRecycleView;
+import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
+import com.example.billy.excalibur.fragment.SearchArticlesFragment;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,18 +42,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.Collection;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private final static String TAG = "MainActivity";
+    public final static String SEARCH_KEY = "searchKey";
+    RecyclerView recyclerView;
+    NewsRecyclerAdapter recycleAdapter;
     FrameLayout fragContainer;
     NavigationView navigationView;
     DrawerLayout drawer;
@@ -61,9 +58,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     com.example.billy.excalibur.fragment.ArticleStory articleFragment;
-    com.example.billy.excalibur.fragment.ArticleListRecycleView articleListRecycleView;
+    ArticleListFragment articleListFragment;
     public static ArrayList<NewsWireObjects> articleLists;
     ActionMenuItemView share;
+    SearchView searchView;
+    SearchArticlesFragment searchArticlesFragment;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -75,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String ARTS = "arts";
     private String HEALTH = "health";
     private String SPORTS = "sports";
-    private String HERALD_MAG = "iht";
-    private SearchAPI articleSearchDocs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,35 +87,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
+        handleIntent(getIntent());
+
 
     }
-
-//    private void searchBar(){
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://api.nytimes.com/svc/search/v2/articlesearch.json?")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//        articleSearchDocs = retrofit.create(SearchAPI.class);
-//        Call<ArticleSearchDocs> call = articleSearchDocs.listArticleSearchDocs("taco");
-//        call.enqueue(new Callback<ArticleSearchDocs>() {
-//            @Override
-//            public void onResponse(Call<ArticleSearchDocs> call, Response<ArticleSearchDocs> response) {
-//                ArticleSearchDocs articleSearchDocs = response.body();
-//                if(articleSearchDocs == null){
-//                    return;
-//                }
-//
-//                articleLists = new ArrayList<>();
-//                articleLists.clear();
-//                Collections.addAll(articleLists, articleSearchDocs.getDocs());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ArticleSearchDocs> call, Throwable t) {
-//
-//            }
-//        });
-//    }
 
     public void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
@@ -126,15 +98,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
-        articleListRecycleView = new ArticleListRecycleView();
+        articleListFragment = new ArticleListFragment();
+        searchArticlesFragment = new SearchArticlesFragment();
     }
 
     public void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.frag_container, articleListRecycleView);
+        fragmentTransaction.add(R.id.frag_container, articleListFragment);
         fragmentTransaction.commit();
     }
-
 
     public void setActionBarDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -158,7 +130,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Bundle searchArticleBundle = new Bundle();
+            searchArticleBundle.putString(SEARCH_KEY, query);
+            searchArticlesFragment.setArguments(searchArticleBundle);
+
+            Toast.makeText(MainActivity.this,"Searching for "+ query, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -187,10 +181,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+//    private void searchBar(String query){
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://api.nytimes.com/svc/search/v2/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        articleSearchResponse = retrofit.create(SearchAPI.class);
+//        Call<ArticleSearchResponse> call = articleSearchResponse.listArticleSearchDocs(query);
+//        call.enqueue(new Callback<ArticleSearchResponse>() {
+//            @Override
+//            public void onResponse(Call<ArticleSearchResponse> call, Response<ArticleSearchResponse> response) {
+//                ArticleSearchResponse articleSearchDocs = response.body();
+//                if(articleSearchDocs == null){
+//                    return;
+//                }
+//                ArrayList<ArticleSearchObjects> articleSearch = new ArrayList<>();
+//                articleSearch.addAll((Collection<? extends ArticleSearchObjects>) articleSearchDocs.getResponse());
+//                Log.i(TAG, "Searched Articles: " + articleSearch);
+//
+//                if(recyclerView != null) {
+//                    recyclerView.setAdapter(recycleAdapter);
+//                    recycleAdapter.notifyDataSetChanged();
+//                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+//                }
+//
+//                searchFrag = new ArticleListFragment();
+//                searchFrag.setViews(recyclerView);
+//                fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.replace(R.id.frag_container, searchFrag);
+//                fragmentTransaction.commit();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ArticleSearchResponse> call, Throwable t) {
+//                t.printStackTrace();
+//            }
+//        });
+//    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        ArticleListRecycleView topicFrag = new ArticleListRecycleView();
+        ArticleListFragment topicFrag = new ArticleListFragment();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -259,13 +292,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.arts));
                 break;
-            case R.id.nav_herald_magazine:
-                topicFrag.setChooseMagazineSource(HERALD_MAG);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frag_container, topicFrag);
-                fragmentTransaction.commit();
-                toolbar.setTitle(getString(R.string.herald_mag));
-                break;
             case R.id.nav_science:
                 topicFrag.setSections(SCIENCE);
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -284,5 +310,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }

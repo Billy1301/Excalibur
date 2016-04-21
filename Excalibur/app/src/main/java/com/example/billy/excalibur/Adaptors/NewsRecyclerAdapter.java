@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.R;
 import com.squareup.picasso.Picasso;
@@ -19,15 +21,14 @@ import java.util.ArrayList;
 /**
  * Created by Mikhail on 4/17/16.
  */
-public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
+public class NewsRecyclerAdapter<T extends NewsWireObjects> extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
 
-    ArrayList<NewsWireObjects> data;
-    SearchAPI latestNewsService;
+    ArrayList<T> data;
     private String TAG = "RecyclerViewAdaptor";
     Context context;
     private static OnItemClickListener listener;
 
-    public NewsRecyclerAdapter(ArrayList<NewsWireObjects> data) {
+    public NewsRecyclerAdapter(ArrayList<T> data) {
         this.data = data;
     }
 
@@ -66,7 +67,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
     }
 
-    public void setData(ArrayList<NewsWireObjects> data) {
+    public void setData(ArrayList<T> data) {
         this.data = data;
     }
 

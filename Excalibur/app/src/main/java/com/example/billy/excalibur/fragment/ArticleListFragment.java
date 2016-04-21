@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
+import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchDocs;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
@@ -31,18 +32,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Billy on 4/18/16.
  */
-public class ArticleListRecycleView extends Fragment {
+public class ArticleListFragment extends Fragment {
 
     public final static String TAG = "ArticleRecycleView";
 
-    NewsRecyclerAdapter recycleAdapter;
+    NewsRecyclerAdapter<NewsWireObjects> recycleAdapter;
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
     Toolbar toolbar;
     public ArrayList<NewsWireObjects> articleLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
-    //private int numberOfArticles = 10;
+    private int numberOfArticles = 10;
 
     /**
      * Setter for Nav Drawer filtering API "sections" options
@@ -66,7 +67,7 @@ public class ArticleListRecycleView extends Fragment {
 
         setViews(v);
         articleLists = new ArrayList<>();
-        recycleAdapter = new NewsRecyclerAdapter(articleLists);
+        recycleAdapter = new NewsRecyclerAdapter<>(articleLists);
 
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -96,7 +97,6 @@ public class ArticleListRecycleView extends Fragment {
         return v;
     }
 
-
     private void retrofitLatestNews() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.nytimes.com/svc/news/v3/content/")
@@ -106,7 +106,7 @@ public class ArticleListRecycleView extends Fragment {
         latestNewsService = retrofit.create(SearchAPI.class);
 
         Call<NewsWireResults> call = latestNewsService.listNewsWireResults(chooseMagazineSource,
-                sections, 10);
+                sections, numberOfArticles);
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
@@ -127,7 +127,7 @@ public class ArticleListRecycleView extends Fragment {
 
             @Override
             public void onFailure(Call<NewsWireResults> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
