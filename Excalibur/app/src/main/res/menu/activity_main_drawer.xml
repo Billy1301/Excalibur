@@ -9,47 +9,47 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_breakingNews"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@android:drawable/ic_dialog_map"
             android:title="@string/breakingNews" />
         <item
             android:id="@+id/nav_world"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@android:drawable/ic_menu_preferences"
             android:title="@string/world" />
         <item
             android:id="@+id/nav_us"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@android:drawable/ic_input_get"
             android:title="@string/u_s" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_agenda"
             android:title="@string/business" />
         <item
             android:id="@+id/nav_technology"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_today"
             android:title="@string/technology"/>
         <item
             android:id="@+id/nav_sports"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_info_details"
             android:title="@string/sports" />
         <item
             android:id="@+id/nav_health"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
             android:title="@string/health"/>
         <item
             android:id="@+id/nav_arts"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_always_landscape_portrait"
             android:title="@string/arts" />
         <item
             android:id="@+id/nav_science"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_upload_you_tube"
             android:title="@string/science"/>
         <item
             android:id="@+id/nav_ny_times"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_camera"
             android:title="@string/n_y" />
         <item
             android:id="@+id/nav_herald_magazine"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@android:drawable/ic_menu_view"
             android:title="@string/magazine" />
 
     </group>
@@ -62,7 +62,7 @@
                 android:title="@string/facebookShare" />
             <item
                 android:id="@+id/nav_save"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_mail_black_24dp"
                 android:title="@string/save_for_later" />
         </menu>
     </item>
