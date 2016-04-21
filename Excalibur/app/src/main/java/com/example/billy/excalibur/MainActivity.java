@@ -170,10 +170,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String query = intent.getStringExtra(SearchManager.QUERY);
             searchFrag.setQuery(query);
 
-            Toast.makeText(MainActivity.this,"Searching for "+ query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,getString(R.string.searching_for_toast)+ query, Toast.LENGTH_SHORT).show();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.frag_container, searchFrag);
             fragmentTransaction.commit();
+
+            toolbar.setTitle(R.string.toolbar_search_title);
         }
     }
 
