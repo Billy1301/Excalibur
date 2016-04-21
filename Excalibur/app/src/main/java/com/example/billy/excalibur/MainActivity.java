@@ -7,23 +7,14 @@ import android.content.Intent;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
-import android.app.job.JobService;
-import android.content.BroadcastReceiver;
-import android.content.ClipData;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.view.menu.ActionMenuItemView;
-import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -36,16 +27,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
-import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
-import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
 import com.example.billy.excalibur.fragment.SearchArticlesFragment;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -102,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mJobScheduler.cancelAll();
 //        Log.d("test", "test");
     }
+
+
 
     public void checkNetwork(){
 
@@ -303,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
         JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
                 JobSchedulerService.class.getName()));
-        builder.setPeriodic(6000);
+        builder.setPeriodic(600000);
 
         if (mJobScheduler.schedule(builder.build()) <= 0){
 

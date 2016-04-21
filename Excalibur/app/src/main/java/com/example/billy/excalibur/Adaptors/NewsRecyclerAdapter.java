@@ -105,5 +105,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return data.size();
 
     }
+
+
+
 }
 

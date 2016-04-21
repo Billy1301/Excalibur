@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
@@ -41,6 +43,7 @@ public class ArticleListFragment extends Fragment {
     public ArrayList<NewsWireObjects> breakingNewsLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
+    protected SwipeRefreshLayout swipeContainer;
     private int numberOfArticles = 10;
 
     /**
@@ -64,6 +67,11 @@ public class ArticleListFragment extends Fragment {
         View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
 
         setViews(v);
+        breakingNewsLists = new ArrayList<>();
+        recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
+        swipeContainer = (SwipeRefreshLayout)v.findViewById(R.id.swipeContainer);
+
+        setPullRefresh();
         breakingNewsLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
 
@@ -94,8 +102,25 @@ public class ArticleListFragment extends Fragment {
             }
         });
 
+
         return v;
     }
+
+    private void setPullRefresh(){
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                retrofitLatestNews();
+                Log.i(TAG, "Refreshing list");
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.darker_gray,
+                android.R.color.white);
+
+    }
+
 
     private void retrofitLatestNews() {
         Retrofit retrofit = new Retrofit.Builder()
@@ -111,6 +136,7 @@ public class ArticleListFragment extends Fragment {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
                 NewsWireResults newsWireResults = response.body();
+                swipeContainer.setRefreshing(false);
 
                 if (newsWireResults == null) {
                     return;
