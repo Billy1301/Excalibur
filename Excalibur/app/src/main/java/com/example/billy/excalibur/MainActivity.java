@@ -1,11 +1,27 @@
 package com.example.billy.excalibur;
 
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.app.job.JobService;
+import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -20,8 +36,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireResults;
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
+import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
 import com.example.billy.excalibur.fragment.SearchArticlesFragment;
@@ -44,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SearchArticlesFragment searchFrag;
     public static ArrayList<NewsWireObjects> articleLists;
     SearchView searchView;
-
+    JobScheduler mJobScheduler;
 
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
@@ -65,14 +83,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-        //AppEventsLogger.activateApp(this);
+        AppEventsLogger.activateApp(this);
 
         setViews();
+        checkNetwork();
         setActionBarDrawer();
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
         handleIntent(getIntent());
+
+        callJobScheduler();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mJobScheduler.cancelAll();
+//        Log.d("test", "test");
+    }
+
+    public void checkNetwork(){
+
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(MainActivity.this, "No Network Connection", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -83,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListFragment = new ArticleListFragment();
-
     }
 
     public void setFragment() {
@@ -236,7 +272,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.science));
                 break;
-            case R.id.nav_share:
+            case R.id.nav_notification_settings:
+                if(item.getTitle().toString().equals(getString(R.string.stopNotification))) {
+                    mJobScheduler.cancelAll();
+                    item.setTitle(getString(R.string.startNotification));
+                    Toast.makeText(MainActivity.this, "Stopped Notification", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    callJobScheduler();
+                    item.setTitle(getString(R.string.stopNotification));
+                    Toast.makeText(MainActivity.this, "Start Notfication", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.nav_save:
                 break;
@@ -246,6 +292,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * this method makes API calls
+     * when scheduled
+     */
+    private void callJobScheduler(){
+
+        mJobScheduler = (JobScheduler)getSystemService( Context.JOB_SCHEDULER_SERVICE );
+        JobInfo.Builder builder = new JobInfo.Builder( 1, new ComponentName(getPackageName(),
+                JobSchedulerService.class.getName()));
+        builder.setPeriodic(6000);
+
+        if (mJobScheduler.schedule(builder.build()) <= 0){
+
+        }
+
     }
 
 }

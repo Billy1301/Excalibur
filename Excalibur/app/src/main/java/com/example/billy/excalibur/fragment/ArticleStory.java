@@ -59,7 +59,7 @@ public class ArticleStory extends Fragment {
 
         articleDetails = article.getStringArray("article");
 
-        //setFacebookButton();
+        setFacebookButton();
 
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 
@@ -68,11 +68,11 @@ public class ArticleStory extends Fragment {
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
         articleWebView.loadUrl(articleDetails[2]);
 
-        Log.i(TAG, articleDetails[0]);
-        Log.i(TAG, articleDetails[1]);
-        Log.i(TAG, articleDetails[2]);
-        Log.i(TAG, articleDetails[3]);
-        Log.i(TAG, articleDetails[4]);
+//        Log.i(TAG, articleDetails[0]);
+//        Log.i(TAG, articleDetails[1]);
+//        Log.i(TAG, articleDetails[2]);
+//        Log.i(TAG, articleDetails[3]);
+//        Log.i(TAG, articleDetails[4]);
 
 
         setHasOptionsMenu(true);
@@ -128,18 +128,18 @@ public class ArticleStory extends Fragment {
         }
     }
 
-//    public void setFacebookButton() {
-//
-//        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
-//        ShareLinkContent content = new ShareLinkContent.Builder()
-//                .setContentUrl(Uri.parse(articleDetails[2]))
-//                .build();
-//        if (fbSharebutton != null) {
-//            fbSharebutton.setShareContent(content);
-//            Log.i(TAG, "Share button clicked!");
-//        }
-//
-//    }
+    public void setFacebookButton() {
+
+        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(articleDetails[2]))
+                .build();
+        if (fbSharebutton != null) {
+            fbSharebutton.setShareContent(content);
+            Log.i(TAG, "Share button clicked!");
+        }
+
+    }
 
 }
 

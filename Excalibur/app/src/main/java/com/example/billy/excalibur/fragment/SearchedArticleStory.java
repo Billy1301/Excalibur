@@ -2,6 +2,7 @@ package com.example.billy.excalibur.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.example.billy.excalibur.R;
+import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
 /**
@@ -51,7 +53,7 @@ public class SearchedArticleStory extends Fragment {
 
         articleDetails = article.getString("searchedArticle");
 
-        //setFacebookButton();
+        setFacebookButton();
 
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 
@@ -115,16 +117,16 @@ public class SearchedArticleStory extends Fragment {
         }
     }
 
-//    public void setFacebookButton() {
-//
-//        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
-//        ShareLinkContent content = new ShareLinkContent.Builder()
-//                .setContentUrl(Uri.parse(articleDetails[2]))
-//                .build();
-//        if (fbSharebutton != null) {
-//            fbSharebutton.setShareContent(content);
-//            Log.i(TAG, "Share button clicked!");
-//        }
-//
-//    }
+    public void setFacebookButton() {
+
+        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(articleDetails))
+                .build();
+        if (fbSharebutton != null) {
+            fbSharebutton.setShareContent(content);
+            Log.i(TAG, "Share button clicked!");
+        }
+
+    }
 }
