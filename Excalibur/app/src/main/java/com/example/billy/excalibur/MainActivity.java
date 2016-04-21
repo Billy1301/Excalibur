@@ -275,21 +275,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.arts));
                 break;
-            case R.id.nav_herald_magazine:
-                topicFrag.setChooseMagazineSource(HERALD_MAG);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frag_container, topicFrag);
-                fragmentTransaction.commit();
-                toolbar.setTitle(getString(R.string.herald_mag));
-                break;
             case R.id.nav_science:
                 topicFrag.setSections(SCIENCE);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frag_container, topicFrag);
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.science));
-                break;
-            case R.id.nav_share:
                 break;
             case R.id.nav_save:
                 break;
