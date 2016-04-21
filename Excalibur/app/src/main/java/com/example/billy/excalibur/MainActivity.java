@@ -36,7 +36,11 @@ import android.widget.Toast;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
+
+import com.example.billy.excalibur.fragment.SavedArticleRecycleView;
+
 import com.example.billy.excalibur.fragment.SearchArticlesFragment;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import java.util.ArrayList;
@@ -292,6 +296,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_save:
+                SavedArticleRecycleView savedFrag = new SavedArticleRecycleView();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frag_container, savedFrag);
+                fragmentTransaction.commit();
+                toolbar.setTitle(getString(R.string.save_for_later));
                 break;
 
         }

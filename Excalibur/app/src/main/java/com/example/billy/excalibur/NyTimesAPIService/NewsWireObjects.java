@@ -14,6 +14,7 @@ public class NewsWireObjects {
     @SerializedName("abstract") private String abstractResult;
 
 
+
     public NewsWireObjects() {
     }
 
