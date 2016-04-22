@@ -19,9 +19,7 @@ public interface SearchAPI {
                                               @Path("section") String section,
                                               @Query("limit") int limit);
 
-
     @GET("articlesearch.json?&sort=newest&api-key=" + Keys.nyTimesFullSearchQueryKey)
     Call<ArticleSearch> listArticleSearchDocs(@Query("q") String q);
-
 
 }
