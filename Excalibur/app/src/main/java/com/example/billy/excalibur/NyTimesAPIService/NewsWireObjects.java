@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Mikhail on 4/18/16.
@@ -18,7 +19,7 @@ public class NewsWireObjects {
     private String url;
     private String thumbnail_standard;
     @SerializedName("abstract") private String abstractResult;
-    private long created_date;
+    private String created_date;
     private static final String TAG = "NewsWireObjects ";
 
 
@@ -26,26 +27,13 @@ public class NewsWireObjects {
     public NewsWireObjects() {
     }
 
-    public NewsWireObjects(String section, String title, String url, String thumbnail_standard, String abstractResult, String created_date) throws java.text.ParseException {
+    public NewsWireObjects(String section, String title, String url, String thumbnail_standard, String abstractResult, String created_date) {
         this.section = section;
         this.title = title;
         this.url = url;
         this.thumbnail_standard = thumbnail_standard;
         this.abstractResult = abstractResult;
-        String givenDateString = created_date;
-//                "Tue Apr 23 16:08:28 GMT+05:30 2013";
-        Log.i(TAG, created_date);
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss z");
-
-        long timeInMillis =0;
-        try {
-            Date mDate = sdf.parse(givenDateString);
-            timeInMillis = mDate.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Log.i(TAG, String.valueOf(timeInMillis));
-        this.created_date = timeInMillis; //"created_date": "2016-04-22T07:19:19-04:00"
+        this.created_date = created_date;
     }
 
 
@@ -70,6 +58,18 @@ public class NewsWireObjects {
     }
 
     public long getCreated_date() {
-        return created_date;
+        Log.i(TAG, created_date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+
+        long timeInMillis = 0;
+        try {
+            Date mDate = sdf.parse(created_date);
+            timeInMillis = mDate.getTime();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, String.valueOf(timeInMillis));
+        //"created_date": "2016-04-22T07:19:19-04:00"
+        return timeInMillis;
     }
 }

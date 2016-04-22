@@ -85,7 +85,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         long timeStamp = System.currentTimeMillis();
         holder.headline.setText(data.get(position).getTitle());
         holder.articleAbstract.setText(data.get(position).getAbstractResult());
-        holder.ago.setText("posted " + getBiggestUnitTimeElapsed(data.get(position).getCreated_date(), timeStamp) + " ago");
+        String agoText = "posted " + getBiggestUnitTimeElapsed(data.get(position).getCreated_date(), timeStamp) + " ago";
+        holder.ago.setText(agoText);
 
 
         String imageURI = data.get(position).getThumbnail_standard();

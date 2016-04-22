@@ -13,11 +13,11 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.support.v4.app.ActivityCompat;
-=======
+
 import android.provider.Settings;
->>>>>>> a2fd0abbd0b3ee0973fb60fb36e403ba72d44b45
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
