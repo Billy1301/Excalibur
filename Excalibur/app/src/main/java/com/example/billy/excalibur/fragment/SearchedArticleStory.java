@@ -28,7 +28,7 @@ import com.facebook.share.widget.ShareButton;
  */
 public class SearchedArticleStory extends Fragment {
     ActionMenuItemView share;
-    String articleDetails;
+    String[] articleDetails;
     View v;
     ShareButton fbSharebutton;
 
@@ -51,7 +51,7 @@ public class SearchedArticleStory extends Fragment {
 
         Bundle article = getArguments();
 
-        articleDetails = article.getString("searchedArticle");
+        articleDetails = article.getStringArray("searchedArticle");
 
         setFacebookButton();
 
@@ -60,9 +60,9 @@ public class SearchedArticleStory extends Fragment {
         WebSettings webSettings = articleWebView.getSettings();
         articleWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
-        articleWebView.loadUrl(articleDetails);
+        articleWebView.loadUrl(articleDetails[1]);
 
-        Log.i(TAG, articleDetails);
+        Log.i(TAG, articleDetails[1]);
 
         setHasOptionsMenu(true);
 
@@ -121,7 +121,7 @@ public class SearchedArticleStory extends Fragment {
 
         fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(articleDetails))
+                .setContentUrl(Uri.parse(articleDetails[1]))
                 .build();
         if (fbSharebutton != null) {
             fbSharebutton.setShareContent(content);
