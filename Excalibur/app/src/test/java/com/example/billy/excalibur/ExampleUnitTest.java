@@ -13,7 +13,7 @@ public class ExampleUnitTest {
 
         @Test
     public void checkNewsWireObjects() {
-        NewsWireObjects section = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info");
+        NewsWireObjects section = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info", "dated: 12:25");
 
         String expected = "Section Name";
         String actual = section.getSection();
@@ -23,7 +23,7 @@ public class ExampleUnitTest {
 
     @Test
     public void checkNewsWireHeadline() {
-        NewsWireObjects headline = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info");
+        NewsWireObjects headline = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info","dated: 12:25");
 
         String expected = "Headline Title";
         String actual = headline.getTitle();
@@ -34,7 +34,7 @@ public class ExampleUnitTest {
 
     @Test
     public void checkNewsWireURL() {
-        NewsWireObjects url = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info");
+        NewsWireObjects url = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info","dated: 12:25");
 
         String expected = "www.http.com";
         String actual = url.getUrl();
@@ -45,7 +45,7 @@ public class ExampleUnitTest {
 
     @Test
     public void checkNewsWireDrawable() {
-        NewsWireObjects drawable = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info");
+        NewsWireObjects drawable = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info","dated: 12:25");
 
         String expected = "drawable.launcher";
         String actual = drawable.getThumbnail_standard();
