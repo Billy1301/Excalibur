@@ -100,15 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         articleLists = new ArrayList<>();
         setFragment();
-
-
-
-
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
-        headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
-        headerImage = (ImageView) headerView.findViewById(R.id.imageView);
         runAnimation();
         handleIntent(getIntent());
     }
