@@ -39,9 +39,8 @@ public class SavedArticleStory extends Fragment {
 
     ActionMenuItemView share;
     String[] articleDetails;
-    View v;
-    ShareButton fbSharebutton;
-
+    private View v;
+    private ShareButton fbSharebutton;
 
     private static final String TAG = "Saved Article Fragment";
     private ProgressBar progress;
@@ -61,6 +60,8 @@ public class SavedArticleStory extends Fragment {
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
+        fbSharebutton = (ShareButton)v.findViewById(R.id.share_btn);
+        fbSharebutton.setVisibility(View.GONE);
 
         Bundle article = getArguments();
         articleDetails = article.getStringArray("article");
@@ -77,10 +78,7 @@ public class SavedArticleStory extends Fragment {
         cursor.close();
 
         articleWebView.loadDataWithBaseURL("", articleSaved.getHtml(), "text/html", "UTF-8", "");
-
-
         setHasOptionsMenu(true);
-
         return v;
 
     }
