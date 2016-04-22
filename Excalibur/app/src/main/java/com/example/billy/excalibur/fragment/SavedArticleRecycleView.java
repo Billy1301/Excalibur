@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by petermartinez on 4/21/16.
  */
 public class SavedArticleRecycleView extends Fragment {
-    public final static int savedArticleLimit = 25;
+    public final static int savedArticleLimit = 15;
     public ArrayList<ArticleSaveForLater> articleLists;
 
     private SavedRecyclerAdapter recycleAdapter;
