@@ -13,6 +13,7 @@ You will be able to click on an interest news and pull up the full context and r
 
 You have the options to share with multiple options by clicking the share icon on top right or share straight to Facebook with by the Facebook icon.
 
+When your device is not connected to the network, it will direct you to your settings.
 
 
 
