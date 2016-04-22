@@ -35,6 +35,8 @@
     <string name="startNotification">Включить оповещения</string>
     <string name="searching_for_toast">"Поиск "</string>
     <string name="toolbar_search_title">Поиск</string>
+    <string name="network_check">Отсутствует соединение с интернетом</string>
+
 
 </resources>
 

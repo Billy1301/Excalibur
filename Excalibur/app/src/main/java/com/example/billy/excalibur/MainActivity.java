@@ -28,14 +28,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
 import com.example.billy.excalibur.fragment.SavedArticleRecycleView;
 import com.example.billy.excalibur.fragment.SearchArticlesFragment;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String ARTS = "arts";
     private String HEALTH = "health";
     private String SPORTS = "sports";
-    //endregion Private Variables
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,10 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
+
         return super.onOptionsItemSelected(item);
     }
 

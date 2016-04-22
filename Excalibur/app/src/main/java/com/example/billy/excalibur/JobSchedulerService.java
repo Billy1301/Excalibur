@@ -47,7 +47,6 @@ public class JobSchedulerService extends JobService {
         retrofitLatestNews();
         return false;
 
-
     }
 
     @Override
@@ -77,9 +76,6 @@ public class JobSchedulerService extends JobService {
                 if (newsWireResults == null) {
                     return;
                 }
-//                for (int i = articleLists.size(); i < 9; i++){
-//                    articleLists.get(i).getTitle();
-//                }
                 setNotifications();
             }
 
@@ -98,7 +94,6 @@ public class JobSchedulerService extends JobService {
 
         Intent intent = new Intent(context, MainActivity.class);
 
-        // use System.currentTimeMillis() to have a unique ID for the pending intent
         PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
