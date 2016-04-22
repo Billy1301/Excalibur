@@ -41,6 +41,7 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
         TextView headline;
         ImageView imageIcon;
         TextView articleAbstract;
+        TextView ago;
         Doc doc;
 
         public NewsRecyclerViewHolder(final View itemView) {
@@ -49,6 +50,7 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
             headline = (TextView) itemView.findViewById(R.id.headline);
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
+            ago = (TextView)itemView.findViewById(R.id.ago);
             doc = new Doc();
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -79,9 +81,15 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
 
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
-        //TODO: Set our textView to our data - News object
+        long timeStamp = System.currentTimeMillis();
         holder.headline.setText(data.get(position).getHeadline().getMain());
         holder.articleAbstract.setText(data.get(position).getLead_paragraph());
+        String agoText = NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp);
+        if(agoText.isEmpty()) {
+            holder.ago.setText("published today");
+        } else {
+            holder.ago.setText("published " + NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getPub_date(), timeStamp) + " ago");
+        }
 
         String imageURI = null;
         Multimedia[] multiMedia = data.get(position).getMultimedia();
@@ -98,8 +106,6 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
                     .resize(100, 100)
                     .centerCrop()
                     .into(holder.imageIcon);
-
-        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
     }
 
     @Override

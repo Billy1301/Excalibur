@@ -9,7 +9,15 @@ import android.content.ComponentName;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+
+
+import android.support.v4.app.ActivityCompat;
+
 import android.provider.Settings;
+
+
+import android.provider.Settings;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
@@ -81,6 +89,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkNetwork();
         setActionBarDrawer();
         setFragment();
+
+
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
+        headerImage = (ImageView) headerView.findViewById(R.id.imageView);
+
         runAnimation();
         handleIntent(getIntent());
     }
@@ -93,10 +110,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     /**
      * checking if network is available
      * when not on, it will display a notice and direct them to settings
      */
+
     public void checkNetwork(){
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
