@@ -9,7 +9,6 @@ public class ArticleSearch {
     public Response getResponse() {
         return response;
     }
-
 }
 
 

@@ -19,10 +19,6 @@ public class Doc {
         return web_url;
     }
 
-    public String getSection_name() {
-        return section_name;
-    }
-
     public Headlines getHeadline() {
         return headline;
     }
@@ -30,4 +26,5 @@ public class Doc {
     public Multimedia[] getMultimedia() {
         return multimedia;
     }
+
 }

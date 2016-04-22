@@ -5,26 +5,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.ArticleSearch;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Doc;
-import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.Multimedia;
+import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.R;
+import com.example.billy.excalibur.SaveForLater.ArticleSaveForLater;
 import com.squareup.picasso.Picasso;
+import com.example.billy.excalibur.NyTimesAPIService.SearchAPI;
 
 import java.util.ArrayList;
 
 /**
- * Created by michaelmuccio on 4/21/16.
+ * Created by Mikhail on 4/17/16.
  */
-public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdapter.NewsRecyclerViewHolder> {
-    ArrayList<Doc> data;
+public class SavedRecyclerAdapter extends RecyclerView.Adapter<SavedRecyclerAdapter.SavedRecyclerViewHolder> {
+
+    ArrayList<ArticleSaveForLater> data;
+    private String TAG = "SavedRecyclerViewAdaptor";
     Context context;
     private static OnItemClickListener listener;
 
-    public SearchArticleAdapter(ArrayList<Doc> data) {
+    public SavedRecyclerAdapter(ArrayList<ArticleSaveForLater> data) {
         this.data = data;
     }
 
@@ -36,20 +39,20 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
         this.listener = listener;
     }
 
-    public class NewsRecyclerViewHolder extends RecyclerView.ViewHolder {
+    public class SavedRecyclerViewHolder extends RecyclerView.ViewHolder {
 
         TextView headline;
         ImageView imageIcon;
         TextView articleAbstract;
-        Doc doc;
+        ArticleSaveForLater articlesSaved;
 
-        public NewsRecyclerViewHolder(final View itemView) {
+        public SavedRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
-            doc = new Doc();
+            articlesSaved = new ArticleSaveForLater();
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,44 +66,40 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
 
     }
 
-    public void setData(ArrayList<Doc> data) {
+    public void setData(ArrayList<ArticleSaveForLater> data) {
         this.data = data;
     }
 
     @Override
-    public NewsRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SavedRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recyclerview_layout, parent, false);
-        NewsRecyclerViewHolder vh = new NewsRecyclerViewHolder(view);
+        SavedRecyclerViewHolder vh = new SavedRecyclerViewHolder(view);
 
         return vh;
     }
 
-
     @Override
-    public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(SavedRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
-        holder.headline.setText(data.get(position).getHeadline().getMain());
-        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
+        holder.headline.setText(data.get(position).getTitle());
+        holder.articleAbstract.setText(data.get(position).getSnippet());
 
-        String imageURI = null;
-        Multimedia[] multiMedia = data.get(position).getMultimedia();
-        if(multiMedia != null && multiMedia.length > 0) {
-             imageURI = multiMedia[0].getUrl();
+
+        String imageURI = data.get(position).getImage();
+        if(imageURI.isEmpty()){
+            imageURI = "R.drawable.nyt_icon";
         }
-            if (imageURI == null) {
-                imageURI = "R.drawable.nyt_icon";
-            }
 
-            Picasso.with(context)
-                    .load("http://nytimes.com/" + imageURI)
-                    .placeholder(R.drawable.nyt_icon)
-                    .resize(100, 100)
-                    .centerCrop()
-                    .into(holder.imageIcon);
+        Picasso.with(context)
+                .load(imageURI)
+                .placeholder(R.drawable.nyt_icon)
+                .resize(100, 100)
+                .centerCrop()
+                .into(holder.imageIcon);
+        holder.articleAbstract.setText(data.get(position).getSnippet());
 
-        holder.articleAbstract.setText(data.get(position).getLead_paragraph());
     }
 
     @Override
@@ -109,3 +108,4 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
 
     }
 }
+

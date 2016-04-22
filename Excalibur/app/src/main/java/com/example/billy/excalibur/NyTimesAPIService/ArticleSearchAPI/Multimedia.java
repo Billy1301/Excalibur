@@ -9,4 +9,5 @@ public class Multimedia {
     public String getUrl() {
         return url;
     }
+
 }
