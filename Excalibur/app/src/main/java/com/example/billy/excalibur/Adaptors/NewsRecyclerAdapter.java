@@ -41,22 +41,16 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         ImageView imageIcon;
         TextView articleAbstract;
         TextView ago;
-        NewsWireObjects newsWireObjects;
-
 
         public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
-
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
             ago = (TextView) itemView.findViewById(R.id.ago);
-            newsWireObjects = new NewsWireObjects();
-
             imageIcon = (ImageView) itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView) itemView.findViewById(R.id.article_info_cardview);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
