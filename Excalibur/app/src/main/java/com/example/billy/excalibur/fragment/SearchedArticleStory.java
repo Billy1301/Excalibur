@@ -174,7 +174,7 @@ public class SearchedArticleStory extends Fragment {
                 values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
                 values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
                 newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null, values);
-                Toast.makeText(getContext(), "You saved " + ArticleSaveForLater.titleForToast(article.getTitle()), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "You saved " + article.getTitle(), Toast.LENGTH_LONG).show();
             } else if (isUniqueArticle == -1) {
                 Toast.makeText(getContext(), "Out of Space! Delete some old articles", Toast.LENGTH_LONG).show();
             } else {
