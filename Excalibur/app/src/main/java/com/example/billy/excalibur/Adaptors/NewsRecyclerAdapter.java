@@ -43,20 +43,13 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         TextView ago;
 
 
-
         public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
-
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
             ago = (TextView) itemView.findViewById(R.id.ago);
-
-
-            imageIcon = (ImageView) itemView.findViewById(R.id.cardView_image);
-            articleAbstract = (TextView) itemView.findViewById(R.id.article_info_cardview);
-
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
