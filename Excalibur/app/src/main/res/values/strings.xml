@@ -37,6 +37,7 @@
     <string name="startNotification">Start Notifications</string>
     <string name="searching_for_toast">"Searching for "</string>
     <string name="toolbar_search_title">Search</string>
+    <string name="network_check">No Network Connection Detected</string>
 
 
 </resources>
