@@ -69,11 +69,9 @@ public class ArticleListFragment extends Fragment {
         breakingNewsLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
         swipeContainer = (SwipeRefreshLayout)v.findViewById(R.id.swipeContainer);
-
         setPullRefresh();
         breakingNewsLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
-
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleAdapterItemClicker();

@@ -19,7 +19,6 @@ public class ExampleUnitTest {
         String actual = section.getSection();
 
         assertEquals(expected, actual);
-
     }
 
     @Test
@@ -38,7 +37,7 @@ public class ExampleUnitTest {
         NewsWireObjects url = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info");
 
         String expected = "www.http.com";
-        String actual = url.getTitle();
+        String actual = url.getUrl();
 
         assertEquals(expected, actual);
 
@@ -49,7 +48,7 @@ public class ExampleUnitTest {
         NewsWireObjects drawable = new NewsWireObjects("Section Name", "Headline Title", "www.http.com", "drawable.launcher", "article info");
 
         String expected = "drawable.launcher";
-        String actual = drawable.getTitle();
+        String actual = drawable.getThumbnail_standard();
 
         assertEquals(expected, actual);
 

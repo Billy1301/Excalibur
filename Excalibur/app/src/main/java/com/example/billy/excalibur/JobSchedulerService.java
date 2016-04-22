@@ -40,14 +40,11 @@ public class JobSchedulerService extends JobService {
     Context context;
     NewsWireResults newsWireResults;
 
-
     @Override
     public boolean onStartJob(JobParameters params) {
         context = getApplicationContext();
         retrofitLatestNews();
         return false;
-
-
     }
 
     @Override
@@ -77,9 +74,6 @@ public class JobSchedulerService extends JobService {
                 if (newsWireResults == null) {
                     return;
                 }
-//                for (int i = articleLists.size(); i < 9; i++){
-//                    articleLists.get(i).getTitle();
-//                }
                 setNotifications();
             }
 
