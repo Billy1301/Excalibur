@@ -106,13 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mJobScheduler.cancelAll();
-//        Log.d("test", "test");
-    }
-
 
     public void checkNetwork(){
 
