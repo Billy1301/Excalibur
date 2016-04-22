@@ -1,10 +1,10 @@
 package com.example.billy.excalibur.NyTimesAPIService;
 
 
+import com.example.billy.excalibur.keys.Keys;
 
 
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.ArticleSearch;
-import com.example.billy.excalibur.keys.Keys;
 
 
 import retrofit2.Call;

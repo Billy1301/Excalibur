@@ -82,4 +82,13 @@ public class ArticleSaveForLater {
     public void setCode(long code) {
         this.code = code;
     }
+
+    public static String titleForToast(String title){
+        int titleLength = title.length();
+        int limit = 30;
+        if(titleLength > limit) {
+            titleLength = limit;
+        }
+        return title.substring(0,titleLength) + "...";
+    }
 }

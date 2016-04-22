@@ -44,14 +44,16 @@ public class SavedRecyclerAdapter extends RecyclerView.Adapter<SavedRecyclerAdap
         TextView headline;
         ImageView imageIcon;
         TextView articleAbstract;
+        TextView ago;
         ArticleSaveForLater articlesSaved;
 
         public SavedRecyclerViewHolder(final View itemView) {
             super(itemView);
 
-            headline = (TextView) itemView.findViewById(R.id.headline);
-            imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
-            articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
+            headline = (TextView) itemView.findViewById(R.id.saved_headline);
+            imageIcon = (ImageView)itemView.findViewById(R.id.saved_cardView_image);
+            articleAbstract = (TextView)itemView.findViewById(R.id.saved_article_info_cardview);
+            ago = (TextView)itemView.findViewById(R.id.saved_ago);
             articlesSaved = new ArticleSaveForLater();
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +76,7 @@ public class SavedRecyclerAdapter extends RecyclerView.Adapter<SavedRecyclerAdap
     public SavedRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recyclerview_layout, parent, false);
+        View view = inflater.inflate(R.layout.save_recyclerview_layout, parent, false);
         SavedRecyclerViewHolder vh = new SavedRecyclerViewHolder(view);
 
         return vh;
@@ -82,9 +84,10 @@ public class SavedRecyclerAdapter extends RecyclerView.Adapter<SavedRecyclerAdap
 
     @Override
     public void onBindViewHolder(SavedRecyclerViewHolder holder, int position) {
-        //TODO: Set our textView to our data - News object
+        long timeStamp = System.currentTimeMillis();
         holder.headline.setText(data.get(position).getTitle());
         holder.articleAbstract.setText(data.get(position).getSnippet());
+        holder.ago.setText("saved " + NewsRecyclerAdapter.getBiggestUnitTimeElapsed(data.get(position).getCode(), timeStamp) + " ago");
 
 
         String imageURI = data.get(position).getImage();
@@ -95,7 +98,7 @@ public class SavedRecyclerAdapter extends RecyclerView.Adapter<SavedRecyclerAdap
         Picasso.with(context)
                 .load(imageURI)
                 .placeholder(R.drawable.nyt_icon)
-                .resize(100, 100)
+                .resize(160, 160)
                 .centerCrop()
                 .into(holder.imageIcon);
         holder.articleAbstract.setText(data.get(position).getSnippet());

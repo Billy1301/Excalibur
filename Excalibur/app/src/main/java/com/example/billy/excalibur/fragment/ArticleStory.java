@@ -21,7 +21,6 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -46,6 +45,7 @@ public class ArticleStory extends Fragment {
     private WebView articleWebView;
     private String htmlSaveForLater;
     private SQLiteDatabase db;
+    private MenuItem saveLater;
 
     /**
      * user interface to callback for fragment
@@ -57,6 +57,7 @@ public class ArticleStory extends Fragment {
 
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
+
 
         Bundle article = getArguments();
 
@@ -75,21 +76,6 @@ public class ArticleStory extends Fragment {
         SaveSQLiteHelper mDbHelper = SaveSQLiteHelper.getInstance(getContext());
         db = mDbHelper.getWritableDatabase();
 
-//        Log.i(TAG, articleDetails[0]);
-//        Log.i(TAG, articleDetails[1]);
-//        Log.i(TAG, articleDetails[2]);
-//        Log.i(TAG, articleDetails[3]);
-//        Log.i(TAG, articleDetails[4]);
-
-//        htmlButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
-//                insertIntoDbFromArticle(article);
-//            }
-//        });
-
-
         setHasOptionsMenu(true);
 
         return v;
@@ -99,6 +85,7 @@ public class ArticleStory extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_fragment, menu);
+        saveLater = (MenuItem) menu.findItem(R.id.save_later);
 
     }
 
@@ -118,6 +105,7 @@ public class ArticleStory extends Fragment {
         } else if(id == R.id.save_later){
             ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
             insertIntoDbFromArticle(article);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -128,6 +116,7 @@ public class ArticleStory extends Fragment {
     private class WebViewClientDemo extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
             progress.setVisibility(View.VISIBLE);
             view.loadUrl(url);
             return true;
@@ -138,13 +127,15 @@ public class ArticleStory extends Fragment {
             super.onPageFinished(view, url);
             articleWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
             progress.setVisibility(View.GONE);
-//            htmlButton.setVisibility(View.VISIBLE);
+            saveLater.setVisible(true);
+
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             progress.setVisibility(View.VISIBLE);
+            saveLater.setVisible(false);
         }
     }
 
@@ -153,15 +144,7 @@ public class ArticleStory extends Fragment {
         @JavascriptInterface
         @SuppressWarnings("unused")
         public void showHTML(String html) {
-//            new AlertDialog.Builder(getContext())
-//                    .setTitle("HTML")
-//                    .setMessage(html)
-//                    .setPositiveButton(android.R.string.ok, null)
-//                    .setCancelable(false)
-//                    .create()
-//                    .show();
             htmlSaveForLater = html;
-            Log.i(TAG, "printing the html " + htmlSaveForLater.substring(0, 50));
         }
     }
 
@@ -182,25 +165,23 @@ public class ArticleStory extends Fragment {
 
         Cursor cursor;
         cursor = SaveSQLiteHelper.getInstance(getContext()).getAllSavedArticles();
-        boolean isUniqueArticle = SaveSQLiteHelper.checkURLforDuplicate(article.getUrl(), cursor);
+        int isUniqueArticle = SaveSQLiteHelper.checkURLforDuplicate(article.getUrl(), cursor);
         cursor.close();
 
-        if(isUniqueArticle == false) {
+        if(isUniqueArticle == 0) {
             ContentValues values = new ContentValues();
             values.put(SaveSQLiteHelper.COL_HTML, article.getHtml());
             values.put(SaveSQLiteHelper.COL_TITLE, article.getTitle());
             values.put(SaveSQLiteHelper.COL_URL, article.getUrl());
+            values.put(SaveSQLiteHelper.COL_SNIPPET, article.getSnippet());
             values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
             values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
             newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null, values);
-            int titleLength = article.getTitle().length();
-            if(titleLength > 20) {
-                titleLength = 20;
-            }
-            String titleShort = article.getTitle().substring(0,titleLength) + "...";
-            Toast.makeText(getContext(), "You saved " + titleShort, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "You saved " + ArticleSaveForLater.titleForToast(article.getTitle()), Toast.LENGTH_LONG).show();
+        } else if (isUniqueArticle == -1) {
+            Toast.makeText(getContext(), "Out of Space! Delete some old articles", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getContext(), "You have already saved this story!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "You have already saved this article!", Toast.LENGTH_SHORT).show();
         }
         return newRowId;
 
