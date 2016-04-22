@@ -77,7 +77,15 @@ public class ArticleListFragment extends Fragment {
 
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recycleAdapterItemClicker();
 
+        return v;
+    }
+
+    /**
+     * Set the itemClicker for the recycleView
+     */
+    private void recycleAdapterItemClicker(){
         recycleAdapter.setOnItemClickListener(new NewsRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -101,17 +109,18 @@ public class ArticleListFragment extends Fragment {
                 transaction.commit();
             }
         });
-
-
-        return v;
     }
+
+
+    /**
+     * this re-run the api call to check new articles
+     */
 
     private void setPullRefresh(){
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 retrofitLatestNews();
-                Log.i(TAG, "Refreshing list");
             }
         });
 
@@ -121,6 +130,10 @@ public class ArticleListFragment extends Fragment {
 
     }
 
+    /**
+     * this will pull a list of articles according to the navi bar topics
+     * default will pull all topics
+     */
 
     private void retrofitLatestNews() {
         Retrofit retrofit = new Retrofit.Builder()

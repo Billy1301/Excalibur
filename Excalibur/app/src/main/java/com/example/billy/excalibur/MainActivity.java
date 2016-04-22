@@ -6,19 +6,20 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.v4.app.ActivityCompat;
+=======
+import android.provider.Settings;
+>>>>>>> a2fd0abbd0b3ee0973fb60fb36e403ba72d44b45
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -40,35 +41,36 @@ import android.widget.Toast;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
 import com.example.billy.excalibur.fragment.ArticleListFragment;
 import com.example.billy.excalibur.fragment.ArticleStory;
-
 import com.example.billy.excalibur.fragment.SavedArticleRecycleView;
-
 import com.example.billy.excalibur.fragment.SearchArticlesFragment;
-
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private final static String TAG = "MainActivity";
     public static String SEARCH_KEY = "searchKey";
-    FrameLayout fragContainer;
-    NavigationView navigationView;
-    DrawerLayout drawer;
-    Toolbar toolbar;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    com.example.billy.excalibur.fragment.ArticleStory articleFragment;
-    ArticleListFragment articleListFragment;
-    SearchArticlesFragment searchFrag;
     public static ArrayList<NewsWireObjects> articleLists;
-    SearchView searchView;
-    JobScheduler mJobScheduler;
-    TextView headerText;
-    ImageView headerImage;
 
+    //region Private Variables
+    private final static String TAG = "MainActivity";
+    private FrameLayout fragContainer;
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
+    private Toolbar toolbar;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private ArticleStory articleFragment;
+    private ArticleListFragment articleListFragment;
+    private SearchArticlesFragment searchFrag;
+    private SearchView searchView;
+    private JobScheduler mJobScheduler;
+    private TextView headerText;
+    private ImageView headerImage;
+    private View headerView;
     private String BREAKING_NEWS = "all";
     private String BUSINESS_DAY = "business day";
     private String WORLD = "world";
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String ARTS = "arts";
     private String HEALTH = "health";
     private String SPORTS = "sports";
+    //endregion Private Variables
 
 
     @Override
@@ -106,30 +109,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
         headerImage = (ImageView) headerView.findViewById(R.id.imageView);
 
+
         runAnimation();
         handleIntent(getIntent());
-        //callJobScheduler();
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mJobScheduler.cancelAll();
-//        Log.d("test", "test");
+        if(mJobScheduler !=null){
+            mJobScheduler.cancelAll();
+        }
     }
 
 
-
+    /**
+     * checking if network is available
+     * when not on, it will display a notice and direct them to settings
+     */
 
     public void checkNetwork(){
-
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            Toast.makeText(MainActivity.this, "No Network Connection", Toast.LENGTH_SHORT).show();
-        }
 
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                    startActivity(intent);
+                }
+            }, 1600);
+
+            Toast.makeText(MainActivity.this, "No Network Connection Detected", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void setViews() {
@@ -139,6 +152,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
         articleFragment = new ArticleStory();
         articleListFragment = new ArticleListFragment();
+        headerView = navigationView.getHeaderView(0);
+        headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
+        headerImage = (ImageView) headerView.findViewById(R.id.imageView);
     }
 
     public void setFragment() {
@@ -164,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -176,6 +193,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
+
+    /**
+     * This is for the search option
+     * @param intent
+     */
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -200,19 +222,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-
         //noinspection SimplifiableIfStatement
 //        if (id == R.id.action_settings) {
 //            return true;
 //        }
-
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -258,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setTitle(getString(R.string.health));
                 break;
             case R.id.nav_ny_times:
-                Log.i(TAG, "Nav gallery clicked");
                 topicFrag.setChooseMagazineSource(NY_TIMES);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frag_container, topicFrag);
@@ -321,8 +338,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
-     * this method makes API calls
-     * when scheduled
+     * this method makes API calls at a pre-set time
+     *
      */
     private void callJobScheduler() {
 
@@ -332,9 +349,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         builder.setPeriodic(600000);
 
         if (mJobScheduler.schedule(builder.build()) <= 0) {
-
         }
-
     }
 
     /**
@@ -345,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerImage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.i(TAG, "Image is clicked!");
+               // Log.i(TAG, "Image is clicked!");
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.complex_animation);
                 animation.reset();
                 headerText.clearAnimation();
