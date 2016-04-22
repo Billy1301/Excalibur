@@ -39,7 +39,6 @@ public class JobSchedulerService extends JobService {
     private static final int NOTIFICATION_ID = 1;
     Context context;
     NewsWireResults newsWireResults;
-    public int position;
 
 
     @Override
@@ -74,8 +73,6 @@ public class JobSchedulerService extends JobService {
 
                 articleLists = new ArrayList<>();
                 Collections.addAll(articleLists, newsWireResults.getResults());
-
-                position = articleLists.size();
 
                 if (newsWireResults == null) {
                     return;

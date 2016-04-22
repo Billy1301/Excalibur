@@ -41,21 +41,19 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         TextView headline;
         ImageView imageIcon;
         TextView articleAbstract;
-        NewsWireObjects newsWireObjects;
 
         public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
-            imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
-            articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
-            newsWireObjects = new NewsWireObjects();
+            imageIcon = (ImageView) itemView.findViewById(R.id.cardView_image);
+            articleAbstract = (TextView) itemView.findViewById(R.id.article_info_cardview);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-            public void onClick(View v) {
+                public void onClick(View v) {
                     if (listener != null)
-                    listener.onItemClick(itemView, getLayoutPosition());
+                        listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
 
@@ -63,9 +61,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
     }
 
-    public void setData(ArrayList<NewsWireObjects> data) {
-        this.data = data;
-    }
 
     @Override
     public NewsRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -86,7 +81,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
 
         String imageURI = data.get(position).getThumbnail_standard();
-        if(imageURI.isEmpty()){
+        if (imageURI.isEmpty()) {
             imageURI = "R.drawable.nyt_icon";
         }
 
@@ -105,7 +100,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return data.size();
 
     }
-
 
 
 }

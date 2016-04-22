@@ -36,7 +36,6 @@ import com.facebook.share.widget.ShareButton;
  */
 public class ArticleStory extends Fragment {
 
-    ActionMenuItemView share;
     String[] articleDetails;
     View v;
     ShareButton fbSharebutton;
