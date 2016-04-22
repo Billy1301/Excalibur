@@ -87,7 +87,7 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
         String imageURI = null;
         Multimedia[] multiMedia = data.get(position).getMultimedia();
         if(multiMedia != null && multiMedia.length > 0) {
-             imageURI = multiMedia[1].getUrl();
+             imageURI = multiMedia[0].getUrl();
         }
             if (imageURI == null) {
                 imageURI = "R.drawable.nyt_icon";

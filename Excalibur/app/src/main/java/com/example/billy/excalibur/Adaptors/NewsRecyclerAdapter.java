@@ -103,7 +103,31 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
     @Override
     public int getItemCount() {
         return data.size();
+    }
 
+    public static String getBiggestUnitTimeElapsed(long timeStamp, long nowStamp){
+        String time = "";
+        long different = nowStamp - timeStamp;
+        String[] unit = {"year", "month", "day", "hour", "minute", "second"};
+        int numberOfUnits = unit.length;
+        long[] multiple = {31536000000l, 2592000000l, 86400000l, 3600000l, 60000l, 1000l}; //units in millis
+        long[] coef = {0,0,0,0,0,0};
+//        String[] coefUnit = new String[6];
+        for(int i = 0; i < numberOfUnits; i++){
+            coef[i] = different / multiple[i];
+            different = different % multiple[i];
+        }
+
+        for(int i = 0; i < numberOfUnits; i++){
+            if(coef[i] > 0) {
+                time = coef[i] + " " + unit[i];
+                if(coef[i] > 1){
+                    time = time + "s";
+                    break;
+                }
+            }
+        }
+        return time;
     }
 
 

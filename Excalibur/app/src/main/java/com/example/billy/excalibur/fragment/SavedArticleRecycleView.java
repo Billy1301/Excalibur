@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class SavedArticleRecycleView extends Fragment {
     public final static String TAG = "ArticleRecycleView";
+    public final static int savedArticleLimit = 25;
 
     SavedRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
@@ -49,7 +50,7 @@ public class SavedArticleRecycleView extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.recycleview_activity_fragment, container, false);
+        View v = inflater.inflate(R.layout.saved_recycleview_fragment, container, false);
 
         setViews(v);
         articleLists = new ArrayList<>();
@@ -61,7 +62,6 @@ public class SavedArticleRecycleView extends Fragment {
         recycleAdapter.setOnItemClickListener(new SavedRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //Log.i(TAG, String.valueOf(position));
                 storiesCount.setVisibility(View.GONE);
                 articleLists.get(position);
                 Bundle article = new Bundle();
@@ -94,13 +94,12 @@ public class SavedArticleRecycleView extends Fragment {
 
         if (recyclerView != null) {
             recyclerView.setAdapter(recycleAdapter);
-            ///recycleAdapter.notifyDataSetChanged();
         }
 
     }
 
     public void setViews(View v) {
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view);
+        recyclerView = (RecyclerView) v.findViewById(R.id.saved_recycle_view);
         storiesCount = (TextView) v.findViewById(R.id.stories_count);
         storiesCount.setVisibility(View.VISIBLE);
 
@@ -128,9 +127,13 @@ public class SavedArticleRecycleView extends Fragment {
             articleLists.add(article);
             recycleAdapter.notifyDataSetChanged();
         }
-        if(articleLists.size() == 0){
-            storiesCount.setVisibility(View.GONE);
-        }
+
+        storiesCount.setText("You have " + articleLists.size() + "/" + String.valueOf(savedArticleLimit) + " articles saved");
+//        if(articleLists.size() < 1){
+//            storiesCount.setVisibility(View.VISIBLE);
+//        } else {
+//            storiesCount.setVisibility(View.GONE);
+//        }
 
     }
 }

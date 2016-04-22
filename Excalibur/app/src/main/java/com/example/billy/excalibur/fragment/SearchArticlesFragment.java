@@ -60,8 +60,11 @@ public class SearchArticlesFragment extends Fragment {
                 Log.i(TAG, String.valueOf(position));
                 articleSearchList.get(position);
                 Bundle article = new Bundle(); //will bundle the 5 fields of articleSearchObjects in a string array
-                String articleDetails = articleSearchList.get(position).getWeb_url();
-                article.putString("searchedArticle", articleDetails);
+                String[] articleDetails = {articleSearchList.get(position).getHeadline().getMain(),
+                        articleSearchList.get(position).getWeb_url(),
+                        articleSearchList.get(position).getMultimedia().toString(),
+                        articleSearchList.get(position).getLead_paragraph()};
+                article.putStringArray("searchedArticle", articleDetails);
 
                 Fragment searchedArticleStory = new SearchedArticleStory();
                 searchedArticleStory.setArguments(article);

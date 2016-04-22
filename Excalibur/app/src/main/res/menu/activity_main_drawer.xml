@@ -61,7 +61,8 @@
             <item
                 android:id="@+id/nav_notification_settings"
                 android:icon="@drawable/notification_icon"
-                android:title="@string/stopNotification" />
+                android:title="@string/startNotification" />
+
         </menu>
     </item>
 
