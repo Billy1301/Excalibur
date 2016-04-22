@@ -27,9 +27,9 @@ Created by:
 
 <html>
 <body>
-<img src="http://i.imgur.com/yitrMlI.png" width = "150" height = "250">
-<img src="http://i.imgur.com/ofP0lHg.png" width = "150" height = "250">
-<img src="http://i.imgur.com/4o9lP2Z.png" width = "150" height = "250">
+<img src="http://i.imgur.com/E5LbY4i.png" width = "150" height = "250">
+<img src="http://i.imgur.com/Dl0fB5w.png" width = "150" height = "250">
+<img src="http://i.imgur.com/mfyRL0G.png" width = "150" height = "250">
 </body>
 </html>
 
