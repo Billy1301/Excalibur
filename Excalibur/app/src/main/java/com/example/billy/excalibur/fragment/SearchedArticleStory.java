@@ -39,7 +39,6 @@ public class SearchedArticleStory extends Fragment {
     View v;
     ShareButton fbSharebutton;
 
-
     private static final String TAG = "ArticleStory Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
@@ -137,8 +136,6 @@ public class SearchedArticleStory extends Fragment {
             saveLater.setVisible(false);
         }
     }
-
-
 
         public class htmlJavaScriptInterface {
             @JavascriptInterface

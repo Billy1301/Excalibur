@@ -37,17 +37,17 @@ import com.facebook.share.widget.ShareButton;
  */
 public class SavedArticleStory extends Fragment {
 
-    ActionMenuItemView share;
-    String[] articleDetails;
+    //region private variables
+    private String[] articleDetails;
     private View v;
     private ShareButton fbSharebutton;
-
     private static final String TAG = "Saved Article Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
     private ArticleSaveForLater articleSaved;
     private MenuItem deleteButton;
     private SQLiteDatabase db;
+    //endregion
 
     /**
      * user interface to callback for fragment
@@ -114,7 +114,6 @@ public class SavedArticleStory extends Fragment {
 
     }
 
-
     private class WebViewClientDemo extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -152,6 +151,4 @@ public class SavedArticleStory extends Fragment {
         String[] query = {Id};
         db.delete(SaveSQLiteHelper.ARTICLES_TABLE_NAME, SaveSQLiteHelper.COL_ID + " = ?", query);
     }
-
-
 }

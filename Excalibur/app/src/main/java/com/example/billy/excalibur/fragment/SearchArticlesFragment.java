@@ -27,6 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * This fragment displays the articles in a list for the query searched in the toolbar
  * Created by michaelmuccio on 4/20/16.
  */
 public class SearchArticlesFragment extends Fragment {

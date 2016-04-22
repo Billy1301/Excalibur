@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
 
     ArrayList<NewsWireObjects> data;
-    private String TAG = "RecyclerViewAdaptor";
     Context context;
     private static OnItemClickListener listener;
 
@@ -61,7 +60,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
     }
 
-
     @Override
     public NewsRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
@@ -72,13 +70,11 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return vh;
     }
 
-
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object
         holder.headline.setText(data.get(position).getTitle());
         holder.articleAbstract.setText(data.get(position).getAbstractResult());
-
 
         String imageURI = data.get(position).getThumbnail_standard();
         if (imageURI.isEmpty()) {
@@ -124,7 +120,5 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         }
         return time;
     }
-
-
 }
 

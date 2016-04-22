@@ -7,12 +7,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.billy.excalibur.Adaptors.NewsRecyclerAdapter;
 import com.example.billy.excalibur.NyTimesAPIService.NewsWireObjects;
@@ -35,17 +33,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ArticleListFragment extends Fragment {
 
     public final static String TAG = "ArticleRecycleView";
-
+    //region private variables
     private NewsRecyclerAdapter recycleAdapter;
     RecyclerView recyclerView;
     SearchAPI latestNewsService;
-    Toolbar toolbar;
     public ArrayList<NewsWireObjects> breakingNewsLists;
     private String sections = "all";
     private String chooseMagazineSource = "all";
     protected SwipeRefreshLayout swipeContainer;
     private int numberOfArticles = 10;
-
+    //endregion
     /**
      * Setter for Nav Drawer filtering API "sections" options
      */
@@ -109,11 +106,9 @@ public class ArticleListFragment extends Fragment {
         });
     }
 
-
     /**
      * this re-run the api call to check new articles
      */
-
     private void setPullRefresh(){
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -132,7 +127,6 @@ public class ArticleListFragment extends Fragment {
      * this will pull a list of articles according to the navi bar topics
      * default will pull all topics
      */
-
     private void retrofitLatestNews() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.nytimes.com/svc/news/v3/content/")
@@ -173,6 +167,4 @@ public class ArticleListFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.recycle_view);
 
     }
-
-
 }
