@@ -77,7 +77,6 @@ public class SearchArticleAdapter extends RecyclerView.Adapter<SearchArticleAdap
         return vh;
     }
 
-
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         //TODO: Set our textView to our data - News object

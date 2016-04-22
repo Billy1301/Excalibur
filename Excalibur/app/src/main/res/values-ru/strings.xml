@@ -6,8 +6,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="article_title">Article Headline Title</string>
-    <string name="article_aurthur">Article by so and so</string>
+
     <string name="article_body">Body of article</string>
     <string name="facebookShare">Фейсбук</string>
     <string name="sports">Спорт</string>
@@ -31,6 +30,11 @@
     <string name="search_main_toolbar">Поиск</string>
     <string name="share_toolbar">Поделиться</string>
     <string name="nav_header_text">Экскалибур новости</string>
+    <string name="search_articles">Поиск статьи</string>
+    <string name="stopNotification">Выключить оповещения</string>
+    <string name="startNotification">Включить оповещения</string>
+    <string name="searching_for_toast">"Поиск "</string>
+    <string name="toolbar_search_title">Поиск</string>
 
 </resources>
 

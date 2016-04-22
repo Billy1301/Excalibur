@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class SavedRecyclerAdapter extends RecyclerView.Adapter<SavedRecyclerAdapter.SavedRecyclerViewHolder> {
 
     ArrayList<ArticleSaveForLater> data;
-    private String TAG = "SavedRecyclerViewAdaptor";
     Context context;
     private static OnItemClickListener listener;
 

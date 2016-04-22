@@ -35,17 +35,17 @@ import com.facebook.share.widget.ShareButton;
 public class ArticleStory extends Fragment {
 
     String[] articleDetails;
-    View v;
-    ShareButton fbSharebutton;
 
-
+    //region private variables
     private static final String TAG = "ArticleStory Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
     private String htmlSaveForLater;
     private SQLiteDatabase db;
     private MenuItem saveLater;
-
+    private View v;
+    private ShareButton fbSharebutton;
+    //endregion
     /**
      * user interface to callback for fragment
      */

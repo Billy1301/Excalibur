@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 animation.reset();
                 headerText.clearAnimation();
                 headerText.startAnimation(animation);
-
+                
                 return false;
             }
         });
