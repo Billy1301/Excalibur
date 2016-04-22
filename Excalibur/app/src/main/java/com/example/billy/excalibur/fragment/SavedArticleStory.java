@@ -1,5 +1,6 @@
 package com.example.billy.excalibur.fragment;
 
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.billy.excalibur.R;
 import com.example.billy.excalibur.SaveForLater.ArticleSaveForLater;
@@ -44,9 +46,9 @@ public class SavedArticleStory extends Fragment {
     private static final String TAG = "Saved Article Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
-    private Button htmlButton;
-    private SQLiteDatabase db;
     private ArticleSaveForLater articleSaved;
+    private MenuItem deleteButton;
+    private SQLiteDatabase db;
 
     /**
      * user interface to callback for fragment
@@ -58,24 +60,16 @@ public class SavedArticleStory extends Fragment {
 
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
-
+        progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 
         Bundle article = getArguments();
-
         articleDetails = article.getStringArray("article");
-
-        setFacebookButton();
-
-        progress = (ProgressBar) v.findViewById(R.id.progress_bar);
+        SaveSQLiteHelper mDbHelper = SaveSQLiteHelper.getInstance(getContext());
+        db = mDbHelper.getWritableDatabase();
 
         WebSettings webSettings = articleWebView.getSettings();
         articleWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
-
-
-        SaveSQLiteHelper mDbHelper = SaveSQLiteHelper.getInstance(getContext());
-        db = mDbHelper.getWritableDatabase();
-
 
         Cursor cursor;
         cursor = SaveSQLiteHelper.getInstance(getContext()).getArticleHtml(articleDetails[5]);
@@ -94,7 +88,9 @@ public class SavedArticleStory extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_fragment, menu);
-
+        deleteButton = (MenuItem) menu.findItem(R.id.save_later);
+        deleteButton.setIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        deleteButton.setVisible(true);
     }
 
     @Override
@@ -109,6 +105,10 @@ public class SavedArticleStory extends Fragment {
             intent.putExtra(Intent.EXTRA_TEXT, articleDetails[0]);
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
             startActivity(Intent.createChooser(intent, "Share"));
+            return true;
+        }else if (id == R.id.save_later) {
+            deleteSavedStoryById(String.valueOf(articleSaved.getId()));
+            Toast.makeText(getContext(), "You deleted " + ArticleSaveForLater.titleForToast(articleSaved.getTitle()), Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -138,21 +138,6 @@ public class SavedArticleStory extends Fragment {
         }
     }
 
-
-
-
-    public void setFacebookButton() {
-
-        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(articleDetails[0]))
-                .build();
-        if (fbSharebutton != null) {
-            fbSharebutton.setShareContent(content);
-            Log.i(TAG, "Share button clicked!");
-        }
-    }
-
     public void dumpCursorToSavedArticle(Cursor cursor) {
         cursor.moveToFirst();
         articleSaved = new ArticleSaveForLater();
@@ -164,6 +149,11 @@ public class SavedArticleStory extends Fragment {
         articleSaved.setImage((cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_IMAGE))));
         articleSaved.setCode(Long.parseLong(cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_CODE))));
 }
+
+    public void deleteSavedStoryById(String Id){
+        String[] query = {Id};
+        db.delete(SaveSQLiteHelper.ARTICLES_TABLE_NAME, SaveSQLiteHelper.COL_ID + " = ?", query);
+    }
 
 
 }

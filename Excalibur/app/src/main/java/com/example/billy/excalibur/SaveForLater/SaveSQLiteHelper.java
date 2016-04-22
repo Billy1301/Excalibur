@@ -9,6 +9,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.View;
 
+import com.example.billy.excalibur.fragment.SavedArticleRecycleView;
+
 /**
  * Created by petermartinez on 4/20/16.
  */
@@ -70,33 +72,6 @@ public class SaveSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
     }
 
 
-
-
-
-//    public static void saveArticleForLater(ArticleSaveForLater article) {
-//        insertIntoDbFromArticle(article);
-//    }
-
-//SaveSQLiteHelper mDbHelper = SaveSQLiteHelper.getInstance(SaveSQLiteHelper.this);
-//db = mDbHelper.getWritableDatabase();
-
-//    public static long insertIntoDbFromArticle(ArticleSaveForLater article){
-//
-////        Cursor cursor = ThreadsSQLiteHelper.getInstance(MainActivity.this).searchThreads(query);
-//
-//
-//        ContentValues values = new ContentValues();
-//        values.put(SaveSQLiteHelper.COL_HTML, article.getHtml());
-//        values.put(SaveSQLiteHelper.COL_TITLE, article.getTitle());
-//        values.put(SaveSQLiteHelper.COL_URL, article.getUrl());
-//        values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
-//        values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
-//
-//        long newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null,values);
-//        return newRowId;
-//    }
-
-
         public Cursor getAllSavedArticles(){
 
             SQLiteDatabase db = this.getReadableDatabase();
@@ -108,7 +83,7 @@ public class SaveSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
                     null, // d. selections args
                     null, // e. group by
                     null, // f. having
-                    COL_CODE, // g. order by
+                    COL_CODE + " DESC", // g. order by
                     null); // h. limit
                     return cursor;
              }
@@ -128,14 +103,19 @@ public class SaveSQLiteHelper extends SQLiteOpenHelper implements BaseColumns {
         return cursor;
     }
 
-    public static boolean checkURLforDuplicate(String url, Cursor cursor){
+    public static int checkURLforDuplicate(String url, Cursor cursor){
+        int count = 0;
             cursor.moveToFirst();
             while (cursor.isAfterLast() == false) {
+                count++;
                 if(url.equals(cursor.getString(cursor.getColumnIndex(SaveSQLiteHelper.COL_URL)))) {
-                    return true;
+                    return count;
                 }
                 cursor.moveToNext();
         }
-        return false;
+        if(count == SavedArticleRecycleView.savedArticleLimit){
+            return -1;
+        }
+        return 0;
     }
 }
