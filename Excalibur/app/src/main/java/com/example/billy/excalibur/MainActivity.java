@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleLists = new ArrayList<>();
         setFragment();
 
-        callJobScheduler();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -289,12 +289,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(item.getTitle().toString().equals(getString(R.string.stopNotification))) {
                     mJobScheduler.cancelAll();
                     item.setTitle(getString(R.string.startNotification));
-                    Toast.makeText(MainActivity.this, "Stopped Notification", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.stopNotification, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     callJobScheduler();
                     item.setTitle(getString(R.string.stopNotification));
-                    Toast.makeText(MainActivity.this, "Start Notfication", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.startNotification, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.nav_save:
