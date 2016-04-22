@@ -23,10 +23,6 @@ public class NewsWireObjects {
     private static final String TAG = "NewsWireObjects ";
 
 
-
-    public NewsWireObjects() {
-    }
-
     public NewsWireObjects(String section, String title, String url, String thumbnail_standard, String abstractResult, String created_date) {
         this.section = section;
         this.title = title;
