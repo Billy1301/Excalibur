@@ -19,7 +19,7 @@
     <string name="business">Деловые новости</string>
     <string name="n_y">Нью Йорк Таймс</string>
     <string name="magazine">Херальд Трибьюн</string>
-    <string name="save_for_later">Сохранить на потом</string>
+    <string name="saved_articles">Избранное</string>
     <string name="science">Наука</string>
     <string name="health">Здоровье</string>
     <string name="herald_mag">Херальд Трибьюн</string>
@@ -36,6 +36,10 @@
     <string name="searching_for_toast">"Поиск "</string>
     <string name="toolbar_search_title">Поиск</string>
     <string name="network_check">Отсутствует соединение с интернетом</string>
+    <string name="articles_saved">Статьи в избранном</string>
+    <string name="you_have">У вас</string>
+    <string name="articles_amount">статей в избранном</string>
+
 
 
 </resources>

@@ -11,12 +11,8 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 
 
-import android.support.v4.app.ActivityCompat;
-
 import android.provider.Settings;
 
-
-import android.provider.Settings;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -259,13 +255,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction.commit();
                 toolbar.setTitle(getString(R.string.health));
                 break;
-            case R.id.nav_ny_times:
-                topicFrag.setChooseMagazineSource(NY_TIMES);
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frag_container, topicFrag);
-                fragmentTransaction.commit();
-                toolbar.setTitle(getString(R.string.n_y));
-                break;
             case R.id.nav_business:
                 topicFrag.setSections(BUSINESS_DAY);
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -311,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frag_container, savedFrag);
                 fragmentTransaction.commit();
-                toolbar.setTitle(getString(R.string.save_for_later));
+                toolbar.setTitle(getString(R.string.saved_articles));
                 break;
 
         }

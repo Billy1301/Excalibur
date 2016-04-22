@@ -2,6 +2,7 @@ package com.example.billy.excalibur.fragment;
 
 import android.content.ClipData;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,8 +107,16 @@ public class SavedArticleStory extends Fragment {
             startActivity(Intent.createChooser(intent, "Share"));
             return true;
         }else if (id == R.id.save_later) {
-            deleteSavedStoryById(String.valueOf(articleSaved.getId()));
-            Toast.makeText(getContext(), "You deleted " + ArticleSaveForLater.titleForToast(articleSaved.getTitle()), Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Deleting Article")
+                    .setMessage("Are you finished with " + articleSaved.getTitle() + "?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            deleteSavedStoryById(String.valueOf(articleSaved.getId()));
+                            Toast.makeText(getContext(), "You deleted " + articleSaved.getTitle(), Toast.LENGTH_LONG).show();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
             return true;
         }
 

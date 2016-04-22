@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by petermartinez on 4/21/16.
  */
 public class SavedArticleRecycleView extends Fragment {
-    public final static int savedArticleLimit = 25;
+    public final static int savedArticleLimit = 15;
     public ArrayList<ArticleSaveForLater> articleLists;
 
     private SavedRecyclerAdapter recycleAdapter;
@@ -123,7 +123,8 @@ public class SavedArticleRecycleView extends Fragment {
             recycleAdapter.notifyDataSetChanged();
         }
 
-        storiesCount.setText("You have " + articleLists.size() + "/" + String.valueOf(savedArticleLimit) + " articles saved");
+        storiesCount.setText(getString(R.string.you_have) + " " + articleLists.size()
+                + "/" + String.valueOf(savedArticleLimit) + " " + getString(R.string.articles_amount));
 //        if(articleLists.size() < 1){
 //            storiesCount.setVisibility(View.VISIBLE);
 //        } else {

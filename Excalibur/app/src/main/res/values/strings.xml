@@ -20,7 +20,7 @@
     <string name="business">Business Day</string>
     <string name="n_y">New York Times</string>
     <string name="magazine">International Herald Tribune</string>
-    <string name="save_for_later">Save for Later</string>
+    <string name="saved_articles">Saved Articles</string>
     <string name="science">Science</string>
     <string name="health">Health</string>
     <string name="herald_mag">Herold Magazine</string>
@@ -29,7 +29,7 @@
     <string name="search_drawer">Search</string>
     <string name="search_main_toolbar">Search</string>
     <string name="share_toolbar">Share</string>
-    <string name="actions_drawer">Actions</string>
+    <string name="actions_drawer">Settings</string>
     <string name="nav_header_text">Excalibur News</string>
 
     <string name="search_articles">Search articles</string>
@@ -38,6 +38,10 @@
     <string name="searching_for_toast">"Searching for "</string>
     <string name="toolbar_search_title">Search</string>
     <string name="network_check">No Network Connection Detected</string>
+    <string name="articles_saved">You have zero stories saved</string>
+    <string name="you_have">You have</string>
+    <string name="articles_amount">articles saved</string>
+
 
 
 </resources>

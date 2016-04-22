@@ -2,56 +2,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_save"
+            android:icon="@drawable/ic_save_24dp"
+            android:title="@string/saved_articles" />
+        <item
             android:id="@+id/nav_breakingNews"
-            android:icon="@android:drawable/ic_dialog_alert"
+            android:icon="@drawable/ic_whatshot_24dp"
             android:title="@string/breakingNews" />
         <item
-            android:id="@+id/nav_save"
-            android:icon="@android:drawable/ic_menu_save"
-            android:title="@string/save_for_later" />
-        <item
             android:id="@+id/nav_world"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_language_24dp"
             android:title="@string/world" />
         <item
             android:id="@+id/nav_us"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_assistant_photo_24dp"
             android:title="@string/u_s" />
         <item
             android:id="@+id/nav_business"
-            android:icon="@android:drawable/ic_menu_mapmode"
-
+            android:icon="@drawable/ic_trending_up_24dp"
             android:title="@string/business" />
         <item
             android:id="@+id/nav_technology"
-            android:icon="@android:drawable/ic_menu_mapmode"
-
+            android:icon="@drawable/ic_android_24dp"
             android:title="@string/technology"/>
         <item
             android:id="@+id/nav_sports"
-            android:icon="@android:drawable/ic_menu_mapmode"
-
+            android:icon="@drawable/ic_directions_bike_24dp"
             android:title="@string/sports" />
         <item
             android:id="@+id/nav_health"
-            android:icon="@drawable/ic_directions_bike_24dp"
-
+            android:icon="@drawable/ic_local_pharmacy_24dp"
             android:title="@string/health"/>
         <item
             android:id="@+id/nav_arts"
-            android:icon="@android:drawable/ic_menu_mapmode"
-
+            android:icon="@drawable/ic_local_movies_24dp"
             android:title="@string/arts" />
         <item
             android:id="@+id/nav_science"
-            android:icon="@drawable/ic_colorize_24dp"
+            android:icon="@drawable/ic_school_24dp"
             android:title="@string/science"/>
-        <item
-            android:id="@+id/nav_ny_times"
-            android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="@string/n_y" />
+
 
     </group>
 
@@ -61,7 +54,6 @@
                 android:id="@+id/nav_notification_settings"
                 android:icon="@drawable/notification_icon"
                 android:title="@string/startNotification" />
-
         </menu>
     </item>
 
