@@ -32,16 +32,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class JobSchedulerService extends JobService {
 
-    NewsRecyclerAdapter recycleAdapter;
-    RecyclerView recyclerView;
     SearchAPI latestNewsService;
     public ArrayList<NewsWireObjects> articleLists;
     public String sections = "all";
     public String chooseMagazineSource = "all";
     private static final int NOTIFICATION_ID = 1;
     Context context;
-
-
+    NewsWireResults newsWireResults;
 
 
     @Override
@@ -72,11 +69,17 @@ public class JobSchedulerService extends JobService {
         call.enqueue(new Callback<NewsWireResults>() {
             @Override
             public void onResponse(Call<NewsWireResults> call, Response<NewsWireResults> response) {
-                NewsWireResults newsWireResults = response.body();
+                newsWireResults = response.body();
+
+                articleLists = new ArrayList<>();
+                Collections.addAll(articleLists, newsWireResults.getResults());
 
                 if (newsWireResults == null) {
                     return;
                 }
+//                for (int i = articleLists.size(); i < 9; i++){
+//                    articleLists.get(i).getTitle();
+//                }
                 setNotifications();
             }
 
@@ -91,7 +94,7 @@ public class JobSchedulerService extends JobService {
      * this method sets notifications
      * when system makes api call
      */
-    private void setNotifications(){
+    private void setNotifications() {
 
         Intent intent = new Intent(context, MainActivity.class);
 
@@ -101,7 +104,7 @@ public class JobSchedulerService extends JobService {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.ic_star_black_24dp);
         mBuilder.setContentTitle("Notification from Excalibur!");
-        mBuilder.setContentText("New articles available!");
+        mBuilder.setContentText("New article: " + articleLists.get(0).getTitle());
         mBuilder.setContentIntent(pIntent);
         mBuilder.setAutoCancel(true);
         mBuilder.setPriority(Notification.PRIORITY_HIGH);
