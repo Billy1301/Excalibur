@@ -36,7 +36,7 @@
             android:title="@string/sports" />
         <item
             android:id="@+id/nav_health"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_directions_bike_24dp"
 
             android:title="@string/health"/>
         <item
@@ -46,8 +46,7 @@
             android:title="@string/arts" />
         <item
             android:id="@+id/nav_science"
-            android:icon="@android:drawable/ic_menu_mapmode"
-
+            android:icon="@drawable/ic_colorize_24dp"
             android:title="@string/science"/>
         <item
             android:id="@+id/nav_ny_times"

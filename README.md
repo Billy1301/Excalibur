@@ -6,15 +6,12 @@ This app will provide the most recent Breaking News from the New York Times. The
 
 <html>
 <body>
-<p>Features:</p>
-<p>-Notififications</p>
-<p>-Socially Share articles across multiple platforms</p>
-<p>-Save an article to read later</p>
-<p>-Network connection monitor, if no connection it will direct you to your settings.</p>
-<p>Created by: Bill Ly, Peter Martinez, Mike Muccio, Mikhail Borisovskiy</p>
+<p>Features:<br>Notifications<br>Socially Share Articles<br>Network Connection Check<br>Save an article to read later<br>Pull to Refresh List</p>
 <img src="http://i.imgur.com/E5LbY4i.png" width = "150" height = "250">
 <img src="http://i.imgur.com/Dl0fB5w.png" width = "150" height = "250">
 <img src="http://i.imgur.com/mfyRL0G.png" width = "150" height = "250">
+<p>Created by: Bill Ly, Peter Martinez, Mike Muccio, Mikhail Borisovskiy</p>
+<p>Known Bugs:<br>Pull to refresh addssame list to bottom of displayed list</p>
 </body>
 </html>
 
