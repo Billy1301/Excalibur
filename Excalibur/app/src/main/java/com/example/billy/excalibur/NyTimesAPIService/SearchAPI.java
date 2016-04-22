@@ -1,7 +1,8 @@
 package com.example.billy.excalibur.NyTimesAPIService;
 
+import com.example.billy.excalibur.Keys.Keys;
 import com.example.billy.excalibur.NyTimesAPIService.ArticleSearchAPI.ArticleSearch;
-import com.example.billy.excalibur.keys.Keys;
+
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -20,9 +21,7 @@ public interface SearchAPI {
                                               @Path("section") String section,
                                               @Query("limit") int limit);
 
-
     @GET("articlesearch.json?&sort=newest&api-key=" + Keys.nyTimesFullSearchQueryKey)
     Call<ArticleSearch> listArticleSearchDocs(@Query("q") String q);
-
 
 }
