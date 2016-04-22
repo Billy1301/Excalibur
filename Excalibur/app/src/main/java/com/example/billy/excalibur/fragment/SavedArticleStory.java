@@ -1,5 +1,6 @@
 package com.example.billy.excalibur.fragment;
 
+import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -44,9 +45,8 @@ public class SavedArticleStory extends Fragment {
     private static final String TAG = "Saved Article Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
-    private Button htmlButton;
-    private SQLiteDatabase db;
     private ArticleSaveForLater articleSaved;
+    private MenuItem deleteButton;
 
     /**
      * user interface to callback for fragment
@@ -64,18 +64,11 @@ public class SavedArticleStory extends Fragment {
 
         articleDetails = article.getStringArray("article");
 
-        setFacebookButton();
-
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
 
         WebSettings webSettings = articleWebView.getSettings();
         articleWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
-
-
-        SaveSQLiteHelper mDbHelper = SaveSQLiteHelper.getInstance(getContext());
-        db = mDbHelper.getWritableDatabase();
-
 
         Cursor cursor;
         cursor = SaveSQLiteHelper.getInstance(getContext()).getArticleHtml(articleDetails[5]);
@@ -94,6 +87,8 @@ public class SavedArticleStory extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_fragment, menu);
+        deleteButton = (MenuItem) v.findViewById(R.id.save_later);
+        deleteButton.setIcon(android.R.drawable.ic_notification_clear_all);
 
     }
 
@@ -109,6 +104,11 @@ public class SavedArticleStory extends Fragment {
             intent.putExtra(Intent.EXTRA_TEXT, articleDetails[0]);
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
             startActivity(Intent.createChooser(intent, "Share"));
+            return true;
+        }else if (id == R.id.save_later) {
+//            delete the article
+//            ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, "Titles", "Ipsum lorem", articleDetails, String.valueOf(R.drawable.nyt_icon));
+//            insertIntoDbFromSearchArticle(article);
             return true;
         }
 
@@ -135,21 +135,6 @@ public class SavedArticleStory extends Fragment {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             progress.setVisibility(View.VISIBLE);
-        }
-    }
-
-
-
-
-    public void setFacebookButton() {
-
-        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(articleDetails[0]))
-                .build();
-        if (fbSharebutton != null) {
-            fbSharebutton.setShareContent(content);
-            Log.i(TAG, "Share button clicked!");
         }
     }
 

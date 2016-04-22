@@ -1,6 +1,9 @@
 package com.example.billy.excalibur.fragment;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.billy.excalibur.R;
+import com.example.billy.excalibur.SaveForLater.ArticleSaveForLater;
+import com.example.billy.excalibur.SaveForLater.SaveSQLiteHelper;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 
@@ -36,6 +43,8 @@ public class SearchedArticleStory extends Fragment {
     private static final String TAG = "ArticleStory Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
+    private String htmlSaveForLater;
+    private SQLiteDatabase db;
 
     /**
      * user interface to callback for fragment
@@ -60,6 +69,9 @@ public class SearchedArticleStory extends Fragment {
         WebSettings webSettings = articleWebView.getSettings();
         articleWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
+        articleWebView.addJavascriptInterface(new htmlJavaScriptInterface(), "HTMLOUT");
+
+
         articleWebView.loadUrl(articleDetails);
 
         Log.i(TAG, articleDetails);
@@ -89,6 +101,10 @@ public class SearchedArticleStory extends Fragment {
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Check out this site!");
             startActivity(Intent.createChooser(intent, "Share"));
             return true;
+        } else if (id == R.id.save_later) {
+            ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, "Titles", "Ipsum lorem", articleDetails, String.valueOf(R.drawable.nyt_icon));
+            insertIntoDbFromSearchArticle(article);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -117,16 +133,54 @@ public class SearchedArticleStory extends Fragment {
         }
     }
 
-    public void setFacebookButton() {
 
-        fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
-        ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse(articleDetails))
-                .build();
-        if (fbSharebutton != null) {
-            fbSharebutton.setShareContent(content);
-            Log.i(TAG, "Share button clicked!");
+        public class htmlJavaScriptInterface {
+            @JavascriptInterface
+            @SuppressWarnings("unused")
+            public void showHTML(String html) {
+                htmlSaveForLater = html;
+            }
         }
 
+        public void setFacebookButton() {
+
+            fbSharebutton = (ShareButton) v.findViewById(R.id.share_btn);
+            ShareLinkContent content = new ShareLinkContent.Builder()
+                    .setContentUrl(Uri.parse(articleDetails))
+                    .build();
+            if (fbSharebutton != null) {
+                fbSharebutton.setShareContent(content);
+                Log.i(TAG, "Share button clicked!");
+            }
+
+        }
+
+        private long insertIntoDbFromSearchArticle(ArticleSaveForLater article) {
+            long newRowId = 0l;
+
+            Cursor cursor;
+            cursor = SaveSQLiteHelper.getInstance(getContext()).getAllSavedArticles();
+            boolean isUniqueArticle = SaveSQLiteHelper.checkURLforDuplicate(article.getUrl(), cursor);
+            cursor.close();
+
+            if (isUniqueArticle == false) {
+                ContentValues values = new ContentValues();
+                values.put(SaveSQLiteHelper.COL_HTML, article.getHtml());
+                values.put(SaveSQLiteHelper.COL_TITLE, article.getTitle());
+                values.put(SaveSQLiteHelper.COL_URL, article.getUrl());
+                values.put(SaveSQLiteHelper.COL_IMAGE, article.getImage());
+                values.put(SaveSQLiteHelper.COL_CODE, article.getCode());
+                newRowId = db.insert(SaveSQLiteHelper.ARTICLES_TABLE_NAME, null, values);
+                int titleLength = article.getTitle().length();
+                if (titleLength > 20) {
+                    titleLength = 20;
+                }
+                String titleShort = article.getTitle().substring(0, titleLength) + "...";
+                Toast.makeText(getContext(), "You saved " + titleShort, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "You have already saved this story!", Toast.LENGTH_SHORT).show();
+            }
+            return newRowId;
+
+        }
     }
-}

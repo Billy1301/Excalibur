@@ -119,6 +119,7 @@ public class ArticleStory extends Fragment {
         } else if(id == R.id.save_later){
             ArticleSaveForLater article = new ArticleSaveForLater(htmlSaveForLater, articleDetails[1], articleDetails[4], articleDetails[2], articleDetails[3]);
             insertIntoDbFromArticle(article);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -139,7 +140,7 @@ public class ArticleStory extends Fragment {
             super.onPageFinished(view, url);
             articleWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
             progress.setVisibility(View.GONE);
-//            htmlButton.setVisibility(View.VISIBLE);
+
         }
 
         @Override
@@ -154,15 +155,7 @@ public class ArticleStory extends Fragment {
         @JavascriptInterface
         @SuppressWarnings("unused")
         public void showHTML(String html) {
-//            new AlertDialog.Builder(getContext())
-//                    .setTitle("HTML")
-//                    .setMessage(html)
-//                    .setPositiveButton(android.R.string.ok, null)
-//                    .setCancelable(false)
-//                    .create()
-//                    .show();
             htmlSaveForLater = html;
-            Log.i(TAG, "printing the html " + htmlSaveForLater.substring(0, 50));
         }
     }
 
