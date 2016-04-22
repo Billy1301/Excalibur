@@ -29,7 +29,7 @@
             android:title="@string/business" />
         <item
             android:id="@+id/nav_technology"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_phone_iphone_black_24dp"
 
             android:title="@string/technology"/>
         <item
@@ -39,7 +39,7 @@
             android:title="@string/sports" />
         <item
             android:id="@+id/nav_health"
-            android:icon="@android:drawable/ic_menu_mapmode"
+            android:icon="@drawable/ic_local_pharmacy_black_24dp"
 
             android:title="@string/health"/>
         <item
