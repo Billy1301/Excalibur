@@ -2,15 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_save"
+            android:icon="@drawable/ic_save_24dp"
+            android:title="@string/saved_articles" />
+
         <item
             android:id="@+id/nav_breakingNews"
             android:icon="@drawable/ic_whatshot_24dp"
             android:title="@string/breakingNews" />
-        <item
-            android:id="@+id/nav_save"
-            android:icon="@drawable/ic_save_24dp"
-            android:title="@string/save_for_later" />
+
         <item
             android:id="@+id/nav_world"
             android:icon="@drawable/ic_language_24dp"
@@ -25,12 +28,7 @@
             android:title="@string/business" />
         <item
             android:id="@+id/nav_technology"
-<<<<<<< HEAD
             android:icon="@drawable/ic_android_24dp"
-=======
-            android:icon="@drawable/ic_phone_iphone_black_24dp"
-
->>>>>>> 3700a12b05c09329b2ff8983c142cb3547406af7
             android:title="@string/technology"/>
         <item
             android:id="@+id/nav_sports"
@@ -38,12 +36,7 @@
             android:title="@string/sports" />
         <item
             android:id="@+id/nav_health"
-<<<<<<< HEAD
             android:icon="@drawable/ic_local_pharmacy_24dp"
-=======
-            android:icon="@drawable/ic_local_pharmacy_black_24dp"
-
->>>>>>> 3700a12b05c09329b2ff8983c142cb3547406af7
             android:title="@string/health"/>
         <item
             android:id="@+id/nav_arts"
@@ -53,10 +46,6 @@
             android:id="@+id/nav_science"
             android:icon="@drawable/ic_school_24dp"
             android:title="@string/science"/>
-        <item
-            android:id="@+id/nav_ny_times"
-            android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="@string/n_y" />
 
     </group>
 
