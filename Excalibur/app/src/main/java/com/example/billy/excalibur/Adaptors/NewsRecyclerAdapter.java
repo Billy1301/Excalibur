@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder> {
 
     ArrayList<NewsWireObjects> data;
-    private String TAG = "RecyclerViewAdaptor";
     Context context;
     private static OnItemClickListener listener;
 
@@ -44,29 +43,31 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         TextView ago;
         NewsWireObjects newsWireObjects;
 
+
         public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
+
             imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
             ago = (TextView) itemView.findViewById(R.id.ago);
             newsWireObjects = new NewsWireObjects();
 
+            imageIcon = (ImageView) itemView.findViewById(R.id.cardView_image);
+            articleAbstract = (TextView) itemView.findViewById(R.id.article_info_cardview);
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-            public void onClick(View v) {
+                public void onClick(View v) {
                     if (listener != null)
-                    listener.onItemClick(itemView, getLayoutPosition());
+                        listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
 
         }
 
-    }
-
-    public void setData(ArrayList<NewsWireObjects> data) {
-        this.data = data;
     }
 
     @Override
@@ -79,7 +80,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         return vh;
     }
 
-
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
         long timeStamp = System.currentTimeMillis();
@@ -88,9 +88,8 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         String agoText = "posted " + getBiggestUnitTimeElapsed(data.get(position).getCreated_date(), timeStamp) + " ago";
         holder.ago.setText(agoText);
 
-
         String imageURI = data.get(position).getThumbnail_standard();
-        if(imageURI.isEmpty()){
+        if (imageURI.isEmpty()) {
             imageURI = "R.drawable.nyt_icon";
         }
 
@@ -131,8 +130,5 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         }
         return time;
     }
-
-
-
 }
 

@@ -1,27 +1,26 @@
 package com.example.billy.excalibur;
 
-
-import android.Manifest;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
+
 import android.support.v4.app.ActivityCompat;
+
+import android.provider.Settings;
+
 
 import android.provider.Settings;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -33,7 +32,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,11 +47,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static String SEARCH_KEY = "searchKey";
-    public static ArrayList<NewsWireObjects> articleLists;
 
     //region Private Variables
     private final static String TAG = "MainActivity";
@@ -83,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String SPORTS = "sports";
     //endregion Private Variables
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,14 +84,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-
         setViews();
+        facebookInit();
         checkNetwork();
         setActionBarDrawer();
-        navigationView.setNavigationItemSelectedListener(this);
-        articleLists = new ArrayList<>();
         setFragment();
 
 
@@ -108,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headerView = navigationView.getHeaderView(0);
         headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
         headerImage = (ImageView) headerView.findViewById(R.id.imageView);
-
 
         runAnimation();
         handleIntent(getIntent());
@@ -141,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }, 1600);
 
-            Toast.makeText(MainActivity.this, "No Network Connection Detected", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, R.string.network_check, Toast.LENGTH_LONG).show();
         }
     }
 
-    public void setViews() {
+    private void setViews() {
         fragContainer = (FrameLayout) findViewById(R.id.frag_container);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -153,17 +141,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         articleFragment = new ArticleStory();
         articleListFragment = new ArticleListFragment();
         headerView = navigationView.getHeaderView(0);
+        navigationView.setNavigationItemSelectedListener(this);
         headerText = (TextView) headerView.findViewById(R.id.nav_header_text_view);
         headerImage = (ImageView) headerView.findViewById(R.id.imageView);
     }
 
-    public void setFragment() {
+    private void setFragment() {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.frag_container, articleListFragment);
         fragmentTransaction.commit();
     }
 
-    public void setActionBarDrawer() {
+    private void setActionBarDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -180,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -194,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void facebookInit(){
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+    }
     /**
      * This is for the search option
      * @param intent
@@ -229,8 +221,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -365,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 animation.reset();
                 headerText.clearAnimation();
                 headerText.startAnimation(animation);
-
+                
                 return false;
             }
         });

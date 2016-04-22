@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.view.menu.ActionMenuItemView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,19 +34,18 @@ import com.facebook.share.widget.ShareButton;
  */
 public class ArticleStory extends Fragment {
 
-    ActionMenuItemView share;
     String[] articleDetails;
-    View v;
-    ShareButton fbSharebutton;
 
-
+    //region private variables
     private static final String TAG = "ArticleStory Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
     private String htmlSaveForLater;
     private SQLiteDatabase db;
     private MenuItem saveLater;
-
+    private View v;
+    private ShareButton fbSharebutton;
+    //endregion
     /**
      * user interface to callback for fragment
      */
@@ -113,7 +111,6 @@ public class ArticleStory extends Fragment {
 
     }
 
-
     private class WebViewClientDemo extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -139,7 +136,6 @@ public class ArticleStory extends Fragment {
             saveLater.setVisible(false);
         }
     }
-
 
     public class MyJavaScriptInterface {
         @JavascriptInterface

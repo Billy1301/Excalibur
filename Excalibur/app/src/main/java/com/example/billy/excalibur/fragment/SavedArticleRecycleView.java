@@ -36,16 +36,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by petermartinez on 4/21/16.
  */
 public class SavedArticleRecycleView extends Fragment {
-    public final static String TAG = "ArticleRecycleView";
     public final static int savedArticleLimit = 25;
-
-    SavedRecyclerAdapter recycleAdapter;
-    RecyclerView recyclerView;
-    TextView storiesCount;
-    SearchAPI latestNewsService;
-    Toolbar toolbar;
     public ArrayList<ArticleSaveForLater> articleLists;
 
+    private SavedRecyclerAdapter recycleAdapter;
+    private RecyclerView recyclerView;
+    private TextView storiesCount;
 
     @Nullable
     @Override
@@ -84,7 +80,6 @@ public class SavedArticleRecycleView extends Fragment {
 
         return v;
     }
-
 
     private void getSavedArticles() {
         Cursor cursor;

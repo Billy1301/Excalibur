@@ -37,18 +37,17 @@ import com.facebook.share.widget.ShareButton;
  */
 public class SavedArticleStory extends Fragment {
 
-    ActionMenuItemView share;
-    String[] articleDetails;
-    View v;
-    ShareButton fbSharebutton;
-
-
+    //region private variables
+    private String[] articleDetails;
+    private View v;
+    private ShareButton fbSharebutton;
     private static final String TAG = "Saved Article Fragment";
     private ProgressBar progress;
     private WebView articleWebView;
     private ArticleSaveForLater articleSaved;
     private MenuItem deleteButton;
     private SQLiteDatabase db;
+    //endregion
 
     /**
      * user interface to callback for fragment
@@ -61,6 +60,8 @@ public class SavedArticleStory extends Fragment {
         v = inflater.inflate(R.layout.article_activity_fragment, container, false);
         articleWebView = (WebView) v.findViewById(R.id.article_web_view);
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
+        fbSharebutton = (ShareButton)v.findViewById(R.id.share_btn);
+        fbSharebutton.setVisibility(View.GONE);
 
         Bundle article = getArguments();
         articleDetails = article.getStringArray("article");
@@ -77,10 +78,7 @@ public class SavedArticleStory extends Fragment {
         cursor.close();
 
         articleWebView.loadDataWithBaseURL("", articleSaved.getHtml(), "text/html", "UTF-8", "");
-
-
         setHasOptionsMenu(true);
-
         return v;
 
     }
@@ -115,7 +113,6 @@ public class SavedArticleStory extends Fragment {
         return super.onOptionsItemSelected(item);
 
     }
-
 
     private class WebViewClientDemo extends WebViewClient {
         @Override
@@ -154,6 +151,4 @@ public class SavedArticleStory extends Fragment {
         String[] query = {Id};
         db.delete(SaveSQLiteHelper.ARTICLES_TABLE_NAME, SaveSQLiteHelper.COL_ID + " = ?", query);
     }
-
-
 }
