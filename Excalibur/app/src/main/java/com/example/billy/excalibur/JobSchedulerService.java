@@ -40,7 +40,6 @@ public class JobSchedulerService extends JobService {
     Context context;
     NewsWireResults newsWireResults;
 
-
     @Override
     public boolean onStartJob(JobParameters params) {
         context = getApplicationContext();

@@ -41,8 +41,10 @@ public class ArticleListFragment extends Fragment {
     private String sections = "all";
     private String chooseMagazineSource = "all";
     protected SwipeRefreshLayout swipeContainer;
-    private int numberOfArticles = 10;
-    //endregion
+
+    private int numberOfArticles = 15;
+
+
     /**
      * Setter for Nav Drawer filtering API "sections" options
      */
@@ -67,11 +69,9 @@ public class ArticleListFragment extends Fragment {
         breakingNewsLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
         swipeContainer = (SwipeRefreshLayout)v.findViewById(R.id.swipeContainer);
-
         setPullRefresh();
         breakingNewsLists = new ArrayList<>();
         recycleAdapter = new NewsRecyclerAdapter(breakingNewsLists);
-
         retrofitLatestNews();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleAdapterItemClicker();

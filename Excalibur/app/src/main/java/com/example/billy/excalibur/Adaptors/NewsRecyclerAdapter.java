@@ -40,13 +40,23 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         TextView headline;
         ImageView imageIcon;
         TextView articleAbstract;
+        TextView ago;
+        NewsWireObjects newsWireObjects;
+
 
         public NewsRecyclerViewHolder(final View itemView) {
             super(itemView);
 
             headline = (TextView) itemView.findViewById(R.id.headline);
+
+            imageIcon = (ImageView)itemView.findViewById(R.id.cardView_image);
+            articleAbstract = (TextView)itemView.findViewById(R.id.article_info_cardview);
+            ago = (TextView) itemView.findViewById(R.id.ago);
+            newsWireObjects = new NewsWireObjects();
+
             imageIcon = (ImageView) itemView.findViewById(R.id.cardView_image);
             articleAbstract = (TextView) itemView.findViewById(R.id.article_info_cardview);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,9 +82,11 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
     @Override
     public void onBindViewHolder(NewsRecyclerViewHolder holder, int position) {
-        //TODO: Set our textView to our data - News object
+        long timeStamp = System.currentTimeMillis();
         holder.headline.setText(data.get(position).getTitle());
         holder.articleAbstract.setText(data.get(position).getAbstractResult());
+        String agoText = "posted " + getBiggestUnitTimeElapsed(data.get(position).getCreated_date(), timeStamp) + " ago";
+        holder.ago.setText(agoText);
 
         String imageURI = data.get(position).getThumbnail_standard();
         if (imageURI.isEmpty()) {
@@ -87,8 +99,6 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
                 .resize(100, 100)
                 .centerCrop()
                 .into(holder.imageIcon);
-        holder.articleAbstract.setText(data.get(position).getAbstractResult());
-
     }
 
     @Override
